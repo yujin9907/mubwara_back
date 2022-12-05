@@ -39,6 +39,7 @@ public class ShopReqDto {
         private String closeTime;
         private int perPrice;
         private int perHour;
+        private List<String> image;
         private List<String> featureNameList;
 
         public Shop toInfoSaveEntity(User user) {

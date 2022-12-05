@@ -16,9 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import site.metacoding.finals.config.auth.PrincipalUser;
 import site.metacoding.finals.dto.ResponseDto;
+import site.metacoding.finals.dto.shop.ShopReqDto.ShopInfoSaveReqDto;
 import site.metacoding.finals.dto.shop.ShopReqDto.ShopJoinReqDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.ShopDetailRespDto;
+import site.metacoding.finals.dto.shop.ShopRespDto.ShopInfoSaveRespDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.ShopJoinRespDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.ShopListRespDto;
 import site.metacoding.finals.service.ShopService;
@@ -40,25 +43,18 @@ public class ShopApiController {
     }
 
     // shop 한 개 만 만들도록 제한 / respDto LAZY 로딩 안되도록 좀 더 정확히 만들어줘야 함
-    // @PostMapping(value = "/shop/information", consumes = {
-    // MediaType.APPLICATION_JSON_VALUE,
-    // MediaType.MULTIPART_FORM_DATA_VALUE })
-    // public ResponseEntity<?> save(@RequestPart("file") List<MultipartFile> file,
-    // @RequestPart("reqDto") ShopInfoSaveReqDto shopInfoSaveReqDto,
-    // @AuthenticationPrincipal PrincipalUser principalUser) {
-    // log.debug("디버그 : principalUser.getId " + principalUser.getUser().getId());
-    // ShopInfoSaveRespDto shopInfoSaveRespDto = shopService.information(file,
-    // shopInfoSaveReqDto,
-    // principalUser.getUser());
-    // return new ResponseEntity<>(new ResponseDto<>(HttpStatus.CREATED, "가게 정보등록
-    // 완료", shopInfoSaveRespDto),
-    // HttpStatus.CREATED);
-    // }
+    @PostMapping(value = "/shop/save")
+    public ResponseEntity<?> saveShop(@RequestBody ShopInfoSaveReqDto shopInfoSaveReqDto,
+            @AuthenticationPrincipal PrincipalUser principalUser) {
+        ShopInfoSaveRespDto shopInfoSaveRespDto = shopService.information(shopInfoSaveReqDto, principalUser);
+        return new ResponseEntity<>(new ResponseDto<>(HttpStatus.CREATED, "가게 정보등록 완료", shopInfoSaveRespDto),
+                HttpStatus.CREATED);
+    }
 
     // customer입장에서 보는 가게 기능
     // 네임, 주소, 전화번호, 오픈클로즈, 사진
     @GetMapping("/shop/list")
-    public ResponseEntity<?> shopList() {
+    public ResponseEntity<?> listShop() {
         List<ShopListRespDto> shopList = shopService.List();
         return new ResponseEntity<>(new ResponseDto<>(HttpStatus.OK, "전체 가게 리스트 조회", shopList), HttpStatus.OK);
     }

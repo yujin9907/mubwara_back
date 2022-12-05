@@ -46,6 +46,7 @@ public class ImageFileHandler {
     }
 
     // 실제 로직
+    // 리뷰, 가게, 메뉴 리팩토링
     public List<ImageFile> storeFile(List<String> files, Review review) {
 
         log.debug("이미지 핸들러 진입");

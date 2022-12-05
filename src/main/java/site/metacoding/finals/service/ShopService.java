@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import site.metacoding.finals.config.auth.PrincipalUser;
 import site.metacoding.finals.domain.feature.Feature;
 import site.metacoding.finals.domain.feature.FeatureRepository;
 import site.metacoding.finals.domain.image_file.ImageFile;
@@ -42,8 +43,8 @@ public class ShopService {
     private final ShopRepository shopRepository;
     private final FeatureRepository featureRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-    private final ImageFileRepository imageFileRepository;
     private final ImageFileHandler imageFileHandler;
+    private final ImageFileRepository imageFileRepository;
 
     @Transactional
     public ShopJoinRespDto join(ShopJoinReqDto shopJoinReqDto) {
@@ -56,30 +57,27 @@ public class ShopService {
         return new ShopJoinRespDto(userPS);
     }
 
-    // @Transactional
-    // public ShopInfoSaveRespDto information(List<MultipartFile> multipartFiles,
-    // ShopInfoSaveReqDto shopInfoSaveReqDto, User user) {
+    @Transactional
+    public ShopInfoSaveRespDto information(ShopInfoSaveReqDto shopInfoSaveReqDto, PrincipalUser principalUser) {
 
-    // // shop information save
-    // Shop shopPS = shopRepository.save(shopInfoSaveReqDto.toInfoSaveEntity(user));
+        // shop information save
+        Shop shopPS = shopRepository.save(shopInfoSaveReqDto.toInfoSaveEntity(principalUser.getUser()));
 
-    // // feature save
-    // List<Feature> featureList = new ArrayList<>();
-    // for (String name : shopInfoSaveReqDto.getFeatureNameList()) {
-    // Feature feature =
-    // featureRepository.save(shopInfoSaveReqDto.toFeatureEntity(name, shopPS));
-    // featureList.add(feature);
-    // }
+        // feature save
+        List<Feature> featureList = new ArrayList<>();
+        for (String name : shopInfoSaveReqDto.getFeatureNameList()) {
+            Feature feature = featureRepository.save(shopInfoSaveReqDto.toFeatureEntity(name, shopPS));
+            featureList.add(feature);
+        }
 
-    // // images save
-    // List<ImageFile> images = imageFileHandler.storeFile(multipartFiles);
-    // for (ImageFile img : images) {
-    // img.setShop(shopPS);
-    // imageFileRepository.save(img);
-    // }
+        // images save
+        List<ImageFile> images = imageFileHandler.storeFile(shopInfoSaveReqDto.getImage(), null); // 여기 로직 수정
+        images.forEach(image -> {
+            imageFileRepository.save(image);
+        });
 
-    // return new ShopInfoSaveRespDto(shopPS, featureList, images);
-    // }
+        return new ShopInfoSaveRespDto(shopPS, featureList, images);
+    }
 
     public List<ShopListRespDto> List() {
         // em.clear();
