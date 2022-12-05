@@ -98,4 +98,15 @@ public class ReservationRepositoryTest extends DummyEntity {
         assertEquals(reservation.get(0).getId(), 1);
     }
 
+    @Test
+    public void 예약커스터머목록보기테스트() {
+        // g
+        Long shopId = 1L;
+
+        List<Reservation> reservations = reservationRepository.findCustomerByShopId(shopId);
+
+        log.debug("디버그 : " + reservations.get(0).getReservationDate());
+
+    }
+
 }

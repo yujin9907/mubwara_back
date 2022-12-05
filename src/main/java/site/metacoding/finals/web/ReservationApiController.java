@@ -18,6 +18,7 @@ import site.metacoding.finals.dto.reservation.ReservationReqDto.ReservationSaveR
 import site.metacoding.finals.dto.reservation.ReservationReqDto.ReservationSelectReqDto;
 import site.metacoding.finals.dto.reservation.ReservationRespDto.ReservationSaveRespDto;
 import site.metacoding.finals.dto.reservation.ReservationRespDto.ReservationSelectRespDto;
+import site.metacoding.finals.dto.reservation.ReservationRespDto.ReservationShopViewAllRespDto;
 import site.metacoding.finals.service.ReservationService;
 
 @RestController
@@ -25,6 +26,12 @@ import site.metacoding.finals.service.ReservationService;
 public class ReservationApiController {
 
     private final ReservationService reservationService;
+
+    @GetMapping("/shop/reservation")
+    public ResponseEntity<?> viewShopReservation(@AuthenticationPrincipal PrincipalUser principalUser) {
+        List<ReservationShopViewAllRespDto> respDtos = reservationService.viewShopReservation(principalUser);
+        return new ResponseEntity<>(new ResponseDto<>(HttpStatus.OK, "가게-예약목록보기", respDtos), HttpStatus.OK);
+    }
 
     // @GetMapping("/reservation/date/{shopId}/{date}")
 

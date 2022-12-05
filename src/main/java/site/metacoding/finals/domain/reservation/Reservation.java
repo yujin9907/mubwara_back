@@ -22,11 +22,11 @@ import site.metacoding.finals.domain.customer.Customer;
 import site.metacoding.finals.domain.shop_table.ShopTable;
 
 @Builder
-@Getter
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor
-@Table(name = "reservation")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
+@Table(name = "reservation")
+@Getter
 public class Reservation extends AutoTime {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,11 +35,11 @@ public class Reservation extends AutoTime {
     private String reservationTime;
     @Column(nullable = false, length = 10)
     private String reservationDate;
-    // @Converter
+
     @ManyToOne(fetch = FetchType.LAZY)
-    // @JoinColumn(name = "customer_id")
-    @JsonIgnore
+    @JoinColumn(name = "customer_id")
     private Customer customer;
+
     @ManyToOne
     @JoinColumn(name = "shop_table_id")
     private ShopTable shopTable;

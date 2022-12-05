@@ -43,11 +43,9 @@ public class Review extends AutoTime {
     private String content;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id")
-    @JsonIgnore
     private Customer customer;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "shop_id")
-    @JsonIgnore
     private Shop shop;
 
     @OneToMany(mappedBy = "review", fetch = FetchType.LAZY)

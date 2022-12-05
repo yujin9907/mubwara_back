@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.hibernate.cache.spi.support.CollectionReadOnlyAccess;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import site.metacoding.finals.config.auth.PrincipalUser;
 import site.metacoding.finals.domain.customer.Customer;
 import site.metacoding.finals.domain.customer.CustomerRepository;
 import site.metacoding.finals.domain.reservation.Reservation;
@@ -23,6 +25,7 @@ import site.metacoding.finals.dto.reservation.ReservationReqDto.ReservationSaveR
 import site.metacoding.finals.dto.reservation.ReservationReqDto.ReservationSelectReqDto;
 import site.metacoding.finals.dto.reservation.ReservationRespDto.ReservationSaveRespDto;
 import site.metacoding.finals.dto.reservation.ReservationRespDto.ReservationSelectRespDto;
+import site.metacoding.finals.dto.reservation.ReservationRespDto.ReservationShopViewAllRespDto;
 
 @Slf4j
 @Transactional(readOnly = true)
@@ -36,10 +39,33 @@ public class ReservationService {
     private final ShopTableRepository shopTableRepository;
     private final UserRepository userRepository;
 
-    public ReservationSelectRespDto dateList(ReservationSelectReqDto dto) {
-        // 날짜 다 있어야 됨?
-        return null;
+    // shop reservation
+    public List<ReservationShopViewAllRespDto> viewShopReservation(PrincipalUser principalUser) {
+        Shop shopPS = shopRespository.findByUserId(principalUser.getUser().getId())
+                .orElseThrow(() -> new RuntimeException());
+
+        List<Reservation> reservationPS = reservationRepository.findCustomerByShopId(shopPS.getId());
+
+        // log.debug("디버그 : " + reservationPS.get(0).getReservationDate());
+
+        // return reservationPS.stream().map((r) -> new
+        // ReservationShopViewAllRespDto(r)).collect(Collectors.toList());
+
+        List<ReservationShopViewAllRespDto> result = new ArrayList<>();
+
+        reservationPS.forEach(r -> {
+            System.out.println("1");
+            log.debug("디버그 유진 : " + r.getReservationDate());
+            log.debug("디버그 유진 : " + r.getCustomer());
+            log.debug("디버그 유진 : " + r.getShopTable());
+            result.add(new ReservationShopViewAllRespDto(r));
+            System.out.println("2");
+        });
+
+        return result;
     }
+
+    // customer reservation
 
     public ReservationSelectRespDto personList(ReservationSelectReqDto dto) {
         List<Integer> tableList = shopTableRepository.findDistinctByShopId(dto.getShopId())

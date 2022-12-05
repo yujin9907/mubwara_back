@@ -6,9 +6,47 @@ import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import site.metacoding.finals.domain.customer.Customer;
 import site.metacoding.finals.domain.reservation.Reservation;
+import site.metacoding.finals.domain.shop_table.ShopTable;
 
 public class ReservationRespDto {
+
+    @Setter
+    @Getter
+    public static class ReservationShopViewAllRespDto {
+        private String reservationTime;
+        private String reservationDate;
+        private CustomerDto customer;
+        private ShopTableDto shopTable;
+
+        public ReservationShopViewAllRespDto(Reservation reservation) {
+            this.reservationTime = reservation.getReservationTime();
+            this.reservationDate = reservation.getReservationDate();
+            this.customer = new CustomerDto(reservation.getCustomer());
+            this.shopTable = new ShopTableDto(reservation.getShopTable());
+        }
+
+        @Getter
+        public class CustomerDto {
+            private String name;
+            private String phoneNumber;
+
+            public CustomerDto(Customer customer) {
+                this.name = customer.getName();
+                this.phoneNumber = customer.getPhoneNumber();
+            }
+        }
+
+        @Getter
+        public class ShopTableDto {
+            private int maxPeople;
+
+            public ShopTableDto(ShopTable shopTable) {
+                this.maxPeople = shopTable.getMaxPeople();
+            }
+        }
+    }
 
     @AllArgsConstructor
     @Getter
