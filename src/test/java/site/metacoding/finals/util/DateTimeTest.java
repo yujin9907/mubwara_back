@@ -29,20 +29,26 @@ public class DateTimeTest {
         String todayWeek = date.getDayOfWeek().toString();
         log.debug("디버그 요일 : " + todayWeek);
 
-        date.plusDays(1);
-        log.debug("더한 요일 : "+date.getDayOfWeek().toString());
+        // LocalDate testdate = date.plusDays(1);
+        log.debug("디버그 일 :" + date.plusDays(1));
+        log.debug("더한 요일 : " + date.getDayOfWeek().toString());
+        // log.debug("테스트 : " + testdate);
 
-        // while (true) {
-        //     String currentDay = date.getDayOfWeek().toString();
-        //     AnalysisWeekRespDto respDto = new AnalysisWeekRespDto();
-        //     respDto.setPrice(null);
-        //     respDto.setWeek(currentDay);
-        //     System.out.println(respDto.getWeek());
-        //     if (currentDay.equals("SUNDAY")) {
-        //         break;
-        //     }
-        //     date.plusDays(1);
-        // }
+        // ------------------------------------------------
+        int i = 1;
+        int num = 0;
+        while (i < 5) {
+            i++;
+            num++;
+
+            log.debug("잘 더해지는가" + num);
+
+            log.debug(date.plusDays(num).getDayOfWeek().toString());
+
+            if (date.plusDays(num).getDayOfWeek().toString().equals("SUNDAY")) {
+                break;
+            }
+        }
 
     }
 

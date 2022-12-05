@@ -93,12 +93,32 @@ public class ShopService {
         Optional<Shop> shopPS = shopRepository.findByUserId(principalUser.getUser().getId());
 
         // 오늘 요일 구하기
-
         LocalDate date = analysisDateReqDto.toLocalDate();
 
-        String todayWeek = date.getDayOfWeek().toString();
+        // 요일별 매출 로직
+        int num = 0;
+        while (true) {
+
+            log.debug("잘 더해지는가" + num);
+            log.debug(date.plusDays(num).getDayOfWeek().toString());
+
+            if (date.plusDays(num).getDayOfWeek().toString().equals("SUNDAY")) {
+                break;
+            }
+            num++;
+        }
 
         return null;
+        // 마저하기
+
+        // select re.date date, (re.a*re.b) results
+        // from
+        // (select r.reservation_date date, sum(st.max_people) a, s.per_price b from
+        // reservation r
+        // left join shop_table st on r.shop_table_id = st.id
+        // left join shop s on s.id = st.shop_id
+        // where s.id=1
+        // group by r.reservation_date) re
 
     }
 
