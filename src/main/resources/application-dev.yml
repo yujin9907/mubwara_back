@@ -1,0 +1,33 @@
+
+server:
+  port: 8000
+  servlet:
+    context-path: /
+    encoding:
+      charset: utf-8
+      force: true
+
+logging:
+  level:
+    '[org.springframework.web]': DEBUG
+    '[site.metacoding.finals]': DEBUG
+
+spring:
+  datasource:
+    url: jdbc:mariadb://localhost:3306/finaldb
+    driver-class-name: org.mariadb.jdbc.Driver
+    username: final
+    password: final1234
+  h2:
+    console:
+      enabled: true
+  jpa:
+    open-in-view: true
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  output:
+    ansi:
+      enabled: always
+
+filedir: "C://temp/image/"
