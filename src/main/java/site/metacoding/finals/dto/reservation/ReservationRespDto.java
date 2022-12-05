@@ -14,6 +14,11 @@ public class ReservationRespDto {
 
     @Setter
     @Getter
+    public static class AnalysisDateReqDto {
+    }
+
+    @Setter
+    @Getter
     public static class ReservationShopViewAllRespDto {
         private String reservationTime;
         private String reservationDate;

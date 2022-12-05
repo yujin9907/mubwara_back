@@ -41,6 +41,12 @@ insert into reservation(reservation_date, reservation_time, customer_id, shop_ta
 values ('20221126', '18', 1, 1, now());
 insert into reservation(reservation_date, reservation_time, customer_id, shop_table_id, created_at)
 values ('20221127', '12', 1, 2, now());
+insert into reservation(reservation_date, reservation_time, customer_id, shop_table_id, created_at)
+values ('20221126', '16', 1, 2, now());
+insert into reservation(reservation_date, reservation_time, customer_id, shop_table_id, created_at)
+values ('20221127', '12', 1, 1, now());
+insert into reservation(reservation_date, reservation_time, customer_id, shop_table_id, created_at)
+values ('20221127', '16', 1, 2, now());
 
 insert into subscribe(customer_id, shop_id, created_at)
 values (1, 1, now());

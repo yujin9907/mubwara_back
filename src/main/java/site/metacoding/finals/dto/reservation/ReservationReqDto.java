@@ -7,6 +7,13 @@ import site.metacoding.finals.domain.reservation.Reservation;
 import site.metacoding.finals.domain.shop_table.ShopTable;
 
 public class ReservationReqDto {
+
+    @Setter
+    @Getter
+    public static class AnalysisDateReqDto {
+        private String date;
+    }
+
     @Getter
     @Setter
     public static class ReservationSelectReqDto {

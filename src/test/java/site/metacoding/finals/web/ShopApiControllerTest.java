@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
@@ -17,6 +18,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import site.metacoding.finals.domain.image_file.ImageFileRepository;
 import site.metacoding.finals.domain.shop.ShopRepository;
+import site.metacoding.finals.dto.reservation.ReservationReqDto.AnalysisDateReqDto;
 import site.metacoding.finals.dummy.DummyEntity;
 
 @Sql({ "classpath:sql/dml.sql" })
@@ -47,6 +49,28 @@ public class ShopApiControllerTest extends DummyEntity {
     // ImageFile imageFile = newShopImageFile(shop);
     // imageFileRepository.save(imageFile);
     // }
+
+    @WithUserDetails("cos")
+    @Test
+    public void 일일통계요청테스트() throws Exception {
+        //
+        AnalysisDateReqDto dto = new AnalysisDateReqDto();
+        dto.setDate("20221126");
+        String body = om.writeValueAsString(dto);
+
+        //
+        ResultActions resultActions = mvc.perform(
+                MockMvcRequestBuilders.post("/shop/analysis/date")
+                        .content(body)
+                        .contentType("application/json; charset=utf-8")
+                        .accept("application/json; charset=utf-8"));
+
+        String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+        log.debug(responseBody);
+
+        //
+        resultActions.andExpect(MockMvcResultMatchers.status().isOk());
+    }
 
     @Test
     public void 가게전체목록테스트() throws Exception {

@@ -2,6 +2,7 @@ package site.metacoding.finals.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
@@ -19,10 +20,13 @@ import site.metacoding.finals.domain.image_file.ImageFile;
 import site.metacoding.finals.domain.image_file.ImageFileRepository;
 import site.metacoding.finals.domain.option.Option;
 import site.metacoding.finals.domain.option.OptionRepository;
+import site.metacoding.finals.domain.reservation.ReservationRepository;
 import site.metacoding.finals.domain.shop.Shop;
 import site.metacoding.finals.domain.shop.ShopRepository;
 import site.metacoding.finals.domain.user.User;
 import site.metacoding.finals.domain.user.UserRepository;
+import site.metacoding.finals.dto.repository.shop.AnalysisDto;
+import site.metacoding.finals.dto.reservation.ReservationReqDto.AnalysisDateReqDto;
 import site.metacoding.finals.dto.shop.ShopReqDto.ShopInfoSaveReqDto;
 import site.metacoding.finals.dto.shop.ShopReqDto.ShopJoinReqDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.ShopDetailRespDto;
@@ -41,10 +45,10 @@ public class ShopService {
 
     private final UserRepository userRepository;
     private final ShopRepository shopRepository;
-    private final OptionRepository featureRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final ImageFileHandler imageFileHandler;
     private final ImageFileRepository imageFileRepository;
+    private final ReservationRepository reservationRepository;
 
     @Transactional
     public ShopJoinRespDto join(ShopJoinReqDto shopJoinReqDto) {
@@ -70,6 +74,16 @@ public class ShopService {
         });
 
         return new ShopInfoSaveRespDto(shopPS, images);
+    }
+
+    public List<AnalysisDto> analysisDate(PrincipalUser principalUser, AnalysisDateReqDto analysisDateReqDto) {
+
+        // 가게 정보 조회
+        Optional<Shop> shopPS = shopRepository.findByUserId(principalUser.getUser().getId());
+
+        return reservationRepository.findBySumDate(shopPS.get().getId(),
+                analysisDateReqDto.getDate());
+
     }
 
     public List<ShopListRespDto> List() {

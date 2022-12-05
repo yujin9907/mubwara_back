@@ -21,7 +21,7 @@ import site.metacoding.finals.dto.customer.CustomerRespDto.CustomerMyPageReserva
 import site.metacoding.finals.dto.customer.CustomerRespDto.CustomerMyPageReviewRespDto;
 import site.metacoding.finals.dto.customer.CustomerRespDto.CustomerMyPageSubscribeRespDto;
 import site.metacoding.finals.dto.customer.CustomerRespDto.CustomerUpdateRespDto;
-import site.metacoding.finals.repositoryDto.customer.ReservationRepositoryRespDto;
+import site.metacoding.finals.dto.repository.customer.ReservationRepositoryRespDto;
 import site.metacoding.finals.service.CustomerService;
 
 @Slf4j

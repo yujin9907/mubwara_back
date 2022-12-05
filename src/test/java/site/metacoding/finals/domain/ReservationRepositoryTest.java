@@ -17,6 +17,8 @@ import org.springframework.test.context.jdbc.Sql;
 import lombok.extern.slf4j.Slf4j;
 import site.metacoding.finals.domain.customer.Customer;
 import site.metacoding.finals.domain.customer.CustomerRepository;
+import site.metacoding.finals.domain.image_file.ImageFile;
+import site.metacoding.finals.domain.image_file.ImageFileRepository;
 import site.metacoding.finals.domain.reservation.Reservation;
 import site.metacoding.finals.domain.reservation.ReservationRepository;
 import site.metacoding.finals.domain.review.Review;
@@ -24,9 +26,12 @@ import site.metacoding.finals.domain.shop.Shop;
 import site.metacoding.finals.domain.shop.ShopRepository;
 import site.metacoding.finals.domain.shop_table.ShopTable;
 import site.metacoding.finals.domain.shop_table.ShopTableRepository;
+import site.metacoding.finals.domain.subscribe.Subscribe;
+import site.metacoding.finals.domain.subscribe.SubscribeRepository;
 import site.metacoding.finals.domain.user.User;
 import site.metacoding.finals.domain.user.UserRepository;
 import site.metacoding.finals.dto.customer.CustomerReqDto.CustomerJoinReqDto;
+import site.metacoding.finals.dto.repository.shop.AnalysisDto;
 import site.metacoding.finals.dummy.DummyEntity;
 
 @Slf4j
@@ -38,15 +43,19 @@ public class ReservationRepositoryTest extends DummyEntity {
     private EntityManager em;
 
     @Autowired
-    private UserRepository userRepository;
+    private ShopRepository shopRepository;
     @Autowired
-    private ReservationRepository reservationRepository;
+    private ImageFileRepository imageFileRepository;
+    @Autowired
+    private UserRepository userRepository;
     @Autowired
     private CustomerRepository customerRepository;
     @Autowired
-    private ShopRepository shopRepository;
-    @Autowired
     private ShopTableRepository shopTableRepository;
+    @Autowired
+    private ReservationRepository reservationRepository;
+    @Autowired
+    private SubscribeRepository subscribeRepository;
 
     @BeforeEach
     public void setUp() {
@@ -55,12 +64,21 @@ public class ReservationRepositoryTest extends DummyEntity {
         Customer customer = newCustomer(user);
         customerRepository.save(customer);
 
-        Shop shop = newShop("가게", "010", "양식");
+        Shop shop = newShop("가게1", "1", "한식");
+        Shop shop2 = newShop("가게2", "2", "일식");
         shopRepository.save(shop);
+        shopRepository.save(shop2);
+
         ShopTable shopTable = newShopTable(shop);
         shopTableRepository.save(shopTable);
         Reservation reservation = newReservation(customer, shopTable);
         reservationRepository.save(reservation);
+
+        ImageFile imageFile = newShopImageFile(shop);
+        imageFileRepository.save(imageFile);
+
+        Subscribe subscribe = newSubscribe(customer, shop);
+        subscribeRepository.save(subscribe);
     }
 
     @AfterEach
@@ -107,6 +125,21 @@ public class ReservationRepositoryTest extends DummyEntity {
 
         log.debug("디버그 : " + reservations.get(0).getReservationDate());
 
+    }
+
+    @Test
+    public void 일일매출조회() {
+        //
+        Long shopId = 1L;
+        String date = "20221129";
+
+        //
+        List<AnalysisDto> result = reservationRepository.findBySumDate(shopId, date);
+
+        log.debug("디버그 : " + result.get(0).getResults());
+        // dto(인터페이스) 문제 아님 확인
+        // 예약어 아님 확인
+        // 연산
     }
 
 }

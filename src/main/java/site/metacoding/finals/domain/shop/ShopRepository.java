@@ -10,10 +10,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import site.metacoding.finals.repositoryDto.customer.ReservationRepositoryRespDto;
+import site.metacoding.finals.dto.repository.customer.ReservationRepositoryRespDto;
 
 public interface ShopRepository extends JpaRepository<Shop, Long> {
-
 
         @Query("select s from Shop s")
         List<Shop> findAllList();
@@ -22,7 +21,6 @@ public interface ShopRepository extends JpaRepository<Shop, Long> {
         Shop findByShopId(@Param("id") Long id);
 
         Optional<Shop> findByUserId(Long userId);
-
 
         @Query("select s from Shop s where s.category = :category")
         List<Shop> findByCategory(@Param("category") String category);

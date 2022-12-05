@@ -18,6 +18,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import site.metacoding.finals.config.auth.PrincipalUser;
 import site.metacoding.finals.dto.ResponseDto;
+import site.metacoding.finals.dto.repository.shop.AnalysisDto;
+import site.metacoding.finals.dto.reservation.ReservationReqDto.AnalysisDateReqDto;
 import site.metacoding.finals.dto.shop.ShopReqDto.ShopInfoSaveReqDto;
 import site.metacoding.finals.dto.shop.ShopReqDto.ShopJoinReqDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.ShopDetailRespDto;
@@ -49,6 +51,14 @@ public class ShopApiController {
         ShopInfoSaveRespDto shopInfoSaveRespDto = shopService.information(shopInfoSaveReqDto, principalUser);
         return new ResponseEntity<>(new ResponseDto<>(HttpStatus.CREATED, "가게 정보등록 완료", shopInfoSaveRespDto),
                 HttpStatus.CREATED);
+    }
+
+    @PostMapping("/shop/analysis/date")
+    public ResponseEntity<?> dateAnalysis(@AuthenticationPrincipal PrincipalUser principalUser,
+            @RequestBody AnalysisDateReqDto reqDto) {
+        List<AnalysisDto> respDto = shopService.analysisDate(principalUser, reqDto);
+        return new ResponseEntity<>(new ResponseDto<>(HttpStatus.OK, "일일 통계", respDto),
+                HttpStatus.OK);
     }
 
     // customer입장에서 보는 가게 기능
