@@ -11,9 +11,40 @@ import java.util.Date;
 import org.junit.jupiter.api.Test;
 
 import lombok.extern.slf4j.Slf4j;
+import site.metacoding.finals.dto.reservation.ReservationReqDto.AnalysisDateReqDto;
+import site.metacoding.finals.dto.reservation.ReservationRespDto.AnalysisWeekRespDto;
 
 @Slf4j
 public class DateTimeTest {
+
+    @Test
+    public void LocaldateTest() {
+        String todayStr = "20221205";
+        AnalysisDateReqDto dto = new AnalysisDateReqDto();
+        dto.setDate(todayStr);
+
+        LocalDate date = dto.toLocalDate();
+        log.debug("디버그 파싱 : " + date);
+
+        String todayWeek = date.getDayOfWeek().toString();
+        log.debug("디버그 요일 : " + todayWeek);
+
+        date.plusDays(1);
+        log.debug("더한 요일 : "+date.getDayOfWeek().toString());
+
+        // while (true) {
+        //     String currentDay = date.getDayOfWeek().toString();
+        //     AnalysisWeekRespDto respDto = new AnalysisWeekRespDto();
+        //     respDto.setPrice(null);
+        //     respDto.setWeek(currentDay);
+        //     System.out.println(respDto.getWeek());
+        //     if (currentDay.equals("SUNDAY")) {
+        //         break;
+        //     }
+        //     date.plusDays(1);
+        // }
+
+    }
 
     @Test
     public void datetimeTest() throws ParseException {

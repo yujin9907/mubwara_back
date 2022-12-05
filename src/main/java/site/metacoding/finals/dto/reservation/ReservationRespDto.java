@@ -14,7 +14,9 @@ public class ReservationRespDto {
 
     @Setter
     @Getter
-    public static class AnalysisDateReqDto {
+    public static class AnalysisWeekRespDto {
+        private String week;
+        private String price;
     }
 
     @Setter

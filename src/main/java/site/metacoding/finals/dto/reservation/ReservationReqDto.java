@@ -1,5 +1,8 @@
 package site.metacoding.finals.dto.reservation;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 import lombok.Getter;
 import lombok.Setter;
 import site.metacoding.finals.domain.customer.Customer;
@@ -12,6 +15,12 @@ public class ReservationReqDto {
     @Getter
     public static class AnalysisDateReqDto {
         private String date;
+
+        public LocalDate toLocalDate() {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+            LocalDate date = LocalDate.parse(this.date, formatter);
+            return date;
+        }
     }
 
     @Getter

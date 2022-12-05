@@ -1,5 +1,6 @@
 package site.metacoding.finals.service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -83,6 +84,21 @@ public class ShopService {
 
         return reservationRepository.findBySumDate(shopPS.get().getId(),
                 analysisDateReqDto.getDate());
+
+    }
+
+    public List<AnalysisDto> analysisWeek(PrincipalUser principalUser, AnalysisDateReqDto analysisDateReqDto) {
+
+        // 가게 정보 조회
+        Optional<Shop> shopPS = shopRepository.findByUserId(principalUser.getUser().getId());
+
+        // 오늘 요일 구하기
+
+        LocalDate date = analysisDateReqDto.toLocalDate();
+
+        String todayWeek = date.getDayOfWeek().toString();
+
+        return null;
 
     }
 

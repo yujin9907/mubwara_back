@@ -61,6 +61,14 @@ public class ShopApiController {
                 HttpStatus.OK);
     }
 
+    @PostMapping("/shop/analysis/date")
+    public ResponseEntity<?> weekAnalysis(@AuthenticationPrincipal PrincipalUser principalUser,
+            @RequestBody AnalysisDateReqDto reqDto) {
+
+        return new ResponseEntity<>(new ResponseDto<>(HttpStatus.OK, "주간 통계", null),
+                HttpStatus.OK);
+    }
+
     // customer입장에서 보는 가게 기능
     // 네임, 주소, 전화번호, 오픈클로즈, 사진
     @GetMapping("/shop/list")
