@@ -15,10 +15,10 @@ import org.springframework.web.multipart.MultipartFile;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import site.metacoding.finals.config.auth.PrincipalUser;
-import site.metacoding.finals.domain.feature.Feature;
-import site.metacoding.finals.domain.feature.FeatureRepository;
 import site.metacoding.finals.domain.image_file.ImageFile;
 import site.metacoding.finals.domain.image_file.ImageFileRepository;
+import site.metacoding.finals.domain.option.Option;
+import site.metacoding.finals.domain.option.OptionRepository;
 import site.metacoding.finals.domain.shop.Shop;
 import site.metacoding.finals.domain.shop.ShopRepository;
 import site.metacoding.finals.domain.user.User;
@@ -41,7 +41,7 @@ public class ShopService {
 
     private final UserRepository userRepository;
     private final ShopRepository shopRepository;
-    private final FeatureRepository featureRepository;
+    private final OptionRepository featureRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final ImageFileHandler imageFileHandler;
     private final ImageFileRepository imageFileRepository;
@@ -63,20 +63,13 @@ public class ShopService {
         // shop information save
         Shop shopPS = shopRepository.save(shopInfoSaveReqDto.toInfoSaveEntity(principalUser.getUser()));
 
-        // feature save
-        List<Feature> featureList = new ArrayList<>();
-        for (String name : shopInfoSaveReqDto.getFeatureNameList()) {
-            Feature feature = featureRepository.save(shopInfoSaveReqDto.toFeatureEntity(name, shopPS));
-            featureList.add(feature);
-        }
-
         // images save
         List<ImageFile> images = imageFileHandler.storeFile(shopInfoSaveReqDto.getImage(), null); // 여기 로직 수정
         images.forEach(image -> {
             imageFileRepository.save(image);
         });
 
-        return new ShopInfoSaveRespDto(shopPS, featureList, images);
+        return new ShopInfoSaveRespDto(shopPS, images);
     }
 
     public List<ShopListRespDto> List() {
@@ -100,10 +93,10 @@ public class ShopService {
                 .orElseThrow(() -> new RuntimeException("잘못된 가게 요청"));
         // 날짜 + 인원 => 예약 가능 시간 조회
 
-        // 가게 특징
-        Feature featurePS = featureRepository.findByShopId(shopId)
-                .orElseThrow(() -> new RuntimeException("잘못된 가게 요청"));
+        // // 가게 특징
+        // Option featurePS = featureRepository.findByShopId(shopId)
+        // .orElseThrow(() -> new RuntimeException("잘못된 가게 요청"));
 
-        return new ShopDetailRespDto(shopPS, featurePS);
+        return null;
     }
 }

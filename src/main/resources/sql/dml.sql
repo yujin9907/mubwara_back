@@ -1,7 +1,6 @@
 -- 테스트 : 필요시 더미데이터 생성
 SET REFERENTIAL_INTEGRITY FALSE;
 truncate table customer;
-truncate table feature;
 truncate table imagefile;
 truncate table menu;
 truncate table reservation;
@@ -46,3 +45,4 @@ values ('20221127', '12', 1, 2, now());
 insert into subscribe(customer_id, shop_id, created_at)
 values (1, 1, now());
 
+insert into option(name, image_file_id, created_at) values ('옵션', 1, now());

@@ -5,7 +5,7 @@ import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import site.metacoding.finals.config.enums.Role;
-import site.metacoding.finals.domain.feature.Feature;
+import site.metacoding.finals.domain.option.Option;
 import site.metacoding.finals.domain.shop.Shop;
 import site.metacoding.finals.domain.user.User;
 
@@ -40,7 +40,6 @@ public class ShopReqDto {
         private int perPrice;
         private int perHour;
         private List<String> image;
-        private List<String> featureNameList;
 
         public Shop toInfoSaveEntity(User user) {
             return Shop.builder()
@@ -57,12 +56,11 @@ public class ShopReqDto {
                     .build();
         }
 
-        public Feature toFeatureEntity(String featureName, Shop shop) {
-            return Feature.builder()
-                    .name(featureName)
-                    .shop(shop)
-                    .build();
-        }
+        // public Option toOptionEntity(String name, Shop shop) {
+        // return Option.builder()
+        // .name(featureName)
+        // .build();
+        // }
     }
 
     // 유진 Dto
