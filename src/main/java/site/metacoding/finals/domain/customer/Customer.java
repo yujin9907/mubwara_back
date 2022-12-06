@@ -14,6 +14,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -28,6 +30,8 @@ import site.metacoding.finals.domain.reservation.Reservation;
 import site.metacoding.finals.domain.user.User;
 import site.metacoding.finals.dto.customer.CustomerReqDto.CustomerUpdateReqDto;
 
+@SQLDelete(sql = "UPDATE reservation SET is_deleted = true where id = ?")
+@Where(clause = "is_deleted = false")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -48,6 +52,9 @@ public class Customer extends AutoTime {
     @JoinColumn(name = "user_id")
     @JsonIgnore
     private User user;
+
+    @Column(name = "is_deleted")
+    private Boolean isDeleted;
 
     // @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)
     // private List<Reservation> reservation = new ArrayList<>();

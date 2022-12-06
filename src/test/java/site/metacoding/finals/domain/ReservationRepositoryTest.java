@@ -93,6 +93,8 @@ public class ReservationRepositoryTest extends DummyEntity {
 
     @Test
     public void 예약커스터머아이디조회() {
+        em.clear();
+
         Long CustomerId = 1L;
 
         List<Reservation> reservation = reservationRepository.findByCustomerId(CustomerId);

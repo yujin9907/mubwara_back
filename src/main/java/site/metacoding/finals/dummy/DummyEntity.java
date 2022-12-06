@@ -20,6 +20,7 @@ public abstract class DummyEntity {
                 .username(username)
                 .password("123")
                 .role(Role.USER)
+                .isDeleted(Boolean.FALSE)
                 .build();
     }
 
@@ -57,6 +58,7 @@ public abstract class DummyEntity {
                 .phoneNumber("01011112222")
                 .address("주소1")
                 .user(user)
+                .isDeleted(Boolean.FALSE)
                 .build();
     }
 
@@ -75,6 +77,7 @@ public abstract class DummyEntity {
                 .reservationTime("12")
                 .customer(customer)
                 .shopTable(shopTable)
+                .isDeleted(Boolean.FALSE)
                 .build();
     }
 

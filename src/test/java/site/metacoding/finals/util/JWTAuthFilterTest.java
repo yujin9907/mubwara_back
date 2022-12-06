@@ -54,6 +54,7 @@ public class JWTAuthFilterTest extends DummyEntity {
                                 .username("fitertest")
                                 .password(password)
                                 .role(Role.USER)
+                                .isDeleted(Boolean.FALSE)
                                 .build();
                 userRepository.save(user);
 
