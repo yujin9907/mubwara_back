@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import lombok.AccessLevel;
@@ -19,6 +21,8 @@ import lombok.NoArgsConstructor;
 import site.metacoding.finals.config.enums.Role;
 import site.metacoding.finals.domain.AutoTime;
 
+@SQLDelete(sql = "UPDATE customer SET is_deleted = true WHERE id = ?")
+@Where(clause = "is_deleted = false")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -36,5 +40,8 @@ public class User extends AutoTime {
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @Column(name = "is_deleted")
+    private Boolean isDeleted; // 디폴트 설정값
 
 }

@@ -142,4 +142,19 @@ public class ReservationRepositoryTest extends DummyEntity {
         // 연산
     }
 
+    @Test
+    public void 주간매출조회() {
+        //
+        Long shopId = 1L;
+        String date = "20221129";
+
+        //
+        List<AnalysisDto> result = reservationRepository.findBySumWeek(shopId);
+
+        log.debug("디버그 : " + result.get(0).getResults());
+        // dto(인터페이스) 문제 아님 확인
+        // 예약어 아님 확인
+        // 연산
+    }
+
 }

@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import site.metacoding.finals.config.auth.PrincipalUser;
 import site.metacoding.finals.domain.customer.Customer;
 import site.metacoding.finals.domain.customer.CustomerRepository;
 import site.metacoding.finals.domain.reservation.Reservation;
@@ -19,6 +20,7 @@ import site.metacoding.finals.domain.review.Review;
 import site.metacoding.finals.domain.review.ReviewRepository;
 import site.metacoding.finals.domain.shop.Shop;
 import site.metacoding.finals.domain.shop.ShopRepository;
+import site.metacoding.finals.domain.subscribe.SubscribeRepository;
 import site.metacoding.finals.domain.user.User;
 import site.metacoding.finals.domain.user.UserRepository;
 import site.metacoding.finals.dto.customer.CustomerReqDto;
@@ -41,6 +43,7 @@ public class CustomerService {
     private final UserRepository userRepository;
     private final ShopRepository shopRespository;
     private final ReservationRepository reservationRepository;
+    private final SubscribeRepository subscribeRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Transactional
@@ -64,6 +67,33 @@ public class CustomerService {
         customerRepository.save(customerPS);
 
         return new CustomerUpdateRespDto(customerPS);
+    }
+
+    @Transactional
+    public void delete(PrincipalUser principalUser) {
+        log.debug("디버그 : " + principalUser.getUsername());
+        log.debug("디버그 : " + principalUser.getUser().getId());
+
+        Customer customerPS = customerRepository.findByUserId(principalUser.getUser().getId())
+                .orElseThrow(() -> new RuntimeException("회원 정보 없음"));
+
+        customerRepository.deleteById(customerPS.getId());
+        userRepository.deleteById(principalUser.getUser().getId());
+
+        // 구독 정보는 바로 삭제
+        log.debug("여기ㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣ까지왔음");
+        if (subscribeRepository.findByCustomerId(customerPS.getId()) != null) {
+            log.debug("여기까진 왔음?");
+            subscribeRepository.deleteByCustomerId(customerPS.getId());
+        }
+        // 예약 정보는 소프트 딜리트
+        List<Reservation> reservationPS = reservationRepository.findByCustomerId(customerPS.getId());
+        if (reservationPS != null) {
+            reservationPS.stream().forEach(r -> reservationRepository.deleteById(r.getId()));
+        }
+
+        // 리뷰는 삭제하지 않음
+
     }
 
     @Transactional(readOnly = true)

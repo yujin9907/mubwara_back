@@ -28,7 +28,6 @@ import site.metacoding.finals.domain.reservation.Reservation;
 import site.metacoding.finals.domain.user.User;
 import site.metacoding.finals.dto.customer.CustomerReqDto.CustomerUpdateReqDto;
 
-@EnableJpaAuditing
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

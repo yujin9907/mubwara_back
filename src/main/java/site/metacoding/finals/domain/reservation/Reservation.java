@@ -10,6 +10,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AccessLevel;
@@ -21,6 +24,8 @@ import site.metacoding.finals.domain.AutoTime;
 import site.metacoding.finals.domain.customer.Customer;
 import site.metacoding.finals.domain.shop_table.ShopTable;
 
+@SQLDelete(sql = "UPDATE reservation SET is_deleted = true where id = ?")
+@Where(clause = "is_deleted = false")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -35,6 +40,9 @@ public class Reservation extends AutoTime {
     private String reservationTime;
     @Column(nullable = false, length = 10)
     private String reservationDate;
+
+    @Column(name = "is_deleted")
+    private Boolean isDeleted;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id")

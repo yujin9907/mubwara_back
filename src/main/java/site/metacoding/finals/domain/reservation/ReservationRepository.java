@@ -29,4 +29,13 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long>,
                         "group by r.reservation_time) r", nativeQuery = true)
         List<AnalysisDto> findBySumDate(@Param("shopId") Long shopId, @Param("date") String date);
 
+        @Query(value = "select re.date dates, (re.a*re.b) results " +
+                        "from " +
+                        "(select r.reservation_date date, sum(st.max_people) a, s.per_price b from " +
+                        "reservation r " +
+                        "left join shop_table st on r.shop_table_id = st.id " +
+                        "left join shop s on s.id = st.shop_id " +
+                        "where s.id=:shopId " +
+                        "group by r.reservation_date) re", nativeQuery = true)
+        List<AnalysisDto> findBySumWeek(@Param("shopId") Long shopId);
 }

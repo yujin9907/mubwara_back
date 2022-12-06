@@ -4,10 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.transaction.annotation.Transactional;
-
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +17,7 @@ import site.metacoding.finals.config.auth.PrincipalUser;
 import site.metacoding.finals.dto.ResponseDto;
 import site.metacoding.finals.dto.repository.shop.AnalysisDto;
 import site.metacoding.finals.dto.reservation.ReservationReqDto.AnalysisDateReqDto;
+import site.metacoding.finals.dto.reservation.ReservationRespDto.AnalysisWeekRespDto;
 import site.metacoding.finals.dto.shop.ShopReqDto.ShopInfoSaveReqDto;
 import site.metacoding.finals.dto.shop.ShopReqDto.ShopJoinReqDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.ShopDetailRespDto;
@@ -61,11 +59,11 @@ public class ShopApiController {
                 HttpStatus.OK);
     }
 
-    @PostMapping("/shop/analysis/date")
+    @PostMapping("/shop/analysis/week")
     public ResponseEntity<?> weekAnalysis(@AuthenticationPrincipal PrincipalUser principalUser,
             @RequestBody AnalysisDateReqDto reqDto) {
-
-        return new ResponseEntity<>(new ResponseDto<>(HttpStatus.OK, "주간 통계", null),
+        List<AnalysisWeekRespDto> respDtos = shopService.analysisWeek(principalUser, reqDto);
+        return new ResponseEntity<>(new ResponseDto<>(HttpStatus.OK, "주간 통계", respDtos),
                 HttpStatus.OK);
     }
 

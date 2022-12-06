@@ -52,6 +52,28 @@ public class ShopApiControllerTest extends DummyEntity {
 
     @WithUserDetails("cos")
     @Test
+    public void 주간통계요청테스트() throws Exception {
+        //
+        AnalysisDateReqDto dto = new AnalysisDateReqDto();
+        dto.setDate("20221126");
+        String body = om.writeValueAsString(dto);
+
+        //
+        ResultActions resultActions = mvc.perform(
+                MockMvcRequestBuilders.post("/shop/analysis/week")
+                        .content(body)
+                        .contentType("application/json; charset=utf-8")
+                        .accept("application/json; charset=utf-8"));
+
+        String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+        log.debug(responseBody);
+
+        //
+        resultActions.andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    @WithUserDetails("cos")
+    @Test
     public void 일일통계요청테스트() throws Exception {
         //
         AnalysisDateReqDto dto = new AnalysisDateReqDto();

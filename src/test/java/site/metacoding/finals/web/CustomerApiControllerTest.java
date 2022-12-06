@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
@@ -119,6 +120,22 @@ public class CustomerApiControllerTest extends DummyEntity {
         ResultActions resultActions = mvc.perform(MockMvcRequestBuilders.put("/customer/" + id)
                 .content(data)
                 .contentType("application/json; charset=utf-8")
+                .accept("application/json; charset=utf-8"));
+
+        String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+        log.debug("디버그 :" + responseBody);
+
+        //
+        resultActions.andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
+
+    }
+
+    @WithUserDetails("ssar")
+    @Test
+    public void 회원삭제() throws Exception {
+
+        //
+        ResultActions resultActions = mvc.perform(MockMvcRequestBuilders.delete("/auth/user/customer")
                 .accept("application/json; charset=utf-8"));
 
         String responseBody = resultActions.andReturn().getResponse().getContentAsString();
