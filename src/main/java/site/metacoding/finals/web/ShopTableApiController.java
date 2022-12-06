@@ -23,7 +23,7 @@ public class ShopTableApiController {
         private final ShopTableService shopTableService;
 
         // 테이블 생성, 삭제 (수정기능)
-        @PostMapping("/shop/table")
+        @PostMapping("/auth/shop/table")
         public ResponseEntity<?> tableUpdate(@RequestBody ShopTableUpdateReqDto shopTableUpdateReqDto,
                         @AuthenticationPrincipal PrincipalUser principalUser) {
                 ShopTableSaveRespDto shopTableSaveRespDto = shopTableService.update(shopTableUpdateReqDto,
@@ -32,7 +32,7 @@ public class ShopTableApiController {
                                 HttpStatus.OK);
         }
 
-        @GetMapping("/shop/table")
+        @GetMapping("/auth/shop/table")
         public ResponseEntity<?> tableList(@AuthenticationPrincipal PrincipalUser principalUser) {
                 AllShopTableRespDto allShopTableRespDto = shopTableService
                                 .findAllByShopId(principalUser.getUser().getId());

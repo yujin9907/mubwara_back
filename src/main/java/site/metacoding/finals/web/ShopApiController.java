@@ -35,7 +35,7 @@ public class ShopApiController {
 
     // shop입장에서 이용하는 가게 기능
 
-    @PostMapping("/shop/join")
+    @PostMapping("/auth/shop/join")
     public ResponseEntity<?> joinShopApi(@RequestBody ShopJoinReqDto shopJoinReqDto) {
         ShopJoinRespDto shopJoinRespDto = shopService.join(shopJoinReqDto);
         return new ResponseEntity<>(new ResponseDto<>(HttpStatus.CREATED, "가게 회원가입 완료", shopJoinRespDto),
@@ -43,7 +43,7 @@ public class ShopApiController {
     }
 
     // shop 한 개 만 만들도록 제한 / respDto LAZY 로딩 안되도록 좀 더 정확히 만들어줘야 함
-    @PostMapping(value = "/shop/save")
+    @PostMapping(value = "/auth/shop/save")
     public ResponseEntity<?> saveShop(@RequestBody ShopInfoSaveReqDto shopInfoSaveReqDto,
             @AuthenticationPrincipal PrincipalUser principalUser) {
         ShopInfoSaveRespDto shopInfoSaveRespDto = shopService.information(shopInfoSaveReqDto, principalUser);
@@ -51,7 +51,7 @@ public class ShopApiController {
                 HttpStatus.CREATED);
     }
 
-    @PostMapping("/shop/analysis/date")
+    @PostMapping("/auth/shop/analysis/date")
     public ResponseEntity<?> dateAnalysis(@AuthenticationPrincipal PrincipalUser principalUser,
             @RequestBody AnalysisDateReqDto reqDto) {
         List<AnalysisDto> respDto = shopService.analysisDate(principalUser, reqDto);
@@ -59,7 +59,7 @@ public class ShopApiController {
                 HttpStatus.OK);
     }
 
-    @PostMapping("/shop/analysis/week")
+    @PostMapping("/auth/shop/analysis/week")
     public ResponseEntity<?> weekAnalysis(@AuthenticationPrincipal PrincipalUser principalUser,
             @RequestBody AnalysisDateReqDto reqDto) {
         List<AnalysisWeekRespDto> respDtos = shopService.analysisWeek(principalUser, reqDto);
