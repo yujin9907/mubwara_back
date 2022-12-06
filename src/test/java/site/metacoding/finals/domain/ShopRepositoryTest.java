@@ -93,6 +93,14 @@ public class ShopRepositoryTest extends DummyEntity {
     }
 
     @Test
+    public void 유저네임테스트() {
+        String username = "ssar";
+
+        userRepository.findByUsername(username);
+
+    }
+
+    @Test
     public void 한건테스트() {
         em.clear();
         // sout으로 테스트하면 안 됨. to string하기 때문에 get 실행

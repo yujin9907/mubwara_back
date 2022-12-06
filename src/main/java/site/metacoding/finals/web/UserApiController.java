@@ -22,12 +22,12 @@ public class UserApiController {
     private final OauthHandler oauthHandler;
 
     @GetMapping(value = "/oauth/{serviceName}", headers = "accessToken")
-    public ResponseEntity<?> oauthKakao(@RequestHeader("accessToken") String data, @PathVariable String serviceName,
+    public ResponseEntity<?> oauthKakao(@RequestHeader("accessToken") String token, @PathVariable String serviceName,
             HttpServletResponse response) {
 
-        System.out.println("디버그 토큰 : " + data);
+        System.out.println("디버그 토큰 : " + token);
 
-        OauthLoginRespDto respDto = oauthHandler.processKakaoLogin(serviceName, serviceName);
+        OauthLoginRespDto respDto = oauthHandler.processKakaoLogin(serviceName, token);
 
         return new ResponseEntity<>(new ResponseDto<>(HttpStatus.OK, "카카오 로그인", respDto),
                 HttpStatus.OK);

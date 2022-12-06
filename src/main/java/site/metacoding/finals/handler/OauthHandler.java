@@ -43,13 +43,16 @@ public class OauthHandler {
         String username = serviceName + kakaoUser.getId();
         User userPS = userRepository.findByUsername(username);
 
+        System.out.println("회원 체크 테스트 : " + userPS);
+
         if (userPS == null) {
             userPS = createDBData(username);
             result = "회원 가입 진행 필요";
+        } else {
+            result = "카카오 유저 로그인 성공";
         }
         // 토큰 발급
         String resultToken = createToken(userPS);
-        result = "카카오 유저 로그인 성공";
 
         return new OauthLoginRespDto(result, resultToken, userPS);
     }
@@ -104,6 +107,7 @@ public class OauthHandler {
                 .username(username)
                 .password(username + UUID.randomUUID().toString())
                 .role(Role.USER)
+                .isDeleted(Boolean.FALSE)
                 .build();
         userRepository.save(saveUser);
         return saveUser;
