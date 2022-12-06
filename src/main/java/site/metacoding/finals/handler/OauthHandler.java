@@ -22,7 +22,9 @@ import site.metacoding.finals.config.exception.RuntimeApiException;
 import site.metacoding.finals.config.jwt.JwtSecret;
 import site.metacoding.finals.domain.user.User;
 import site.metacoding.finals.domain.user.UserRepository;
+import site.metacoding.finals.dto.user.UserRespDto;
 import site.metacoding.finals.dto.user.UserReqDto.KakaoDto;
+import site.metacoding.finals.dto.user.UserRespDto.OauthLoginRespDto;
 
 @RequiredArgsConstructor
 @Component
@@ -30,16 +32,26 @@ public class OauthHandler {
 
     private final UserRepository userRepository;
 
-    public String processKakaoLogin(String serviceName, String token) {
+    public OauthLoginRespDto processKakaoLogin(String serviceName, String token) {
+        String result = "";
+
         // 회원정보 받아오기
         String kakaoResult = getKakaoUser(token);
-        // 존재하는 회원인지 확인
-        User user = checkDB(serviceName, kakaoResult);
+        // 파싱
+        KakaoDto kakaoUser = josnToDto(kakaoResult);
+        // 존재 확인 : db에서 조회 후 (없으면) 인서트
+        String username = serviceName + kakaoUser.getId();
+        User userPS = userRepository.findByUsername(username);
+
+        if (userPS == null) {
+            userPS = createDBData(username);
+            result = "회원 가입 진행 필요";
+        }
         // 토큰 발급
-        String userToken = createToken(user);
+        String resultToken = createToken(userPS);
+        result = "카카오 유저 로그인 성공";
 
-        return userToken;
-
+        return new OauthLoginRespDto(result, resultToken, userPS);
     }
 
     public String getKakaoUser(String token) {
@@ -74,40 +86,27 @@ public class OauthHandler {
 
     }
 
-    public User checkDB(String service, String userInfo) {
+    public KakaoDto josnToDto(String json) {
         ObjectMapper om = new ObjectMapper();
-
         KakaoDto kakaoUser = new KakaoDto();
-        System.out.println("디버그 파싱 : " + kakaoUser.getId());
-
         try {
-            kakaoUser = om.readValue(userInfo, KakaoDto.class);
-
-            System.out.println("왜 안 돼세요?" + kakaoUser.getId());
+            kakaoUser = om.readValue(json, KakaoDto.class);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         System.out.println("디버그 파싱 : " + kakaoUser.getId());
+        return kakaoUser;
+    }
 
-        // db에서 조회 후 (없으면) 인서트
-        String username = service + kakaoUser.getId();
-        User userPS = userRepository.findByUsername(username);
-
-        if (userPS == null) {
-            User saveUser = User.builder()
-                    .username(username)
-                    .password(username + UUID.randomUUID().toString())
-                    .role(Role.USER)
-                    .build();
-            userRepository.save(saveUser);
-            userPS = saveUser;
-        }
-
-        System.out.println("디버그 세이브 유저 : " + userPS.getUsername());
-
-        return userPS;
-
+    public User createDBData(String username) {
+        User saveUser = User.builder()
+                .username(username)
+                .password(username + UUID.randomUUID().toString())
+                .role(Role.USER)
+                .build();
+        userRepository.save(saveUser);
+        return saveUser;
     }
 
     public String createToken(User user) {

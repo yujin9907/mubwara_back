@@ -26,7 +26,7 @@ import site.metacoding.finals.domain.AutoTime;
 import site.metacoding.finals.domain.customer.Customer;
 import site.metacoding.finals.domain.shop_table.ShopTable;
 
-@DynamicInsert
+// @DynamicInsert
 @SQLDelete(sql = "UPDATE reservation SET is_deleted = true where id = ?")
 @Where(clause = "is_deleted = false")
 @Builder
@@ -44,7 +44,7 @@ public class Reservation extends AutoTime {
     @Column(nullable = false, length = 10)
     private String reservationDate;
 
-    @ColumnDefault("false")
+    // @ColumnDefault("false")
     @Column(name = "is_deleted")
     private Boolean isDeleted;
 

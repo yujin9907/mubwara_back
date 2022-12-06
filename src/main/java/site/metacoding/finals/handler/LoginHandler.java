@@ -1,7 +1,6 @@
 package site.metacoding.finals.handler;
 
 import java.io.IOException;
-import java.security.Principal;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +18,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import site.metacoding.finals.config.auth.PrincipalUser;
 import site.metacoding.finals.dto.ResponseDto;
-import site.metacoding.finals.dto.user.UserReqDto.LoginDto;
 
 @Slf4j
 @Component
