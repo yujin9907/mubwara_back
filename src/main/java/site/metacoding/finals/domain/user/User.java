@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
@@ -21,6 +23,7 @@ import lombok.NoArgsConstructor;
 import site.metacoding.finals.config.enums.Role;
 import site.metacoding.finals.domain.AutoTime;
 
+@DynamicInsert
 @SQLDelete(sql = "UPDATE customer SET is_deleted = true WHERE id = ?")
 @Where(clause = "is_deleted = false")
 @Builder

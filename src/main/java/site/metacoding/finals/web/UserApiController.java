@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import site.metacoding.finals.dto.ResponseDto;
+import site.metacoding.finals.dto.user.UserReqDto.KakaoDto;
+import site.metacoding.finals.dto.user.UserRespDto.OauthLoginRespDto;
 import site.metacoding.finals.handler.OauthHandler;
 
 @RestController
@@ -20,15 +22,15 @@ public class UserApiController {
     private final OauthHandler oauthHandler;
 
     @GetMapping(value = "/oauth/{serviceName}", headers = "accessToken")
-    public ResponseEntity<?> oauthKakao(@RequestHeader("accessToken") String data, @PathVariable String serviceName,
+    public ResponseEntity<?> oauthKakao(@RequestHeader("accessToken") String token, @PathVariable String serviceName,
             HttpServletResponse response) {
 
-        System.out.println("디버그 토큰 : " + data);
+        System.out.println("디버그 토큰 : " + token);
 
-        String userToken = oauthHandler.processKakaoLogin(serviceName, data);
-        response.setHeader("Authorization", userToken);
-        return new ResponseEntity<>(new ResponseDto<>(HttpStatus.CREATED, "카카오 로그인", null),
-                HttpStatus.CREATED);
+        OauthLoginRespDto respDto = oauthHandler.processKakaoLogin(serviceName, token);
+
+        return new ResponseEntity<>(new ResponseDto<>(HttpStatus.OK, "카카오 로그인", respDto),
+                HttpStatus.OK);
 
     }
 }

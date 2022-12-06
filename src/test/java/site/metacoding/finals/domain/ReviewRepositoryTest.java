@@ -12,7 +12,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.jdbc.Sql;
 
 import lombok.extern.slf4j.Slf4j;
 import site.metacoding.finals.domain.customer.Customer;
@@ -22,6 +21,7 @@ import site.metacoding.finals.domain.image_file.ImageFileRepository;
 import site.metacoding.finals.domain.reservation.Reservation;
 import site.metacoding.finals.domain.reservation.ReservationRepository;
 import site.metacoding.finals.domain.review.Review;
+import site.metacoding.finals.domain.review.ReviewRepository;
 import site.metacoding.finals.domain.shop.Shop;
 import site.metacoding.finals.domain.shop.ShopRepository;
 import site.metacoding.finals.domain.shop_table.ShopTable;
@@ -30,14 +30,14 @@ import site.metacoding.finals.domain.subscribe.Subscribe;
 import site.metacoding.finals.domain.subscribe.SubscribeRepository;
 import site.metacoding.finals.domain.user.User;
 import site.metacoding.finals.domain.user.UserRepository;
-import site.metacoding.finals.dto.customer.CustomerReqDto.CustomerJoinReqDto;
-import site.metacoding.finals.dto.repository.shop.AnalysisDto;
+import site.metacoding.finals.dto.repository.customer.ReservationRepositoryRespDto;
+import site.metacoding.finals.dto.repository.customer.ScoreRespDto;
 import site.metacoding.finals.dummy.DummyEntity;
 
 @Slf4j
 @DataJpaTest
 @ActiveProfiles("test")
-public class ReservationRepositoryTest extends DummyEntity {
+public class ReviewRepositoryTest extends DummyEntity {
 
     @Autowired
     private EntityManager em;
@@ -56,6 +56,8 @@ public class ReservationRepositoryTest extends DummyEntity {
     private ReservationRepository reservationRepository;
     @Autowired
     private SubscribeRepository subscribeRepository;
+    @Autowired
+    private ReviewRepository reviewRepository;
 
     @BeforeEach
     public void setUp() {
@@ -79,6 +81,12 @@ public class ReservationRepositoryTest extends DummyEntity {
 
         Subscribe subscribe = newSubscribe(customer, shop);
         subscribeRepository.save(subscribe);
+
+        Review review = newReview(customer, shop, 5);
+        Review review2 = newReview(customer, shop, 4);
+        reviewRepository.save(review);
+        reviewRepository.save(review2);
+
     }
 
     @AfterEach
@@ -88,75 +96,21 @@ public class ReservationRepositoryTest extends DummyEntity {
         em.createNativeQuery("ALTER TABLE users ALTER COLUMN `id` RESTART WITH 1").executeUpdate();
         em.createNativeQuery("ALTER TABLE shop_table ALTER COLUMN `id` RESTART WITH 1").executeUpdate();
         em.createNativeQuery("ALTER TABLE reservation ALTER COLUMN `id` RESTART WITH 1").executeUpdate();
+        em.createNativeQuery("ALTER TABLE imagefile ALTER COLUMN `id` RESTART WITH 1").executeUpdate();
+        em.createNativeQuery("ALTER TABLE subscribe ALTER COLUMN `id` RESTART WITH 1").executeUpdate();
 
     }
 
     @Test
-    public void 예약커스터머아이디조회() {
-        em.clear();
-
-        Long CustomerId = 1L;
-
-        List<Reservation> reservation = reservationRepository.findByCustomerId(CustomerId);
-
-        log.debug("디버그 : " + reservation.get(0).getCustomer());
-
-        // then
-        assertEquals(reservation.get(0).getId(), 1);
-    }
-
-    @Test
-    public void 인원수날짜에따른테이블목록테스트() {
-        int maxPeople = 4;
-        String date = "20221129";
-
-        List<Reservation> reservation = reservationRepository.findByDataMaxPeople(maxPeople, date);
-
-        log.debug("디버그 : " + reservation.size());
-
-        // then
-        assertEquals(reservation.get(0).getId(), 1);
-    }
-
-    @Test
-    public void 예약커스터머목록보기테스트() {
-        // g
-        Long shopId = 1L;
-
-        List<Reservation> reservations = reservationRepository.findCustomerByShopId(shopId);
-
-        log.debug("디버그 : " + reservations.get(0).getReservationDate());
-
-    }
-
-    @Test
-    public void 일일매출조회() {
+    public void 가게평점보기테스트() {
         //
         Long shopId = 1L;
-        String date = "20221129";
 
         //
-        List<AnalysisDto> result = reservationRepository.findBySumDate(shopId, date);
+        ScoreRespDto review = reviewRepository.findByAvgScore(shopId);
 
-        log.debug("디버그 : " + result.get(0).getResults());
-        // dto(인터페이스) 문제 아님 확인
-        // 예약어 아님 확인
-        // 연산
-    }
+        System.out.println(review.getScore());
 
-    @Test
-    public void 주간매출조회() {
-        //
-        Long shopId = 1L;
-        String date = "20221129";
-
-        //
-        List<AnalysisDto> result = reservationRepository.findBySumWeek(shopId);
-
-        log.debug("디버그 : " + result.get(0).getResults());
-        // dto(인터페이스) 문제 아님 확인
-        // 예약어 아님 확인
-        // 연산
     }
 
 }
