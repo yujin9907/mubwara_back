@@ -98,8 +98,7 @@ public class ReservationService {
     }
 
     public ReservationSaveRespDto save(ReservationSaveReqDto dto, String username) {
-        User userPS = userRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("잘못된 유저입니다"));
+        User userPS = userRepository.findByUsername(username);
 
         log.debug("디버그 : " + userPS);
         Customer customerPS = customerRepository.findById(dto.getCustomerId())

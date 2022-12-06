@@ -8,6 +8,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     // 반환타입 메서드명 (매개변수)
 
     // findBy규칙 : 문법
-    public Optional<User> findByUsername(String username);
+    public User findByUsername(String username);
 
 }
