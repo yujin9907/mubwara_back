@@ -62,9 +62,9 @@ public abstract class DummyEntity {
                 .build();
     }
 
-    protected Review newReview(Customer customer, Shop shop) {
+    protected Review newReview(Customer customer, Shop shop, int score) {
         return Review.builder()
-                .score(5)
+                .score(score)
                 .content("test content")
                 .customer(customer)
                 .shop(shop)

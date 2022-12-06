@@ -1,5 +1,7 @@
 package site.metacoding.finals.domain.shop;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -8,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -20,6 +23,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import site.metacoding.finals.domain.AutoTime;
 import site.metacoding.finals.domain.image_file.ImageFile;
+import site.metacoding.finals.domain.review.Review;
 import site.metacoding.finals.domain.user.User;
 
 @Getter
@@ -60,6 +64,9 @@ public class Shop extends AutoTime {
     @OneToOne(mappedBy = "shop", fetch = FetchType.LAZY)
     private ImageFile imageFile = new ImageFile(null, null, null, null, null);
     // null 방지 어케?
+
+    @OneToMany(mappedBy = "shop", fetch = FetchType.LAZY)
+    private List<Review> review;
 
     @Column
     private boolean isOpened = Boolean.FALSE;

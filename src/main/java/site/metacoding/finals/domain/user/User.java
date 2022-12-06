@@ -44,7 +44,6 @@ public class User extends AutoTime {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @ColumnDefault("client.png")
     @Column(name = "is_deleted")
     private Boolean isDeleted; // 디폴트 설정값
 

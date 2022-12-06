@@ -69,6 +69,7 @@ public class ShopApiController {
 
     // customer입장에서 보는 가게 기능
     // 네임, 주소, 전화번호, 오픈클로즈, 사진
+    // 리뷰 들고 오는 로직 진심 수정해야 됨
     @GetMapping("/shop/list")
     public ResponseEntity<?> listShop() {
         List<ShopListRespDto> shopList = shopService.List();

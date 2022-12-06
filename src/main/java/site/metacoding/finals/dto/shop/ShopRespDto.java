@@ -1,11 +1,14 @@
 package site.metacoding.finals.dto.shop;
 
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import lombok.Getter;
 import lombok.Setter;
 import site.metacoding.finals.domain.image_file.ImageFile;
 import site.metacoding.finals.domain.option.Option;
+import site.metacoding.finals.domain.review.Review;
 import site.metacoding.finals.domain.shop.Shop;
 import site.metacoding.finals.domain.user.User;
 import site.metacoding.finals.handler.ImageFileHandler;
@@ -15,6 +18,7 @@ public class ShopRespDto {
     @Setter
     @Getter
     public static class ShopListRespDto {
+        private Long id;
         private String shopName;
         private String address;
         private String category;
@@ -23,6 +27,7 @@ public class ShopRespDto {
         private String closeTime;
         private String phoneNumber;
         private ImageFileDto imageFileDto;
+        private Double scoreAvg;
 
         public ShopListRespDto(Shop shop) {
             this.shopName = shop.getShopName();
@@ -102,13 +107,57 @@ public class ShopRespDto {
     @Getter
     @Setter
     public static class ShopDetailRespDto {
-        private Shop shop;
-        private Option feature;
+        private Long id;
+        private String shopName;
+        private String address;
+        private String category;
+        private String information;
+        private String openTime;
+        private String closeTime;
+        private String phoneNumber;
+        private ImageFileDto imageFile;
+        private List<ReviewDto> review;
+        private Double scoreAvg;
 
-        // 예약 가능 시간 정보
-        public ShopDetailRespDto(Shop shop, Option feature) {
-            this.shop = shop;
-            this.feature = feature;
+        public ShopDetailRespDto(Shop shop) {
+            this.shopName = shop.getShopName();
+            this.address = shop.getAddress();
+            this.category = shop.getCategory();
+            this.information = shop.getInformation();
+            this.openTime = shop.getOpenTime();
+            this.closeTime = shop.getCloseTime();
+            this.phoneNumber = shop.getPhoneNumber();
+            this.imageFile = new ImageFileDto(shop.getImageFile());
+            this.review = toReviewList(shop.getReview());
+        }
+
+        public List<ReviewDto> toReviewList(List<Review> reviews) {
+            return reviews.stream().map((r) -> new ReviewDto(r)).collect(Collectors.toList());
+        }
+
+        @Getter
+        public class ImageFileDto {
+            private long id;
+            private String image;
+
+            public ImageFileDto(ImageFile imageFile) {
+                this.id = imageFile.getId();
+                this.image = ImageFileHandler.encodingFile(imageFile.getStoreFilename());
+            }
+
+        }
+
+        @Getter
+        public class ReviewDto {
+            private Long id;
+            private int score;
+            private String content;
+
+            public ReviewDto(Review review) {
+                this.id = review.getId();
+                this.score = review.getScore();
+                this.content = review.getContent();
+            }
         }
 
     }

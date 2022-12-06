@@ -24,6 +24,8 @@ import site.metacoding.finals.domain.image_file.ImageFileRepository;
 import site.metacoding.finals.domain.option.Option;
 import site.metacoding.finals.domain.option.OptionRepository;
 import site.metacoding.finals.domain.reservation.ReservationRepository;
+import site.metacoding.finals.domain.review.Review;
+import site.metacoding.finals.domain.review.ReviewRepository;
 import site.metacoding.finals.domain.shop.Shop;
 import site.metacoding.finals.domain.shop.ShopRepository;
 import site.metacoding.finals.domain.user.User;
@@ -54,6 +56,7 @@ public class ShopService {
     private final ImageFileHandler imageFileHandler;
     private final ImageFileRepository imageFileRepository;
     private final ReservationRepository reservationRepository;
+    private final ReviewRepository reviewrRepository;
 
     @Transactional
     public ShopJoinRespDto join(ShopJoinReqDto shopJoinReqDto) {
@@ -106,7 +109,17 @@ public class ShopService {
 
     public List<ShopListRespDto> List() {
         List<Shop> shopPS = shopRepository.findAllList();
-        return shopPS.stream().map((shop) -> new ShopListRespDto(shop)).collect(Collectors.toList());
+
+        List<ShopListRespDto> respDtos = shopPS.stream().map((shop) -> new ShopListRespDto(shop))
+                .collect(Collectors.toList());
+
+        respDtos.forEach(dto -> {
+            System.out.println("디버그 : " + reviewrRepository.findByShopId(dto.getId()));
+            if (reviewrRepository.findByShopId(dto.getId()).size() != 0) {
+                dto.setScoreAvg(reviewrRepository.findByAvgScore(dto.getId()).getScore());
+            }
+        });
+        return respDtos;
     }
 
     public List<ShopListRespDto> categoryList(String categoryName) {
@@ -123,10 +136,13 @@ public class ShopService {
                 .orElseThrow(() -> new RuntimeException("잘못된 가게 요청"));
         // 날짜 + 인원 => 예약 가능 시간 조회
 
-        // // 가게 특징
-        // Option featurePS = featureRepository.findByShopId(shopId)
-        // .orElseThrow(() -> new RuntimeException("잘못된 가게 요청"));
+        // 리뷰 관련
+        ShopDetailRespDto respDto = new ShopDetailRespDto(shopPS);
 
-        return null;
+        if (reviewrRepository.findByShopId(shopId).size() != 0) {
+            respDto.setScoreAvg(reviewrRepository.findByAvgScore(shopId).getScore());
+        }
+
+        return respDto;
     }
 }

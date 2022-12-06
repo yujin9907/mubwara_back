@@ -126,4 +126,21 @@ public class ShopApiControllerTest extends DummyEntity {
         //
         resultActions.andExpect(MockMvcResultMatchers.status().isOk());
     }
+
+    @Test
+    public void 가게상세보기테스트() throws Exception {
+        //
+        Long shopId = 1L;
+
+        //
+        ResultActions resultActions = mvc.perform(
+                MockMvcRequestBuilders.get("/shop/detail/" + shopId)
+                        .accept("application/json; charset=utf-8"));
+
+        String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+        log.debug(responseBody);
+
+        //
+        resultActions.andExpect(MockMvcResultMatchers.status().isOk());
+    }
 }
