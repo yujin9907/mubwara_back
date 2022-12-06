@@ -10,10 +10,10 @@ import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
@@ -40,6 +40,7 @@ import site.metacoding.finals.dto.shop.ShopRespDto.ShopListRespDto;
 import site.metacoding.finals.handler.ImageFileHandler;
 
 @Slf4j
+@Transactional(readOnly = true)
 @Service
 @RequiredArgsConstructor
 public class ShopService {
@@ -104,8 +105,6 @@ public class ShopService {
     }
 
     public List<ShopListRespDto> List() {
-        // em.clear();
-
         List<Shop> shopPS = shopRepository.findAllList();
         return shopPS.stream().map((shop) -> new ShopListRespDto(shop)).collect(Collectors.toList());
     }

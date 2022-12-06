@@ -14,6 +14,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
@@ -30,6 +32,7 @@ import site.metacoding.finals.domain.reservation.Reservation;
 import site.metacoding.finals.domain.user.User;
 import site.metacoding.finals.dto.customer.CustomerReqDto.CustomerUpdateReqDto;
 
+@DynamicInsert
 @SQLDelete(sql = "UPDATE reservation SET is_deleted = true where id = ?")
 @Where(clause = "is_deleted = false")
 @Builder
@@ -53,7 +56,8 @@ public class Customer extends AutoTime {
     @JsonIgnore
     private User user;
 
-    @Column(name = "is_deleted")
+    // @ColumnDefault("false")
+    @Column(name = "is_deleted", insertable = false) // 이것도 안 먹음 => 인서트할 때 직접 넣어줌
     private Boolean isDeleted;
 
     // @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)

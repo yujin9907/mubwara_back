@@ -21,6 +21,7 @@ public class ShopRespDto {
         private String information;
         private String openTime;
         private String closeTime;
+        private String phoneNumber;
         private ImageFileDto imageFileDto;
 
         public ShopListRespDto(Shop shop) {
@@ -30,6 +31,7 @@ public class ShopRespDto {
             this.information = shop.getInformation();
             this.openTime = shop.getOpenTime();
             this.closeTime = shop.getCloseTime();
+            this.phoneNumber = shop.getPhoneNumber();
             this.imageFileDto = new ImageFileDto(shop.getImageFile());
         }
 
