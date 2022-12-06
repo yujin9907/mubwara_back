@@ -20,7 +20,6 @@ import site.metacoding.finals.dto.ResponseDto;
 import site.metacoding.finals.dto.customer.CustomerReqDto.CustomerJoinReqDto;
 import site.metacoding.finals.dto.customer.CustomerReqDto.CustomerUpdateReqDto;
 import site.metacoding.finals.dto.customer.CustomerRespDto.CustomerJoinRespDto;
-import site.metacoding.finals.dto.customer.CustomerRespDto.CustomerMyPageReservationRespDto;
 import site.metacoding.finals.dto.customer.CustomerRespDto.CustomerMyPageReviewRespDto;
 import site.metacoding.finals.dto.customer.CustomerRespDto.CustomerMyPageSubscribeRespDto;
 import site.metacoding.finals.dto.customer.CustomerRespDto.CustomerUpdateRespDto;
@@ -41,12 +40,12 @@ public class CustomerApiController {
                 HttpStatus.CREATED);
     }
 
-    @PutMapping("/customer/{id}")
-    public ResponseEntity<?> updateCustomerApi(@PathVariable Long id,
-            @RequestBody CustomerUpdateReqDto customerUpdateReqDto) {
+    @PutMapping("/customer")
+    public ResponseEntity<?> updateCustomerApi(@RequestBody CustomerUpdateReqDto customerUpdateReqDto,
+            @AuthenticationPrincipal PrincipalUser principalUser) {
         // 벨리데이션 체크 나중에
 
-        CustomerUpdateRespDto dto = customerService.update(id, customerUpdateReqDto);
+        CustomerUpdateRespDto dto = customerService.update(principalUser.getUser().getId(), customerUpdateReqDto);
 
         return new ResponseEntity<>(new ResponseDto<>(HttpStatus.ACCEPTED, "회원정보수정 완료", dto), HttpStatus.ACCEPTED);
     }
@@ -57,21 +56,22 @@ public class CustomerApiController {
         return new ResponseEntity<>(new ResponseDto<>(HttpStatus.ACCEPTED, "회원 삭제", null), HttpStatus.ACCEPTED);
     }
 
-    @GetMapping("/customer/mypage/reservation/{id}")
-    public ResponseEntity<?> CustomerMypageReservationApi(@PathVariable Long id) {
-        List<ReservationRepositoryRespDto> dto = customerService.myPageReservation(id);
+    @GetMapping("/customer/mypage/reservation")
+    public ResponseEntity<?> CustomerMypageReservationApi(@PathVariable Long id,
+            @AuthenticationPrincipal PrincipalUser principalUser) {
+        List<ReservationRepositoryRespDto> dto = customerService.myPageReservation(principalUser.getUser().getId());
         return new ResponseEntity<>(new ResponseDto<>(HttpStatus.OK, "마이페이지 예약 목록", dto), HttpStatus.OK);
     }
 
-    @GetMapping("/customer/mypage/subscribe/{id}")
-    public ResponseEntity<?> CustomerMypageSubscribeApi(@PathVariable Long id) {
-        List<CustomerMyPageSubscribeRespDto> dto = customerService.myPageSubscribe(id);
+    @GetMapping("/customer/mypage/subscribe")
+    public ResponseEntity<?> CustomerMypageSubscribeApi(@AuthenticationPrincipal PrincipalUser principalUser) {
+        List<CustomerMyPageSubscribeRespDto> dto = customerService.myPageSubscribe(principalUser.getUser().getId());
         return new ResponseEntity<>(new ResponseDto<>(HttpStatus.OK, "마이페이지 구독 목록", dto), HttpStatus.OK);
     }
 
-    @GetMapping("/customer/mypage/review/{id}")
-    public ResponseEntity<?> CustomerMypageReviewApi(@PathVariable Long id) {
-        List<CustomerMyPageReviewRespDto> dto = customerService.myPageReview(id);
+    @GetMapping("/customer/mypage/review")
+    public ResponseEntity<?> CustomerMypageReviewApi(@AuthenticationPrincipal PrincipalUser principalUser) {
+        List<CustomerMyPageReviewRespDto> dto = customerService.myPageReview(principalUser.getUser().getId());
         return new ResponseEntity<>(new ResponseDto<>(HttpStatus.OK, "마이페이지 리뷰 목록", dto), HttpStatus.OK);
     }
 
