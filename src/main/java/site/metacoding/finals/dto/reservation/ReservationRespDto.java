@@ -1,6 +1,8 @@
 package site.metacoding.finals.dto.reservation;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
@@ -9,6 +11,7 @@ import lombok.Setter;
 import site.metacoding.finals.domain.customer.Customer;
 import site.metacoding.finals.domain.reservation.Reservation;
 import site.metacoding.finals.domain.shop_table.ShopTable;
+import site.metacoding.finals.dto.repository.shop.AnalysisDto;
 
 public class ReservationRespDto {
 
@@ -16,7 +19,37 @@ public class ReservationRespDto {
     @Getter
     public static class AnalysisWeekRespDto {
         private String week;
-        private String price;
+        private Integer price;
+
+        public AnalysisWeekRespDto(AnalysisDto dtos) {
+            this.price = dtos.getResults();
+            this.week = toWeek(dtos.getDates());
+        }
+
+        public String toWeek(String date) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+            LocalDate localdate = LocalDate.parse(date, formatter);
+
+            return localdate.getDayOfWeek().toString();
+
+            // 요일별 매출 로직
+            // List<AnalysisWeekRespDto> respDtos = new ArrayList<>();
+            // int num = 0;
+            // while (true) {
+
+            // log.debug("잘 더해지는가" + num);
+            // log.debug(date.plusDays(num).getDayOfWeek().toString());
+
+            // AnalysisWeekRespDto dto = new
+            // AnalysisWeekRespDto(date.plusDays(num).getDayOfWeek().toString(), null);
+
+            // if (date.plusDays(num).getDayOfWeek().toString().equals("SUNDAY")) {
+            // break;
+            // }
+            // num++;
+            // }
+
+        }
     }
 
     @Setter

@@ -30,7 +30,7 @@ public class DateTimeTest {
         log.debug("디버그 요일 : " + todayWeek);
 
         // LocalDate testdate = date.plusDays(1);
-        log.debug("디버그 일 :" + date.plusDays(1));
+        log.debug("디버그 일 :" + date.plusDays(1).toString());
         log.debug("더한 요일 : " + date.getDayOfWeek().toString());
         // log.debug("테스트 : " + testdate);
 

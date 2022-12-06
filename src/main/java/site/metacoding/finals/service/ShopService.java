@@ -1,9 +1,11 @@
 package site.metacoding.finals.service;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
@@ -28,6 +30,7 @@ import site.metacoding.finals.domain.user.User;
 import site.metacoding.finals.domain.user.UserRepository;
 import site.metacoding.finals.dto.repository.shop.AnalysisDto;
 import site.metacoding.finals.dto.reservation.ReservationReqDto.AnalysisDateReqDto;
+import site.metacoding.finals.dto.reservation.ReservationRespDto.AnalysisWeekRespDto;
 import site.metacoding.finals.dto.shop.ShopReqDto.ShopInfoSaveReqDto;
 import site.metacoding.finals.dto.shop.ShopReqDto.ShopJoinReqDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.ShopDetailRespDto;
@@ -87,38 +90,16 @@ public class ShopService {
 
     }
 
-    public List<AnalysisDto> analysisWeek(PrincipalUser principalUser, AnalysisDateReqDto analysisDateReqDto) {
+    public List<AnalysisWeekRespDto> analysisWeek(PrincipalUser principalUser, AnalysisDateReqDto analysisDateReqDto) {
 
         // 가게 정보 조회
         Optional<Shop> shopPS = shopRepository.findByUserId(principalUser.getUser().getId());
 
-        // 오늘 요일 구하기
-        LocalDate date = analysisDateReqDto.toLocalDate();
+        // 매출 데이터
+        List<AnalysisDto> weekDtos = reservationRepository.findBySumWeek(shopPS.get().getId());
 
-        // 요일별 매출 로직
-        int num = 0;
-        while (true) {
-
-            log.debug("잘 더해지는가" + num);
-            log.debug(date.plusDays(num).getDayOfWeek().toString());
-
-            if (date.plusDays(num).getDayOfWeek().toString().equals("SUNDAY")) {
-                break;
-            }
-            num++;
-        }
-
-        return null;
-        // 마저하기
-
-        // select re.date date, (re.a*re.b) results
-        // from
-        // (select r.reservation_date date, sum(st.max_people) a, s.per_price b from
-        // reservation r
-        // left join shop_table st on r.shop_table_id = st.id
-        // left join shop s on s.id = st.shop_id
-        // where s.id=1
-        // group by r.reservation_date) re
+        // dto로 변경
+        return weekDtos.stream().map((w) -> new AnalysisWeekRespDto(w)).collect(Collectors.toList());
 
     }
 

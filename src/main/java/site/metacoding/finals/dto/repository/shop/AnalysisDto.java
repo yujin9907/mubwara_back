@@ -6,4 +6,6 @@ public interface AnalysisDto {
 
     Integer getResults();
 
+    String getDates();
+
 }
