@@ -17,7 +17,7 @@ public class CorsConfig {
         config.addAllowedOriginPattern("*");
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
-        source.registerCorsConfiguration("/auth/**", config); // 인증 필요 프리픽스
+        source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
     }
 }

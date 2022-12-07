@@ -18,7 +18,7 @@ public class MenuApiController {
 
     private final MenuService menuService;
 
-    @PostMapping("/auth/shop/menu")
+    @PostMapping("/shop/menu")
     public ResponseEntity<?> joinCustomerApi(@RequestBody MenuSaveReqDto menuSaveReqDto) {
 
         MenuSaveRespDto respDto = menuService.save(menuSaveReqDto);

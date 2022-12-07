@@ -34,7 +34,7 @@ public class ShopApiController {
     // shop입장에서 이용하는 가게 기능
 
     // shop 한 개 만 만들도록 제한 / respDto LAZY 로딩 안되도록 좀 더 정확히 만들어줘야 함
-    @PostMapping(value = "/auth/shop/save")
+    @PostMapping(value = "/shop/save")
     public ResponseEntity<?> saveShop(@RequestBody ShopInfoSaveReqDto shopInfoSaveReqDto,
             @AuthenticationPrincipal PrincipalUser principalUser) {
         ShopInfoSaveRespDto shopInfoSaveRespDto = shopService.save(shopInfoSaveReqDto, principalUser);
@@ -42,7 +42,7 @@ public class ShopApiController {
                 HttpStatus.CREATED);
     }
 
-    @PostMapping("/auth/shop/analysis/date")
+    @PostMapping("/shop/analysis/date")
     public ResponseEntity<?> dateAnalysis(@AuthenticationPrincipal PrincipalUser principalUser,
             @RequestBody AnalysisDateReqDto reqDto) {
         List<AnalysisDto> respDto = shopService.analysisDate(principalUser, reqDto);
@@ -50,7 +50,7 @@ public class ShopApiController {
                 HttpStatus.OK);
     }
 
-    @PostMapping("/auth/shop/analysis/week")
+    @PostMapping("/shop/analysis/week")
     public ResponseEntity<?> weekAnalysis(@AuthenticationPrincipal PrincipalUser principalUser,
             @RequestBody AnalysisDateReqDto reqDto) {
         List<AnalysisWeekRespDto> respDtos = shopService.analysisWeek(principalUser, reqDto);

@@ -50,14 +50,12 @@ public class CustomerRespDto {
         private String name;
         private String phoneNumber;
         private String address;
-        private User user;
 
         public CustomerUpdateRespDto(Customer customer) {
             this.id = customer.getId();
             this.name = customer.getName();
             this.phoneNumber = customer.getPhoneNumber();
             this.address = customer.getAddress();
-            this.user = customer.getUser();
         }
     }
 

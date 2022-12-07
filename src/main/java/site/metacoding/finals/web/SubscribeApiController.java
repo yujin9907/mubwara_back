@@ -20,14 +20,14 @@ public class SubscribeApiController {
 
     private final SubscribeService subscribeService;
 
-    @GetMapping("/auth/user/{shopId}/subscribe")
+    @GetMapping("/user/{shopId}/subscribe")
     public ResponseEntity<?> saveSubscribe(@PathVariable Long shopId,
             @AuthenticationPrincipal PrincipalUser principalUser) {
         SubscribeSaveRespDto respDto = subscribeService.save(shopId, principalUser);
         return new ResponseEntity<>(new ResponseDto<>(HttpStatus.CREATED, "구독하기", respDto), HttpStatus.CREATED);
     }
 
-    @DeleteMapping("auth/user/subscribe/{subscribeId}")
+    @DeleteMapping("/user/subscribe/{subscribeId}")
     public ResponseEntity<?> deleteSubscribe(@PathVariable Long subscribeId,
             @AuthenticationPrincipal PrincipalUser principalUser) {
         subscribeService.delete(subscribeId, principalUser);

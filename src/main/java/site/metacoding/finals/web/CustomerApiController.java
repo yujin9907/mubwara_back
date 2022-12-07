@@ -40,7 +40,7 @@ public class CustomerApiController {
                 HttpStatus.CREATED);
     }
 
-    @PutMapping("/auth/user/customer")
+    @PutMapping("/user/customer")
     public ResponseEntity<?> updateCustomerApi(@RequestBody CustomerUpdateReqDto customerUpdateReqDto,
             @AuthenticationPrincipal PrincipalUser principalUser) {
         // 벨리데이션 체크 나중에
@@ -50,26 +50,26 @@ public class CustomerApiController {
         return new ResponseEntity<>(new ResponseDto<>(HttpStatus.ACCEPTED, "회원정보수정 완료", dto), HttpStatus.ACCEPTED);
     }
 
-    @DeleteMapping("/auth/user/customer")
+    @DeleteMapping("/user/customer")
     public ResponseEntity<?> deleteCustomerApi(@AuthenticationPrincipal PrincipalUser principalUser) {
         customerService.delete(principalUser);
         return new ResponseEntity<>(new ResponseDto<>(HttpStatus.ACCEPTED, "회원 삭제", null), HttpStatus.ACCEPTED);
     }
 
-    @GetMapping("/auth/user/mypage/reservation")
-    public ResponseEntity<?> CustomerMypageReservationApi(@PathVariable Long id,
+    @GetMapping("/user/mypage/reservation")
+    public ResponseEntity<?> CustomerMypageReservationApi(
             @AuthenticationPrincipal PrincipalUser principalUser) {
         List<ReservationRepositoryRespDto> dto = customerService.myPageReservation(principalUser.getUser().getId());
         return new ResponseEntity<>(new ResponseDto<>(HttpStatus.OK, "마이페이지 예약 목록", dto), HttpStatus.OK);
     }
 
-    @GetMapping("/auth/user/mypage/subscribe")
+    @GetMapping("/user/mypage/subscribe")
     public ResponseEntity<?> CustomerMypageSubscribeApi(@AuthenticationPrincipal PrincipalUser principalUser) {
         List<CustomerMyPageSubscribeRespDto> dto = customerService.myPageSubscribe(principalUser.getUser().getId());
         return new ResponseEntity<>(new ResponseDto<>(HttpStatus.OK, "마이페이지 구독 목록", dto), HttpStatus.OK);
     }
 
-    @GetMapping("/auth/user/mypage/review")
+    @GetMapping("/user/mypage/review")
     public ResponseEntity<?> CustomerMypageReviewApi(@AuthenticationPrincipal PrincipalUser principalUser) {
         List<CustomerMyPageReviewRespDto> dto = customerService.myPageReview(principalUser.getUser().getId());
         return new ResponseEntity<>(new ResponseDto<>(HttpStatus.OK, "마이페이지 리뷰 목록", dto), HttpStatus.OK);

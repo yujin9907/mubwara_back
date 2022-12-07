@@ -45,7 +45,6 @@ public class UserReqDto {
     public static class JoinReqDto {
         private String username;
         private String password;
-        private String role;
 
         public User toEntity() {
             return User.builder()

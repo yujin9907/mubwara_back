@@ -18,8 +18,17 @@ public abstract class DummyEntity {
     protected User newUser(String username) {
         return User.builder()
                 .username(username)
-                .password("123")
+                .password("$2a$10$sPyqasyfpVYeHDVrtRcXKelXutSQobLuWzf32BXmQvnLTMbddkIwy")
                 .role(Role.USER)
+                .isDeleted(Boolean.FALSE)
+                .build();
+    }
+
+    protected User newShopUser(String username) {
+        return User.builder()
+                .username(username)
+                .password("$2a$10$sPyqasyfpVYeHDVrtRcXKelXutSQobLuWzf32BXmQvnLTMbddkIwy")
+                .role(Role.SHOP)
                 .isDeleted(Boolean.FALSE)
                 .build();
     }

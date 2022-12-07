@@ -31,9 +31,14 @@ public class TestController {
         return new ResponseDto<>(HttpStatus.OK, "OK", null);
     }
 
-    @GetMapping("/auth/user/test")
+    @GetMapping("/user/test")
     public void test() {
         System.out.println("실행됨");
+    }
+
+    @GetMapping("/shop/test")
+    public void test2() {
+        System.out.println("shop 만 실행가능함");
     }
 
 }

@@ -33,6 +33,11 @@ public class OptionShopService {
         Optional<Shop> shopPS = shopRepository.findByUserId(principalUser.getUser().getId());
 
         System.out.println("디버그 : " + reqDtos.get(0).getOptionList());
+        System.out.println("디버그 : " + optionRepository.findById(reqDtos.get(0).getOptionList()).get());
+
+        reqDtos.forEach(r -> {
+            System.out.println("디버그 : " + r.getOptionList());
+        });
 
         List<OptionShop> optionShops = reqDtos.stream()
                 .map((r) -> r.toEntity(optionRepository.findById(r.getOptionList()).get(), shopPS.get()))
