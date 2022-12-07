@@ -1,4 +1,4 @@
-package site.metacoding.finals.domain.image_file;
+package site.metacoding.finals.domain.imagefile;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

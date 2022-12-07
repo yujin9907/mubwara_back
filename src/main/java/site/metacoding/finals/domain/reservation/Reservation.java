@@ -52,7 +52,7 @@ public class Reservation extends AutoTime {
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "shop_table_id")
     private ShopTable shopTable;
 }

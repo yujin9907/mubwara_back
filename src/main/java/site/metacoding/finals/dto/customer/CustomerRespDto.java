@@ -11,7 +11,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import site.metacoding.finals.domain.customer.Customer;
-import site.metacoding.finals.domain.image_file.ImageFile;
+import site.metacoding.finals.domain.imagefile.ImageFile;
 import site.metacoding.finals.domain.reservation.Reservation;
 import site.metacoding.finals.domain.review.Review;
 import site.metacoding.finals.domain.shop.Shop;

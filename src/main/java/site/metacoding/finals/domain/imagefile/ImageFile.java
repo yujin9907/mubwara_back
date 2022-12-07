@@ -1,4 +1,4 @@
-package site.metacoding.finals.domain.image_file;
+package site.metacoding.finals.domain.imagefile;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -28,7 +28,7 @@ import site.metacoding.finals.domain.shop.Shop;
 @AllArgsConstructor
 @Getter
 @Entity
-@Table(name = "imagefile")
+@Table(name = "image_file")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ImageFile extends AutoTime {
     @Id
@@ -38,18 +38,14 @@ public class ImageFile extends AutoTime {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "shop_id")
-    @ColumnDefault("0") // 안먹음
-    // @JsonBackReference
     private Shop shop;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "review_id")
-    @ColumnDefault("0")
     private Review review;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "menu_id")
-    @ColumnDefault("0")
     private Menu menu;
 
     public void setReview(Review review) {

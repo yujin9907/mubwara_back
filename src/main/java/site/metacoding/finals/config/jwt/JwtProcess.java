@@ -17,7 +17,6 @@ import site.metacoding.finals.config.auth.PrincipalUser;
 import site.metacoding.finals.config.enums.Role;
 import site.metacoding.finals.domain.user.User;
 
-@Slf4j
 public class JwtProcess {
 
     public static String create(PrincipalUser principalUser) {
@@ -29,7 +28,6 @@ public class JwtProcess {
                 .withClaim("role", principalUser.getUser().getRole().name())
                 .sign(Algorithm.HMAC256(JwtSecret.SECRET));
 
-        System.out.println("디버그" + principalUser.getUser().getRole().name());
         return jwtToken;
     }
 
@@ -47,9 +45,7 @@ public class JwtProcess {
 
         Long id = decodedJWT.getClaim("id").asLong();
         String username = decodedJWT.getClaim("username").asString();
-        System.out.println("디버그 : " + username);
         String role = decodedJWT.getClaim("role").asString();
-        System.out.println("디버그 : " + role);
         User user = User.builder().id(id).username(username).role(Role.valueOf(role)).build();
         PrincipalUser principalUser = new PrincipalUser(user);
         return principalUser;

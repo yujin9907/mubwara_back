@@ -32,7 +32,7 @@ import site.metacoding.finals.domain.reservation.Reservation;
 import site.metacoding.finals.domain.user.User;
 import site.metacoding.finals.dto.customer.CustomerReqDto.CustomerUpdateReqDto;
 
-@DynamicInsert
+// @DynamicInsert
 @SQLDelete(sql = "UPDATE reservation SET is_deleted = true where id = ?")
 @Where(clause = "is_deleted = false")
 @Builder

@@ -6,7 +6,8 @@ import java.util.stream.Collectors;
 
 import lombok.Getter;
 import lombok.Setter;
-import site.metacoding.finals.domain.image_file.ImageFile;
+import site.metacoding.finals.domain.imagefile.ImageFile;
+import site.metacoding.finals.domain.menu.Menu;
 import site.metacoding.finals.domain.option.Option;
 import site.metacoding.finals.domain.review.Review;
 import site.metacoding.finals.domain.shop.Shop;
@@ -30,6 +31,7 @@ public class ShopRespDto {
         private Double scoreAvg;
 
         public ShopListRespDto(Shop shop) {
+            this.id = shop.getId();
             this.shopName = shop.getShopName();
             this.address = shop.getAddress();
             this.category = shop.getCategory();
@@ -63,16 +65,6 @@ public class ShopRespDto {
 
     @Setter
     @Getter
-    public static class ShopJoinRespDto {
-        private User user;
-
-        public ShopJoinRespDto(User user) {
-            this.user = user;
-        }
-    }
-
-    @Setter
-    @Getter
     public static class ShopInfoSaveRespDto {
         private Long id;
         private String shopName;
@@ -84,11 +76,9 @@ public class ShopRespDto {
         private String closeTime;
         private int perPrice;
         private int perHour;
-        private List<Option> featureList;
-        private List<ImageFile> imageFile;
         private User user;
 
-        public ShopInfoSaveRespDto(Shop shop, List<ImageFile> imageFile) {
+        public ShopInfoSaveRespDto(Shop shop) {
             this.id = shop.getId();
             this.shopName = shop.getShopName();
             this.phoneNumber = shop.getPhoneNumber();
@@ -99,7 +89,6 @@ public class ShopRespDto {
             this.closeTime = shop.getCloseTime();
             this.perPrice = shop.getPerPrice();
             this.perHour = shop.getPerHour();
-            this.imageFile = imageFile;
             this.user = shop.getUser();
         }
     }
@@ -115,11 +104,13 @@ public class ShopRespDto {
         private String openTime;
         private String closeTime;
         private String phoneNumber;
+        private MenuDto menu;
         private ImageFileDto imageFile;
         private List<ReviewDto> review;
         private Double scoreAvg;
 
         public ShopDetailRespDto(Shop shop) {
+            this.id = shop.getId();
             this.shopName = shop.getShopName();
             this.address = shop.getAddress();
             this.category = shop.getCategory();
@@ -158,6 +149,22 @@ public class ShopRespDto {
                 this.score = review.getScore();
                 this.content = review.getContent();
             }
+        }
+
+        @Getter
+        public class MenuDto {
+            private String name;
+            private Integer price;
+            private Integer recommanded; // 5 위까지 지정 제한
+            private ImageFileDto imageFile;
+
+            public MenuDto(Menu menu) {
+                this.name = menu.getName();
+                this.price = menu.getPrice();
+                this.recommanded = menu.getRecommanded();
+                this.imageFile = new ImageFileDto(menu.getImageFile());
+            }
+
         }
 
     }

@@ -19,10 +19,8 @@ import site.metacoding.finals.dto.repository.shop.AnalysisDto;
 import site.metacoding.finals.dto.reservation.ReservationReqDto.AnalysisDateReqDto;
 import site.metacoding.finals.dto.reservation.ReservationRespDto.AnalysisWeekRespDto;
 import site.metacoding.finals.dto.shop.ShopReqDto.ShopInfoSaveReqDto;
-import site.metacoding.finals.dto.shop.ShopReqDto.ShopJoinReqDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.ShopDetailRespDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.ShopInfoSaveRespDto;
-import site.metacoding.finals.dto.shop.ShopRespDto.ShopJoinRespDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.ShopListRespDto;
 import site.metacoding.finals.service.ShopService;
 
@@ -35,18 +33,11 @@ public class ShopApiController {
 
     // shop입장에서 이용하는 가게 기능
 
-    @PostMapping("/auth/shop/join")
-    public ResponseEntity<?> joinShopApi(@RequestBody ShopJoinReqDto shopJoinReqDto) {
-        ShopJoinRespDto shopJoinRespDto = shopService.join(shopJoinReqDto);
-        return new ResponseEntity<>(new ResponseDto<>(HttpStatus.CREATED, "가게 회원가입 완료", shopJoinRespDto),
-                HttpStatus.CREATED);
-    }
-
     // shop 한 개 만 만들도록 제한 / respDto LAZY 로딩 안되도록 좀 더 정확히 만들어줘야 함
     @PostMapping(value = "/auth/shop/save")
     public ResponseEntity<?> saveShop(@RequestBody ShopInfoSaveReqDto shopInfoSaveReqDto,
             @AuthenticationPrincipal PrincipalUser principalUser) {
-        ShopInfoSaveRespDto shopInfoSaveRespDto = shopService.information(shopInfoSaveReqDto, principalUser);
+        ShopInfoSaveRespDto shopInfoSaveRespDto = shopService.save(shopInfoSaveReqDto, principalUser);
         return new ResponseEntity<>(new ResponseDto<>(HttpStatus.CREATED, "가게 정보등록 완료", shopInfoSaveRespDto),
                 HttpStatus.CREATED);
     }

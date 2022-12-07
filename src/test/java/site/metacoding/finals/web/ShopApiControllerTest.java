@@ -16,7 +16,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.slf4j.Slf4j;
-import site.metacoding.finals.domain.image_file.ImageFileRepository;
+import site.metacoding.finals.domain.imagefile.ImageFileRepository;
 import site.metacoding.finals.domain.shop.ShopRepository;
 import site.metacoding.finals.dto.reservation.ReservationReqDto.AnalysisDateReqDto;
 import site.metacoding.finals.dummy.DummyEntity;

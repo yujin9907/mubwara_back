@@ -16,8 +16,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import lombok.extern.slf4j.Slf4j;
-import site.metacoding.finals.domain.image_file.ImageFile;
+import site.metacoding.finals.domain.imagefile.ImageFile;
 import site.metacoding.finals.domain.review.Review;
+import site.metacoding.finals.dto.image_file.ImageFileReqDto.ImageHandlerDto;
 
 @Slf4j
 @Component
@@ -47,7 +48,7 @@ public class ImageFileHandler {
 
     // 실제 로직
     // 리뷰, 가게, 메뉴 리팩토링
-    public List<ImageFile> storeFile(List<String> files, Review review) {
+    public List<ImageHandlerDto> storeFile(List<String> files) {
 
         log.debug("이미지 핸들러 진입");
 
@@ -55,7 +56,7 @@ public class ImageFileHandler {
 
         getFolder(fileDir);
 
-        List<ImageFile> images = new ArrayList<>();
+        List<ImageHandlerDto> images = new ArrayList<>();
         String fileName = getUUID() + ".png";
 
         fileBytes.forEach(fileByte -> {
@@ -68,10 +69,7 @@ public class ImageFileHandler {
                 e.printStackTrace();
             }
 
-            images.add(ImageFile.builder()
-                    .storeFilename(fileName)
-                    .review(review)
-                    .build());
+            images.add(new ImageHandlerDto(fileName));
         });
 
         log.debug("이미지 저장 완료");
