@@ -48,7 +48,7 @@ public class SecurityConfig {
         http.authorizeRequests()
                 .antMatchers("/auth/**").authenticated() // .access("hasRole('USER')")
                 .antMatchers("/user/**").hasAuthority("USER")
-                .antMatchers("/shop/**").hasRole("SHOP")
+                .antMatchers("/shop/**").hasAuthority("SHOP")
                 .anyRequest().permitAll();
         // http.logout()
         // .logoutSuccessUrl("/");

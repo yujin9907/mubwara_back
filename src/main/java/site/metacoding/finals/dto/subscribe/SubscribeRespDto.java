@@ -12,13 +12,23 @@ public class SubscribeRespDto {
     @Getter
     public static class SubscribeSaveRespDto {
         private Long id;
-        private Customer customer;
+        private CustomerDto customer;
         private ShopDto shopDto;
 
         public SubscribeSaveRespDto(Subscribe subscribe) {
             this.id = subscribe.getId();
-            this.customer = subscribe.getCustomer();
+            this.customer = new CustomerDto(subscribe.getCustomer());
             this.shopDto = new ShopDto(subscribe.getShop());
+        }
+
+        @Getter
+        public class CustomerDto {
+            private Long id;
+
+            public CustomerDto(Customer customer) {
+                this.id = customer.getId();
+            }
+
         }
 
     }

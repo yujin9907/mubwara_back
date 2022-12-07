@@ -1,19 +1,16 @@
 package site.metacoding.finals.dto.shop;
 
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import lombok.Getter;
 import lombok.Setter;
 import site.metacoding.finals.domain.imagefile.ImageFile;
 import site.metacoding.finals.domain.menu.Menu;
-import site.metacoding.finals.domain.option.Option;
 import site.metacoding.finals.domain.review.Review;
 import site.metacoding.finals.domain.shop.Shop;
 import site.metacoding.finals.domain.user.User;
 import site.metacoding.finals.dto.image_file.ImageFileInnerDto.ImageFileDto;
-import site.metacoding.finals.handler.ImageFileHandler;
 
 public class ShopRespDto {
 
@@ -93,7 +90,7 @@ public class ShopRespDto {
         private String openTime;
         private String closeTime;
         private String phoneNumber;
-        private MenuDto menu;
+        private List<MenuDto> menu;
         private ImageFileDto imageFile;
         private List<ReviewDto> review;
         private Double scoreAvg;
@@ -109,6 +106,11 @@ public class ShopRespDto {
             this.phoneNumber = shop.getPhoneNumber();
             this.imageFile = new ImageFileDto(shop.getImageFile());
             this.review = toReviewList(shop.getReview());
+            this.menu = toMenuList(shop.getMenu());
+        }
+
+        public List<MenuDto> toMenuList(List<Menu> menus) {
+            return menus.stream().map((m) -> new MenuDto(m)).collect(Collectors.toList());
         }
 
         public List<ReviewDto> toReviewList(List<Review> reviews) {

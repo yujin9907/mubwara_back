@@ -1,10 +1,12 @@
 package site.metacoding.finals.web;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.security.test.context.support.TestExecutionEvent;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
@@ -18,6 +20,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import site.metacoding.finals.domain.imagefile.ImageFileRepository;
 import site.metacoding.finals.domain.shop.ShopRepository;
+import site.metacoding.finals.domain.user.User;
 import site.metacoding.finals.dto.reservation.ReservationReqDto.AnalysisDateReqDto;
 import site.metacoding.finals.dummy.DummyEntity;
 
@@ -50,7 +53,13 @@ public class ShopApiControllerTest extends DummyEntity {
     // imageFileRepository.save(imageFile);
     // }
 
-    @WithUserDetails("cos")
+    @BeforeEach
+    public void setUp() {
+        User ssar = newUser("ssar");
+        User cos = newShopUser("cos");
+    }
+
+    @WithUserDetails(value = "cos", setupBefore = TestExecutionEvent.TEST_EXECUTION)
     @Test
     public void 주간통계요청테스트() throws Exception {
         //
@@ -72,7 +81,7 @@ public class ShopApiControllerTest extends DummyEntity {
         resultActions.andExpect(MockMvcResultMatchers.status().isOk());
     }
 
-    @WithUserDetails("cos")
+    @WithUserDetails(value = "cos", setupBefore = TestExecutionEvent.TEST_EXECUTION)
     @Test
     public void 일일통계요청테스트() throws Exception {
         //
@@ -100,7 +109,7 @@ public class ShopApiControllerTest extends DummyEntity {
 
         //
         ResultActions resultActions = mvc.perform(
-                MockMvcRequestBuilders.get("/shop/list")
+                MockMvcRequestBuilders.get("/list")
                         .accept("application/json; charset=utf-8"));
 
         String responseBody = resultActions.andReturn().getResponse().getContentAsString();
@@ -117,7 +126,7 @@ public class ShopApiControllerTest extends DummyEntity {
 
         //
         ResultActions resultActions = mvc.perform(
-                MockMvcRequestBuilders.get("/shop/list/" + name)
+                MockMvcRequestBuilders.get("/list/" + name)
                         .accept("application/json; charset=utf-8"));
 
         String responseBody = resultActions.andReturn().getResponse().getContentAsString();
@@ -134,7 +143,7 @@ public class ShopApiControllerTest extends DummyEntity {
 
         //
         ResultActions resultActions = mvc.perform(
-                MockMvcRequestBuilders.get("/shop/detail/" + shopId)
+                MockMvcRequestBuilders.get("/detail/" + shopId)
                         .accept("application/json; charset=utf-8"));
 
         String responseBody = resultActions.andReturn().getResponse().getContentAsString();

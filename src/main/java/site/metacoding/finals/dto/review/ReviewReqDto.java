@@ -12,6 +12,12 @@ public class ReviewReqDto {
 
     @Setter
     @Getter
+    public static class ReviewDetailRepDto {
+        private Long id;
+    }
+
+    @Setter
+    @Getter
     public static class TestReviewReqDto {
         private int score;
         private String content;

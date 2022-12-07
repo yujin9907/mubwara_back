@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.security.test.context.support.TestExecutionEvent;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
@@ -37,13 +38,13 @@ public class OptionShopApiControllerTest extends DummyEntity {
         @Autowired
         private MockMvc mvc;
 
-        // @BeforeEach
-        // public void setUp() {
-        // User cos = newUser("cos");
-        // }
+        @BeforeEach
+        public void setUp() {
+                User cos = newShopUser("cos");
+        }
 
         @Test
-        @WithUserDetails("cos")
+        @WithUserDetails(value = "cos", setupBefore = TestExecutionEvent.TEST_EXECUTION)
         public void 옵션등록하기테스트() throws Exception {
                 // g
                 OptionSaveReqDto dto = new OptionSaveReqDto();
@@ -54,7 +55,7 @@ public class OptionShopApiControllerTest extends DummyEntity {
                 String body = om.writeValueAsString(dtos);
 
                 // when
-                ResultActions resultActions = mvc.perform(post("/auth/shop/option")
+                ResultActions resultActions = mvc.perform(post("/shop/option")
                                 .content(body)
                                 .contentType("application/json; charset=utf-8")
                                 .accept("application/json; charset=utf-8"));

@@ -99,7 +99,7 @@ public class CustomerApiControllerTest extends DummyEntity {
         String data = om.writeValueAsString(dto);
 
         //
-        ResultActions resultActions = mvc.perform(MockMvcRequestBuilders.put("/auth/user/customer")
+        ResultActions resultActions = mvc.perform(MockMvcRequestBuilders.put("/user/customer")
                 .content(data)
                 .contentType("application/json; charset=utf-8")
                 .accept("application/json; charset=utf-8"));
@@ -117,7 +117,7 @@ public class CustomerApiControllerTest extends DummyEntity {
     public void 회원삭제() throws Exception {
 
         //
-        ResultActions resultActions = mvc.perform(MockMvcRequestBuilders.delete("/auth/user/customer")
+        ResultActions resultActions = mvc.perform(MockMvcRequestBuilders.delete("/user/customer")
                 .accept("application/json; charset=utf-8"));
 
         String responseBody = resultActions.andReturn().getResponse().getContentAsString();
@@ -137,7 +137,7 @@ public class CustomerApiControllerTest extends DummyEntity {
 
         //
         ResultActions resultActions = mvc.perform(
-                MockMvcRequestBuilders.get("/auth/user/mypage/reservation")
+                MockMvcRequestBuilders.get("/user/mypage/reservation")
                         .accept("application/json; charset=utf-8"));
 
         String responseBody = resultActions.andReturn().getResponse().getContentAsString();
@@ -157,7 +157,7 @@ public class CustomerApiControllerTest extends DummyEntity {
 
         //
         ResultActions resultActions = mvc.perform(
-                MockMvcRequestBuilders.get("/auth/user/mypage/subscribe")
+                MockMvcRequestBuilders.get("/user/mypage/subscribe")
                         .accept("application/json; charset=utf-8"));
 
         String responseBody = resultActions.andReturn().getResponse().getContentAsString();
@@ -175,7 +175,7 @@ public class CustomerApiControllerTest extends DummyEntity {
 
         //
         ResultActions resultActions = mvc.perform(
-                MockMvcRequestBuilders.get("/auth/user/mypage/review")
+                MockMvcRequestBuilders.get("/user/mypage/review")
                         .accept("application/json; charset=utf-8"));
 
         String responseBody = resultActions.andReturn().getResponse().getContentAsString();

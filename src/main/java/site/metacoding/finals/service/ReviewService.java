@@ -1,6 +1,8 @@
 package site.metacoding.finals.service;
 
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,11 +22,14 @@ import site.metacoding.finals.domain.shop.ShopRepository;
 import site.metacoding.finals.dto.image_file.ImageFileReqDto;
 import site.metacoding.finals.dto.image_file.ImageFileReqDto.ImageHandlerDto;
 import site.metacoding.finals.dto.review.ReviewReqDto;
+import site.metacoding.finals.dto.review.ReviewReqDto.ReviewDetailRepDto;
 import site.metacoding.finals.dto.review.ReviewReqDto.TestReviewReqDto;
+import site.metacoding.finals.dto.review.ReviewRespDto.ReviewDataRespDto;
 import site.metacoding.finals.dto.review.ReviewRespDto.ReviewSaveRespDto;
 import site.metacoding.finals.handler.ImageFileHandler;
 
 @Slf4j
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Service
 public class ReviewService {
@@ -75,5 +80,18 @@ public class ReviewService {
 
                 return new ReviewSaveRespDto(review);
 
+        }
+
+        public List<ReviewDataRespDto> listReview() {
+                List<Review> reviews = reviewRepository.findAll();
+
+                return reviews.stream().map((r) -> new ReviewDataRespDto(r)).collect(Collectors.toList());
+        }
+
+        public ReviewDataRespDto detailReview(ReviewDetailRepDto repDto) {
+                Review review = reviewRepository.findById(repDto.getId())
+                                .orElseThrow(() -> new RuntimeException("찾을 수 없는 리뷰입니다"));
+
+                return new ReviewDataRespDto(review);
         }
 }
