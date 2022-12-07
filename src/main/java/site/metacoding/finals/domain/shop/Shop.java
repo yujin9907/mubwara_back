@@ -22,6 +22,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import site.metacoding.finals.domain.AutoTime;
+import site.metacoding.finals.domain.commercial.Commercial;
 import site.metacoding.finals.domain.imagefile.ImageFile;
 import site.metacoding.finals.domain.menu.Menu;
 import site.metacoding.finals.domain.review.Review;
@@ -63,12 +64,14 @@ public class Shop extends AutoTime {
     private User user;
 
     @OneToOne(mappedBy = "shop", fetch = FetchType.LAZY)
-    private ImageFile imageFile = new ImageFile(null, null, null, null, null);
+    private ImageFile imageFile = new ImageFile(null, null, null, null, null, null);
     // null 방지 어케?
     @OneToMany(mappedBy = "shop", fetch = FetchType.LAZY)
     private List<Menu> menu;
     @OneToMany(mappedBy = "shop", fetch = FetchType.LAZY)
     private List<Review> review;
+    @OneToOne
+    private Commercial commercial;
 
     @Column
     private boolean isOpened = Boolean.FALSE;

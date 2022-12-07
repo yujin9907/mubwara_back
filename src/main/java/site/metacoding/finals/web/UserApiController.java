@@ -40,8 +40,8 @@ public class UserApiController {
                 HttpStatus.CREATED);
     }
 
-    @GetMapping(value = "/oauth/{serviceName}", headers = "accessToken")
-    public ResponseEntity<?> oauthKakao(@RequestHeader("accessToken") String token, @PathVariable String serviceName,
+    @GetMapping(value = "/oauth/{serviceName}", headers = "access_token")
+    public ResponseEntity<?> oauthKakao(@RequestHeader("access_token") String token, @PathVariable String serviceName,
             HttpServletResponse response) {
 
         System.out.println("디버그 토큰 : " + token);
