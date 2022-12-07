@@ -17,6 +17,15 @@ public class UserService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final UserRepository userRepository;
 
+    @Transactional(readOnly = true)
+    public String checkUsername(String username) {
+        User userPS = userRepository.findByUsername(username);
+        if (userPS == null) {
+            return "ok";
+        }
+        return "중복";
+    }
+
     @Transactional
     public JoinRespDto join(JoinReqDto joinReqDto) {
         String encPassword = bCryptPasswordEncoder.encode(joinReqDto.getPassword());

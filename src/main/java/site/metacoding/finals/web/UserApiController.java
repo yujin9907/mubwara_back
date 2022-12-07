@@ -26,6 +26,13 @@ public class UserApiController {
     private final OauthHandler oauthHandler;
     private final UserService userService;
 
+    @GetMapping("/join/{username}")
+    public ResponseEntity<?> checkSameUsername(@PathVariable String username) {
+        String check = userService.checkUsername(username);
+        return new ResponseEntity<>(new ResponseDto<>(HttpStatus.CREATED, "아이디 중복 체크 여부", check),
+                HttpStatus.OK);
+    }
+
     @PostMapping("/join")
     public ResponseEntity<?> joinShopApi(@RequestBody JoinReqDto joinReqDto) {
         JoinRespDto respDto = userService.join(joinReqDto);

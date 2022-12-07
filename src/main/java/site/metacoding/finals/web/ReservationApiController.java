@@ -55,6 +55,7 @@ public class ReservationApiController {
         return new ResponseEntity<>(new ResponseDto<>(HttpStatus.OK, "예약 가능 시간 조회", respDto), HttpStatus.OK);
     }
 
+    // 자기 아이디로만 저장할 수 있어야 함
     @PostMapping(value = "/user/reservation")
     public ResponseEntity<?> reservationSave(@RequestBody ReservationSaveReqDto dto,
             @AuthenticationPrincipal UserDetails principalUser) {
