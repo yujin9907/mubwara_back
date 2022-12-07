@@ -8,16 +8,21 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import site.metacoding.finals.dto.ResponseDto;
-import site.metacoding.finals.dto.customer.CustomerReqDto.CustomerJoinReqDto;
 import site.metacoding.finals.dto.menu.MenuReqDto.MenuSaveReqDto;
+import site.metacoding.finals.dto.menu.MenuRespDto.MenuSaveRespDto;
+import site.metacoding.finals.service.MenuService;
 
 @RestController
 @RequiredArgsConstructor
 public class MenuApiController {
 
+    private final MenuService menuService;
+
     @PostMapping("/auth/shop/menu")
     public ResponseEntity<?> joinCustomerApi(@RequestBody MenuSaveReqDto menuSaveReqDto) {
 
-        return new ResponseEntity<>(new ResponseDto<>(HttpStatus.CREATED, "메뉴 저장", null), HttpStatus.CREATED);
+        MenuSaveRespDto respDto = menuService.save(menuSaveReqDto);
+
+        return new ResponseEntity<>(new ResponseDto<>(HttpStatus.CREATED, "메뉴 저장", respDto), HttpStatus.CREATED);
     }
 }

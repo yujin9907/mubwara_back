@@ -18,7 +18,7 @@ public interface ShopRepository extends JpaRepository<Shop, Long> {
         List<Shop> findAllList();
 
         @Query("select s from Shop s join fetch s.imageFile where s.id = ?1")
-        Shop findByShopId(@Param("id") Long id);
+        Shop findImageById(@Param("id") Long id);
 
         Optional<Shop> findByUserId(Long userId);
 

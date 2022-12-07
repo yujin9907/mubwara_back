@@ -1,9 +1,11 @@
 package site.metacoding.finals.dto.menu;
 
+import java.util.List;
+
 import lombok.Getter;
 import lombok.Setter;
-import site.metacoding.finals.dto.image_file.ImageFileInnerDto.ImageFileDto;
-import site.metacoding.finals.dto.shop.ShopInnerDto.ShopDto;
+import site.metacoding.finals.domain.menu.Menu;
+import site.metacoding.finals.domain.shop.Shop;
 
 public class MenuReqDto {
 
@@ -14,7 +16,16 @@ public class MenuReqDto {
         private Integer price;
         private Integer recommanded;
         private Long shopId;
-        private String imageFile;
+        private List<String> imageFile;
+
+        public Menu toEntity(Shop shop) {
+            return Menu.builder()
+                    .name(name)
+                    .price(price)
+                    .recommanded(recommanded)
+                    .shop(shop)
+                    .build();
+        }
 
     }
 }
