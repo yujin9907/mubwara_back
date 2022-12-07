@@ -19,8 +19,8 @@ import org.springframework.web.multipart.MultipartFile;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import site.metacoding.finals.config.auth.PrincipalUser;
-import site.metacoding.finals.domain.image_file.ImageFile;
-import site.metacoding.finals.domain.image_file.ImageFileRepository;
+import site.metacoding.finals.domain.imagefile.ImageFile;
+import site.metacoding.finals.domain.imagefile.ImageFileRepository;
 import site.metacoding.finals.domain.option.Option;
 import site.metacoding.finals.domain.option.OptionRepository;
 import site.metacoding.finals.domain.reservation.ReservationRepository;
@@ -30,14 +30,13 @@ import site.metacoding.finals.domain.shop.Shop;
 import site.metacoding.finals.domain.shop.ShopRepository;
 import site.metacoding.finals.domain.user.User;
 import site.metacoding.finals.domain.user.UserRepository;
+import site.metacoding.finals.dto.image_file.ImageFileReqDto.ImageHandlerDto;
 import site.metacoding.finals.dto.repository.shop.AnalysisDto;
 import site.metacoding.finals.dto.reservation.ReservationReqDto.AnalysisDateReqDto;
 import site.metacoding.finals.dto.reservation.ReservationRespDto.AnalysisWeekRespDto;
 import site.metacoding.finals.dto.shop.ShopReqDto.ShopInfoSaveReqDto;
-import site.metacoding.finals.dto.shop.ShopReqDto.ShopJoinReqDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.ShopDetailRespDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.ShopInfoSaveRespDto;
-import site.metacoding.finals.dto.shop.ShopRespDto.ShopJoinRespDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.ShopListRespDto;
 import site.metacoding.finals.handler.ImageFileHandler;
 
@@ -52,36 +51,25 @@ public class ShopService {
 
     private final UserRepository userRepository;
     private final ShopRepository shopRepository;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final ImageFileHandler imageFileHandler;
     private final ImageFileRepository imageFileRepository;
     private final ReservationRepository reservationRepository;
     private final ReviewRepository reviewrRepository;
 
     @Transactional
-    public ShopJoinRespDto join(ShopJoinReqDto shopJoinReqDto) {
-        String encPassword = bCryptPasswordEncoder.encode(shopJoinReqDto.getPassword());
-        shopJoinReqDto.setPassword(encPassword);
-
-        User userPS = userRepository.save(shopJoinReqDto.toUserEntity());
-
-        // userPS값을 바로 return하면 Entity에 영향이 가나?
-        return new ShopJoinRespDto(userPS);
-    }
-
-    @Transactional
-    public ShopInfoSaveRespDto information(ShopInfoSaveReqDto shopInfoSaveReqDto, PrincipalUser principalUser) {
+    public ShopInfoSaveRespDto save(ShopInfoSaveReqDto shopInfoSaveReqDto, PrincipalUser principalUser) {
+        // 검증
 
         // shop information save
-        Shop shopPS = shopRepository.save(shopInfoSaveReqDto.toInfoSaveEntity(principalUser.getUser()));
+        Shop shopPS = shopRepository.save(shopInfoSaveReqDto.toEntity(principalUser.getUser()));
 
         // images save
-        List<ImageFile> images = imageFileHandler.storeFile(shopInfoSaveReqDto.getImage(), null); // 여기 로직 수정
+        List<ImageHandlerDto> images = imageFileHandler.storeFile(shopInfoSaveReqDto.getImage()); // 여기 로직 수정
         images.forEach(image -> {
-            imageFileRepository.save(image);
+            imageFileRepository.save(image.toShopEntity(shopPS));
         });
 
-        return new ShopInfoSaveRespDto(shopPS, images);
+        return new ShopInfoSaveRespDto(shopPS);
     }
 
     public List<AnalysisDto> analysisDate(PrincipalUser principalUser, AnalysisDateReqDto analysisDateReqDto) {

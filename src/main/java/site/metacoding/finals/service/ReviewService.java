@@ -1,6 +1,8 @@
 package site.metacoding.finals.service;
 
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,19 +13,23 @@ import lombok.extern.slf4j.Slf4j;
 import site.metacoding.finals.config.auth.PrincipalUser;
 import site.metacoding.finals.domain.customer.Customer;
 import site.metacoding.finals.domain.customer.CustomerRepository;
-import site.metacoding.finals.domain.image_file.ImageFile;
-import site.metacoding.finals.domain.image_file.ImageFileRepository;
+import site.metacoding.finals.domain.imagefile.ImageFile;
+import site.metacoding.finals.domain.imagefile.ImageFileRepository;
 import site.metacoding.finals.domain.review.Review;
 import site.metacoding.finals.domain.review.ReviewRepository;
 import site.metacoding.finals.domain.shop.Shop;
 import site.metacoding.finals.domain.shop.ShopRepository;
+import site.metacoding.finals.dto.image_file.ImageFileReqDto;
+import site.metacoding.finals.dto.image_file.ImageFileReqDto.ImageHandlerDto;
 import site.metacoding.finals.dto.review.ReviewReqDto;
-import site.metacoding.finals.dto.review.ReviewReqDto.ReviewSaveReqDto;
+import site.metacoding.finals.dto.review.ReviewReqDto.ReviewDetailRepDto;
 import site.metacoding.finals.dto.review.ReviewReqDto.TestReviewReqDto;
+import site.metacoding.finals.dto.review.ReviewRespDto.ReviewDataRespDto;
 import site.metacoding.finals.dto.review.ReviewRespDto.ReviewSaveRespDto;
 import site.metacoding.finals.handler.ImageFileHandler;
 
 @Slf4j
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Service
 public class ReviewService {
@@ -67,12 +73,25 @@ public class ReviewService {
 
                 Review review = reviewRepository.save(dto.toEntity(customerPS, shopPS));
 
-                List<ImageFile> images = imageFileHandler.storeFile(dto.getImage(), review);
-                for (ImageFile img : images) {
-                        imageFileRepository.save(img);
+                List<ImageHandlerDto> images = imageFileHandler.storeFile(dto.getImage());
+                for (ImageHandlerDto img : images) {
+                        imageFileRepository.save(img.toShopEntity(shopPS));
                 }
 
-                return new ReviewSaveRespDto(review, images);
+                return new ReviewSaveRespDto(review);
 
+        }
+
+        public List<ReviewDataRespDto> listReview() {
+                List<Review> reviews = reviewRepository.findAll();
+
+                return reviews.stream().map((r) -> new ReviewDataRespDto(r)).collect(Collectors.toList());
+        }
+
+        public ReviewDataRespDto detailReview(ReviewDetailRepDto repDto) {
+                Review review = reviewRepository.findById(repDto.getId())
+                                .orElseThrow(() -> new RuntimeException("찾을 수 없는 리뷰입니다"));
+
+                return new ReviewDataRespDto(review);
         }
 }

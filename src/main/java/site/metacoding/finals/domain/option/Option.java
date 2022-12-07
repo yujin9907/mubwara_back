@@ -17,7 +17,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import site.metacoding.finals.domain.AutoTime;
-import site.metacoding.finals.domain.image_file.ImageFile;
+import site.metacoding.finals.domain.imagefile.ImageFile;
 import site.metacoding.finals.domain.shop.Shop;
 
 @Getter

@@ -11,22 +11,6 @@ import site.metacoding.finals.domain.user.User;
 
 public class ShopReqDto {
 
-    // 회지DTO
-    @Setter
-    @Getter
-    public static class ShopJoinReqDto {
-        private String username;
-        private String password;
-
-        public User toUserEntity() {
-            return User.builder()
-                    .username(this.username)
-                    .password(this.password)
-                    .role(Role.SHOP)
-                    .build();
-        }
-    }
-
     @Setter
     @Getter
     public static class ShopInfoSaveReqDto {
@@ -41,7 +25,7 @@ public class ShopReqDto {
         private int perHour;
         private List<String> image;
 
-        public Shop toInfoSaveEntity(User user) {
+        public Shop toEntity(User user) {
             return Shop.builder()
                     .shopName(shopName)
                     .phoneNumber(phoneNumber)
@@ -55,15 +39,8 @@ public class ShopReqDto {
                     .user(user)
                     .build();
         }
-
-        // public Option toOptionEntity(String name, Shop shop) {
-        // return Option.builder()
-        // .name(featureName)
-        // .build();
-        // }
     }
 
-    // 유진 Dto
     @Getter
     @Setter
     public static class ShopFilterReqDto {

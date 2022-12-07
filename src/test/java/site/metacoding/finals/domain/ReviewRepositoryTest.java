@@ -16,8 +16,8 @@ import org.springframework.test.context.ActiveProfiles;
 import lombok.extern.slf4j.Slf4j;
 import site.metacoding.finals.domain.customer.Customer;
 import site.metacoding.finals.domain.customer.CustomerRepository;
-import site.metacoding.finals.domain.image_file.ImageFile;
-import site.metacoding.finals.domain.image_file.ImageFileRepository;
+import site.metacoding.finals.domain.imagefile.ImageFile;
+import site.metacoding.finals.domain.imagefile.ImageFileRepository;
 import site.metacoding.finals.domain.reservation.Reservation;
 import site.metacoding.finals.domain.reservation.ReservationRepository;
 import site.metacoding.finals.domain.review.Review;
@@ -96,7 +96,7 @@ public class ReviewRepositoryTest extends DummyEntity {
         em.createNativeQuery("ALTER TABLE users ALTER COLUMN `id` RESTART WITH 1").executeUpdate();
         em.createNativeQuery("ALTER TABLE shop_table ALTER COLUMN `id` RESTART WITH 1").executeUpdate();
         em.createNativeQuery("ALTER TABLE reservation ALTER COLUMN `id` RESTART WITH 1").executeUpdate();
-        em.createNativeQuery("ALTER TABLE imagefile ALTER COLUMN `id` RESTART WITH 1").executeUpdate();
+        em.createNativeQuery("ALTER TABLE image_file ALTER COLUMN `id` RESTART WITH 1").executeUpdate();
         em.createNativeQuery("ALTER TABLE subscribe ALTER COLUMN `id` RESTART WITH 1").executeUpdate();
 
     }

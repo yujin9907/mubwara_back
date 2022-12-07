@@ -16,7 +16,6 @@ import site.metacoding.finals.handler.LoginHandler;
 
 @Configuration
 // @EnableWebSecurity
-// @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 
     @Bean
@@ -36,21 +35,23 @@ public class SecurityConfig {
         http.headers().frameOptions().disable();
         http.csrf().disable(); // 포스트맨 임시
 
+        // http.exceptionHandling().authenticationEntryPoint(
+        // (request, response, authException) -> {
+        // CustomResponseUtil.forbidden(response, "권한없음");
+        // });
+
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .formLogin()
-                // .successHandler(ㅠㅠ)
-                .disable()
+                .formLogin().disable()
                 .httpBasic().disable()
                 .apply(new MyCustomDsl());
-        http
-                .authorizeRequests()
-                .antMatchers("/auth/**").authenticated()
-                .antMatchers("/auth/user/**").access("hasRole('USER')")
-                .antMatchers("/auth/shop/**").access("hasRole('SHOP')")
+        http.authorizeRequests()
+                .antMatchers("/auth/**").authenticated() // .access("hasRole('USER')")
+                .antMatchers("/user/**").hasAuthority("USER")
+                .antMatchers("/shop/**").hasAuthority("SHOP")
                 .anyRequest().permitAll();
-        http.logout()
-                .logoutSuccessUrl("/");
+        // http.logout()
+        // .logoutSuccessUrl("/");
 
         return http.build();
     }

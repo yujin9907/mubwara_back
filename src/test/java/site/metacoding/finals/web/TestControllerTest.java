@@ -2,12 +2,15 @@ package site.metacoding.finals.web;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.security.test.context.support.TestExecutionEvent;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -18,34 +21,31 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import site.metacoding.finals.domain.user.User;
+import site.metacoding.finals.dummy.DummyEntity;
 
 @Slf4j
 @ActiveProfiles("test")
 @AutoConfigureMockMvc
 @RequiredArgsConstructor
 @SpringBootTest(webEnvironment = WebEnvironment.MOCK)
-public class TestControllerTest {
+public class TestControllerTest extends DummyEntity {
 
     @Autowired
     private ObjectMapper om;
     @Autowired
     private MockMvc mvc;
 
+    @BeforeEach
+    public void setUp() {
+        User ssar = newUser("ssar");
+        User cos = newShopUser("cos");
+    }
+
     @Test
     public void 오브젝트메퍼파싱테스트() throws Exception {
         // g
         String jsonData = "{\"id\":1,\"name\":\"첫번째\",\"innerClass\":{\"id\":2,\"name\":\"두번째\"}}";
-
-        // InnerClass innerClass = new InnerClass();
-        // innerClass.setId(2);
-        // innerClass.setName("두번째");
-
-        // jsonObjectMapping jObjectMapping = new jsonObjectMapping();
-        // jObjectMapping.setId(1);
-        // jObjectMapping.setName("첫번째");
-        // jObjectMapping.setInnerClass(innerClass);
-
-        // String omjson = om.writeValueAsString(jObjectMapping);
 
         // when
         ResultActions resultActions = mvc.perform(post("/json/test")
@@ -57,21 +57,6 @@ public class TestControllerTest {
         log.debug(responseBody);
 
         resultActions.andExpect(MockMvcResultMatchers.status().isOk());
-    }
-
-    @WithMockUser("USER")
-    @Test
-    public void 유저정보보기테스트() throws Exception {
-        // given
-
-        // when
-        ResultActions resultActions = mvc.perform(
-                MockMvcRequestBuilders.get("/auth/user/test")
-                        .accept("application/json; charset=utf-8"));
-
-        // then
-        resultActions.andExpect(MockMvcResultMatchers.status().isOk());
-
     }
 
 }

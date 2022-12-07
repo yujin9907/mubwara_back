@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 import site.metacoding.finals.domain.shop.Shop;
 import site.metacoding.finals.domain.shop_table.ShopTable;
+import site.metacoding.finals.dto.shop.ShopInnerDto.ShopDto;
 
 public class ShopTableRespDto {
     // 가게 테이블 저장
@@ -28,17 +29,6 @@ public class ShopTableRespDto {
                 this.shop = new ShopDto(shopTable.getShop());
             }
 
-            @Setter
-            @Getter
-            public static class ShopDto {
-                private Long id;
-                private String shopName;
-
-                public ShopDto(Shop shop) {
-                    this.id = shop.getId();
-                    this.shopName = shop.getShopName();
-                }
-            }
         }
 
         public ShopTableSaveRespDto(List<ShopTable> shopTableList) {
@@ -66,17 +56,6 @@ public class ShopTableRespDto {
                 this.shop = new ShopDto(shopTable.getShop());
             }
 
-            @Setter
-            @Getter
-            public static class ShopDto {
-                private Long id;
-                private String shopName;
-
-                public ShopDto(Shop shop) {
-                    this.id = shop.getId();
-                    this.shopName = shop.getShopName();
-                }
-            }
         }
 
         public AllShopTableRespDto(List<ShopTable> shopTableList) {

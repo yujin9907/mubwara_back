@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import site.metacoding.finals.domain.user.User;
 
 @Getter

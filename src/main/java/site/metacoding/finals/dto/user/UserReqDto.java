@@ -3,6 +3,7 @@ package site.metacoding.finals.dto.user;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import site.metacoding.finals.config.enums.Role;
 import site.metacoding.finals.domain.user.User;
 
 public class UserReqDto {
@@ -44,7 +45,15 @@ public class UserReqDto {
     public static class JoinReqDto {
         private String username;
         private String password;
-        private String Role;
+
+        public User toEntity() {
+            return User.builder()
+                    .username(username)
+                    .password(password)
+                    .role(Role.SHOP)
+                    .isDeleted(Boolean.FALSE)
+                    .build();
+        }
     }
 
     @NoArgsConstructor // 테스트 용도

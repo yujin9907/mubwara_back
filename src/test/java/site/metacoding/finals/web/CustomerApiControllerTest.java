@@ -4,11 +4,14 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 
 import javax.persistence.EntityManager;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.security.test.context.support.TestExecutionEvent;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
@@ -20,6 +23,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.slf4j.Slf4j;
+import site.metacoding.finals.domain.user.User;
 import site.metacoding.finals.dto.customer.CustomerReqDto.CustomerJoinReqDto;
 import site.metacoding.finals.dto.customer.CustomerReqDto.CustomerUpdateReqDto;
 import site.metacoding.finals.dummy.DummyEntity;
@@ -53,33 +57,10 @@ public class CustomerApiControllerTest extends DummyEntity {
     // @Autowired
     // private SubscribeRepository subscribeRepository;
 
-    // @BeforeEach
-    // public void setUp() {
-    // User user = newUser("ssar");
-    // userRepository.save(user);
-    // Customer customer = newCustomer(user);
-    // customerRepository.save(customer);
-
-    // Shop shop = newShop("가게1", "1", "한식");
-    // Shop shop2 = newShop("가게2", "2", "일식");
-    // shopRepository.save(shop);
-    // shopRepository.save(shop2);
-
-    // ShopTable shopTable = newShopTable(shop);
-    // shopTableRepository.save(shopTable);
-    // Reservation reservation = newReservation(customer, shopTable);
-    // reservationRepository.save(reservation);
-
-    // ImageFile imageFile = newShopImageFile(shop);
-    // imageFileRepository.save(imageFile);
-
-    // Subscribe subscribe = newSubscribe(customer, shop2);
-    // subscribeRepository.save(subscribe);
-    // em.persist(imageFile);
-    // em.persist(shop);
-    // em.flush();
-    // em.clear();
-    // }
+    @BeforeEach
+    public void setUp() {
+        User ssar = newUser("ssar");
+    }
 
     @Test
     public void 커스터머회원가입() throws Exception {
@@ -107,6 +88,7 @@ public class CustomerApiControllerTest extends DummyEntity {
 
     }
 
+    @WithUserDetails(value = "ssar", setupBefore = TestExecutionEvent.TEST_EXECUTION)
     @Test
     public void 회원정보업데이트() throws Exception {
         Long id = 1L;
@@ -117,7 +99,7 @@ public class CustomerApiControllerTest extends DummyEntity {
         String data = om.writeValueAsString(dto);
 
         //
-        ResultActions resultActions = mvc.perform(MockMvcRequestBuilders.put("/customer/" + id)
+        ResultActions resultActions = mvc.perform(MockMvcRequestBuilders.put("/user/customer")
                 .content(data)
                 .contentType("application/json; charset=utf-8")
                 .accept("application/json; charset=utf-8"));
@@ -135,7 +117,7 @@ public class CustomerApiControllerTest extends DummyEntity {
     public void 회원삭제() throws Exception {
 
         //
-        ResultActions resultActions = mvc.perform(MockMvcRequestBuilders.delete("/auth/user/customer")
+        ResultActions resultActions = mvc.perform(MockMvcRequestBuilders.delete("/user/customer")
                 .accept("application/json; charset=utf-8"));
 
         String responseBody = resultActions.andReturn().getResponse().getContentAsString();
@@ -146,6 +128,7 @@ public class CustomerApiControllerTest extends DummyEntity {
 
     }
 
+    @WithUserDetails(value = "ssar", setupBefore = TestExecutionEvent.TEST_EXECUTION)
     @Test
     public void 마이페이지예약목록() throws Exception {
         // 지연로딩할 때 터짐 근데 조인 컬럼 필요 없어서 jsonignore 달아서 처리함
@@ -154,7 +137,7 @@ public class CustomerApiControllerTest extends DummyEntity {
 
         //
         ResultActions resultActions = mvc.perform(
-                MockMvcRequestBuilders.get("/customer/mypage/reservation/" + id)
+                MockMvcRequestBuilders.get("/user/mypage/reservation")
                         .accept("application/json; charset=utf-8"));
 
         String responseBody = resultActions.andReturn().getResponse().getContentAsString();
@@ -164,6 +147,7 @@ public class CustomerApiControllerTest extends DummyEntity {
         resultActions.andExpect(MockMvcResultMatchers.status().isOk());
     }
 
+    @WithUserDetails("ssar")
     @Test
     public void 마이페이지구독목록() throws Exception {
         //
@@ -173,7 +157,7 @@ public class CustomerApiControllerTest extends DummyEntity {
 
         //
         ResultActions resultActions = mvc.perform(
-                MockMvcRequestBuilders.get("/customer/mypage/subscribe/" + id)
+                MockMvcRequestBuilders.get("/user/mypage/subscribe")
                         .accept("application/json; charset=utf-8"));
 
         String responseBody = resultActions.andReturn().getResponse().getContentAsString();
@@ -183,6 +167,7 @@ public class CustomerApiControllerTest extends DummyEntity {
         resultActions.andExpect(MockMvcResultMatchers.status().isOk());
     }
 
+    @WithUserDetails("ssar")
     @Test
     public void 마이페이지리뷰목록() throws Exception {
         //
@@ -190,7 +175,7 @@ public class CustomerApiControllerTest extends DummyEntity {
 
         //
         ResultActions resultActions = mvc.perform(
-                MockMvcRequestBuilders.get("/customer/mypage/review/" + id)
+                MockMvcRequestBuilders.get("/user/mypage/review")
                         .accept("application/json; charset=utf-8"));
 
         String responseBody = resultActions.andReturn().getResponse().getContentAsString();

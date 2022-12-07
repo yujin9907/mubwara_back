@@ -55,7 +55,7 @@ public class ReservationApiController {
         return new ResponseEntity<>(new ResponseDto<>(HttpStatus.OK, "예약 가능 시간 조회", respDto), HttpStatus.OK);
     }
 
-    @PostMapping(value = "/reservation")
+    @PostMapping(value = "/user/reservation")
     public ResponseEntity<?> reservationSave(@RequestBody ReservationSaveReqDto dto,
             @AuthenticationPrincipal UserDetails principalUser) {
         // 이거 왜 디테일유저로 해야 ㅇ릭냐 좆같네 - 테스트에서

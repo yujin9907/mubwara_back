@@ -22,7 +22,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import site.metacoding.finals.domain.AutoTime;
-import site.metacoding.finals.domain.image_file.ImageFile;
+import site.metacoding.finals.domain.imagefile.ImageFile;
+import site.metacoding.finals.domain.menu.Menu;
 import site.metacoding.finals.domain.review.Review;
 import site.metacoding.finals.domain.user.User;
 
@@ -64,7 +65,8 @@ public class Shop extends AutoTime {
     @OneToOne(mappedBy = "shop", fetch = FetchType.LAZY)
     private ImageFile imageFile = new ImageFile(null, null, null, null, null);
     // null 방지 어케?
-
+    @OneToMany(mappedBy = "shop", fetch = FetchType.LAZY)
+    private List<Menu> menu;
     @OneToMany(mappedBy = "shop", fetch = FetchType.LAZY)
     private List<Review> review;
 

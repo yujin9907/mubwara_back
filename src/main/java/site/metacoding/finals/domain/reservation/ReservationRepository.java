@@ -2,6 +2,7 @@ package site.metacoding.finals.domain.reservation;
 
 import java.util.List;
 
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -13,6 +14,8 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long>,
         @Query("select r from Reservation r join fetch r.customer left join ShopTable st on r.shopTable = st left join Shop s on st.shop = s where s.id = :shopId")
         List<Reservation> findCustomerByShopId(@Param("shopId") Long shopId);
 
+        @EntityGraph(attributePaths = "customer")
+        @Query("select r from Reservation r where r.customer=customer")
         List<Reservation> findByCustomerId(Long customerId);
 
         @Query(value = "select r.* from reservation r"

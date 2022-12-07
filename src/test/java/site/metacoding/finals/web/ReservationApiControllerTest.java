@@ -2,11 +2,13 @@ package site.metacoding.finals.web;
 
 import java.util.List;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.security.test.context.support.TestExecutionEvent;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.ActiveProfiles;
@@ -22,15 +24,17 @@ import lombok.extern.slf4j.Slf4j;
 import site.metacoding.finals.domain.reservation.ReservationRepository;
 import site.metacoding.finals.domain.shop.Shop;
 import site.metacoding.finals.domain.shop.ShopRepository;
+import site.metacoding.finals.domain.user.User;
 import site.metacoding.finals.dto.reservation.ReservationReqDto.ReservationSaveReqDto;
 import site.metacoding.finals.dto.reservation.ReservationReqDto.ReservationSelectReqDto;
+import site.metacoding.finals.dummy.DummyEntity;
 
 @Sql("classpath:sql/dml.sql")
 @Slf4j
 @ActiveProfiles("test")
 @AutoConfigureMockMvc
 @SpringBootTest(webEnvironment = WebEnvironment.MOCK)
-public class ReservationApiControllerTest {
+public class ReservationApiControllerTest extends DummyEntity {
 
     @Autowired
     private ObjectMapper om;
@@ -39,6 +43,12 @@ public class ReservationApiControllerTest {
 
     @Autowired
     private ShopRepository shopRepository;
+
+    @BeforeEach
+    public void setUp() {
+        User ssar = newUser("ssar");
+        User cos = newShopUser("cos");
+    }
 
     @Test
     public void 테이블목록조회테스트() throws Exception {
@@ -92,7 +102,7 @@ public class ReservationApiControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "ssar", roles = "USER")
+    @WithUserDetails(value = "ssar", setupBefore = TestExecutionEvent.TEST_EXECUTION)
     public void 예약저장하기테스트() throws Exception {
         // g
         ReservationSaveReqDto dto = new ReservationSaveReqDto();
@@ -103,7 +113,7 @@ public class ReservationApiControllerTest {
         String body = om.writeValueAsString(dto);
 
         // when
-        ResultActions resultActions = mvc.perform(MockMvcRequestBuilders.post("/reservation")
+        ResultActions resultActions = mvc.perform(MockMvcRequestBuilders.post("/user/reservation")
                 .content(body)
                 .contentType("application/json; charset=utf-8")
                 .accept("application/json; charset=utf-8"));
@@ -117,7 +127,7 @@ public class ReservationApiControllerTest {
     }
 
     @Test
-    @WithUserDetails("cos")
+    @WithUserDetails(value = "cos", setupBefore = TestExecutionEvent.TEST_EXECUTION)
     public void 예약커스터머전체목록보기() throws Exception {
         //
 

@@ -1,17 +1,16 @@
 package site.metacoding.finals.dto.shop;
 
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import lombok.Getter;
 import lombok.Setter;
-import site.metacoding.finals.domain.image_file.ImageFile;
-import site.metacoding.finals.domain.option.Option;
+import site.metacoding.finals.domain.imagefile.ImageFile;
+import site.metacoding.finals.domain.menu.Menu;
 import site.metacoding.finals.domain.review.Review;
 import site.metacoding.finals.domain.shop.Shop;
 import site.metacoding.finals.domain.user.User;
-import site.metacoding.finals.handler.ImageFileHandler;
+import site.metacoding.finals.dto.image_file.ImageFileInnerDto.ImageFileDto;
 
 public class ShopRespDto {
 
@@ -30,6 +29,7 @@ public class ShopRespDto {
         private Double scoreAvg;
 
         public ShopListRespDto(Shop shop) {
+            this.id = shop.getId();
             this.shopName = shop.getShopName();
             this.address = shop.getAddress();
             this.category = shop.getCategory();
@@ -40,18 +40,6 @@ public class ShopRespDto {
             this.imageFileDto = new ImageFileDto(shop.getImageFile());
         }
 
-        @Getter
-        public class ImageFileDto {
-            private long id;
-            private String image;
-
-            public ImageFileDto(ImageFile imageFile) {
-                this.id = imageFile.getId();
-                this.image = ImageFileHandler.encodingFile(imageFile.getStoreFilename());
-            }
-
-        }
-
     }
 
     @Setter
@@ -59,16 +47,6 @@ public class ShopRespDto {
     public static class ShopReservaitonListRespDto {
         private Shop shop;
         private ImageFile imageFile;
-    }
-
-    @Setter
-    @Getter
-    public static class ShopJoinRespDto {
-        private User user;
-
-        public ShopJoinRespDto(User user) {
-            this.user = user;
-        }
     }
 
     @Setter
@@ -84,11 +62,9 @@ public class ShopRespDto {
         private String closeTime;
         private int perPrice;
         private int perHour;
-        private List<Option> featureList;
-        private List<ImageFile> imageFile;
         private User user;
 
-        public ShopInfoSaveRespDto(Shop shop, List<ImageFile> imageFile) {
+        public ShopInfoSaveRespDto(Shop shop) {
             this.id = shop.getId();
             this.shopName = shop.getShopName();
             this.phoneNumber = shop.getPhoneNumber();
@@ -99,7 +75,6 @@ public class ShopRespDto {
             this.closeTime = shop.getCloseTime();
             this.perPrice = shop.getPerPrice();
             this.perHour = shop.getPerHour();
-            this.imageFile = imageFile;
             this.user = shop.getUser();
         }
     }
@@ -115,11 +90,13 @@ public class ShopRespDto {
         private String openTime;
         private String closeTime;
         private String phoneNumber;
+        private List<MenuDto> menu;
         private ImageFileDto imageFile;
         private List<ReviewDto> review;
         private Double scoreAvg;
 
         public ShopDetailRespDto(Shop shop) {
+            this.id = shop.getId();
             this.shopName = shop.getShopName();
             this.address = shop.getAddress();
             this.category = shop.getCategory();
@@ -129,22 +106,15 @@ public class ShopRespDto {
             this.phoneNumber = shop.getPhoneNumber();
             this.imageFile = new ImageFileDto(shop.getImageFile());
             this.review = toReviewList(shop.getReview());
+            this.menu = toMenuList(shop.getMenu());
+        }
+
+        public List<MenuDto> toMenuList(List<Menu> menus) {
+            return menus.stream().map((m) -> new MenuDto(m)).collect(Collectors.toList());
         }
 
         public List<ReviewDto> toReviewList(List<Review> reviews) {
             return reviews.stream().map((r) -> new ReviewDto(r)).collect(Collectors.toList());
-        }
-
-        @Getter
-        public class ImageFileDto {
-            private long id;
-            private String image;
-
-            public ImageFileDto(ImageFile imageFile) {
-                this.id = imageFile.getId();
-                this.image = ImageFileHandler.encodingFile(imageFile.getStoreFilename());
-            }
-
         }
 
         @Getter
@@ -158,6 +128,22 @@ public class ShopRespDto {
                 this.score = review.getScore();
                 this.content = review.getContent();
             }
+        }
+
+        @Getter
+        public class MenuDto {
+            private String name;
+            private Integer price;
+            private Integer recommanded; // 5 위까지 지정 제한
+            private ImageFileDto imageFile;
+
+            public MenuDto(Menu menu) {
+                this.name = menu.getName();
+                this.price = menu.getPrice();
+                this.recommanded = menu.getRecommanded();
+                this.imageFile = new ImageFileDto(menu.getImageFile());
+            }
+
         }
 
     }

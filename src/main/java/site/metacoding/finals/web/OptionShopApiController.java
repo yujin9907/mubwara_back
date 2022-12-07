@@ -22,7 +22,7 @@ public class OptionShopApiController {
 
     private final OptionShopService optionShopService;
 
-    @PostMapping("/option")
+    @PostMapping("/shop/option")
     public ResponseEntity<?> CustomerMypageReviewApi(@RequestBody List<OptionSaveReqDto> reqDto,
             @AuthenticationPrincipal PrincipalUser principalUser) {
         List<OptionSaveRepsDto> repsDtos = optionShopService.saveOption(reqDto, principalUser);

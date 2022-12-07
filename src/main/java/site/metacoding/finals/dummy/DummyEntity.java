@@ -2,7 +2,7 @@ package site.metacoding.finals.dummy;
 
 import site.metacoding.finals.config.enums.Role;
 import site.metacoding.finals.domain.customer.Customer;
-import site.metacoding.finals.domain.image_file.ImageFile;
+import site.metacoding.finals.domain.imagefile.ImageFile;
 import site.metacoding.finals.domain.reservation.Reservation;
 import site.metacoding.finals.domain.review.Review;
 import site.metacoding.finals.domain.shop.Shop;
@@ -18,8 +18,17 @@ public abstract class DummyEntity {
     protected User newUser(String username) {
         return User.builder()
                 .username(username)
-                .password("123")
+                .password("$2a$10$sPyqasyfpVYeHDVrtRcXKelXutSQobLuWzf32BXmQvnLTMbddkIwy")
                 .role(Role.USER)
+                .isDeleted(Boolean.FALSE)
+                .build();
+    }
+
+    protected User newShopUser(String username) {
+        return User.builder()
+                .username(username)
+                .password("$2a$10$sPyqasyfpVYeHDVrtRcXKelXutSQobLuWzf32BXmQvnLTMbddkIwy")
+                .role(Role.SHOP)
                 .isDeleted(Boolean.FALSE)
                 .build();
     }
