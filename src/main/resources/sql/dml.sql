@@ -1,7 +1,7 @@
 -- 테스트 : 필요시 더미데이터 생성
 SET REFERENTIAL_INTEGRITY FALSE;
 truncate table customer;
-truncate table imagefile;
+truncate table image_file;
 truncate table menu;
 truncate table reservation;
 truncate table review;
@@ -18,7 +18,7 @@ insert into users(username, password, role, is_deleted, created_at) values ('cos
 insert into shop(category, address, close_time, information, open_time, per_hour, per_price, phone_number, shop_name, user_id, is_opened, created_at)
 values ('한식', '가게주소', '22', '소개', '10', '1', '10000', '01011113333', '가게', 2, 1, now());
 
-insert into imagefile(store_filename, shop_id, created_at) values('498e8a11-1048-429c-ad13-b1b51fd714b7.png', 1, now());
+insert into image_file(store_filename, shop_id, created_at) values('498e8a11-1048-429c-ad13-b1b51fd714b7.png', 1, now());
 
 
 insert into customer(address, name, phone_number, user_id, is_deleted, created_at)
