@@ -19,43 +19,14 @@ public class ReviewRespDto {
         private int score;
         private String content;
         private Customer customer;
-        private ShopDto shopDto;
+        private Long shopId;
 
         public ReviewSaveRespDto(Review review) {
             this.id = review.getId();
             this.score = review.getScore();
             this.content = review.getContent();
             this.customer = review.getCustomer();
-            this.shopDto = new ShopDto(review.getShop());
-        }
-
-        @Getter
-        public class ShopDto {
-            private String shopName;
-            private String address;
-            private String category;
-            private String information;
-            // private ImageFileDto imageFileDto;
-
-            public ShopDto(Shop shop) {
-                this.shopName = shop.getShopName();
-                this.address = shop.getAddress();
-                this.category = shop.getCategory();
-                this.information = shop.getInformation();
-                // this.imageFileDto = new ImageFileDto(shop.getImageFile());
-            }
-
-            // @Getter
-            // public class ImageFileDto {
-            // private long id;
-            // // private String storeFilename;
-
-            // public ImageFileDto(ImageFile imageFile) {
-            // this.id = imageFile.getId();
-            // this.storeFilename = imageFile.getStoreFilename();
-            // }
-
-            // }
+            this.shopId = review.getShop().getId();
         }
     }
 }

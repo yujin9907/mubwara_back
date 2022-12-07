@@ -16,6 +16,9 @@ import site.metacoding.finals.domain.reservation.Reservation;
 import site.metacoding.finals.domain.review.Review;
 import site.metacoding.finals.domain.shop.Shop;
 import site.metacoding.finals.domain.user.User;
+import site.metacoding.finals.dto.image_file.ImageFileInnerDto.ImageFileDto;
+import site.metacoding.finals.dto.shop.ShopInnerDto.ShopDto;
+import site.metacoding.finals.dto.shop.ShopInnerDto.ShopImageDto;
 import site.metacoding.finals.handler.ImageFileHandler;
 
 public class CustomerRespDto {
@@ -47,7 +50,6 @@ public class CustomerRespDto {
         private String name;
         private String phoneNumber;
         private String address;
-        @JsonIgnore
         private User user;
 
         public CustomerUpdateRespDto(Customer customer) {
@@ -64,51 +66,18 @@ public class CustomerRespDto {
     public static class CustomerMyPageReservationRespDto {
         private String reservationTime;
         private String resrevationDate;
-        private Shop shop;
+        private ShopImageDto shop;
 
         public CustomerMyPageReservationRespDto(Reservation reservation, Shop shop) {
             this.reservationTime = reservation.getReservationTime();
             this.resrevationDate = reservation.getReservationDate();
-            this.shop = shop;
+            this.shop = new ShopImageDto(shop);
         }
 
         public CustomerMyPageReservationRespDto(List<Reservation> reservation, Shop shop) {
             reservation.stream().map((r) -> new CustomerMyPageReservationRespDto(r, shop)).collect(Collectors.toList());
         }
 
-        // public class ReservationDto {
-        // private String reservationTime;
-        // private String resrevationDate;
-
-        // public ReservationDto(Reservation reservation) {
-        // this.reservationTime = reservation.getReservationTime();
-        // this.resrevationDate = reservation.getReservationDate();
-        // }
-
-        // } // public class ReservationDto {
-        // private String reservationTime;
-        // private String resrevationDate;
-
-        // public ReservationDto(Reservation reservation) {
-        // this.reservationTime = reservation.getReservationTime();
-        // this.resrevationDate = reservation.getReservationDate();
-        // }
-
-        // }
-
-        public class ShopDto {
-            private String shopName;
-            private String category;
-            private String address;
-            private ImageFile imageFile;
-
-            public ShopDto(Shop shop) {
-                shopName = shop.getShopName();
-                category = shop.getCategory();
-                address = shop.getAddress();
-                imageFile = shop.getImageFile();
-            }
-        }
     }
 
     @AllArgsConstructor
@@ -120,8 +89,6 @@ public class CustomerRespDto {
         private String Address;
         private String Category;
         private String StoreFilename;
-        // private String ReservationDate;
-        // private String ReservationTime;
 
         public CustomerMyPageSubscribeRespDto(Shop shop) {
             shopId = shop.getId();
@@ -150,29 +117,6 @@ public class CustomerRespDto {
             this.imagefile = review.getImageFiles().stream().map((i) -> new ImageFileDto(i))
                     .collect(Collectors.toList());
             this.shop = new ShopDto(review.getShop());
-        }
-
-        @Getter
-        public class ShopDto {
-            private Long id;
-            private String shopName;
-
-            public ShopDto(Shop shop) {
-                this.id = shop.getId();
-                this.shopName = shop.getShopName();
-            }
-        }
-
-        @Getter
-        public class ImageFileDto {
-            private long id;
-            private String image;
-
-            public ImageFileDto(ImageFile imageFile) {
-                this.id = imageFile.getId();
-                this.image = ImageFileHandler.encodingFile(imageFile.getStoreFilename());
-            }
-
         }
 
     }

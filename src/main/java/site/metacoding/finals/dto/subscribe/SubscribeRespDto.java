@@ -5,6 +5,7 @@ import lombok.Setter;
 import site.metacoding.finals.domain.customer.Customer;
 import site.metacoding.finals.domain.shop.Shop;
 import site.metacoding.finals.domain.subscribe.Subscribe;
+import site.metacoding.finals.dto.shop.ShopInnerDto.ShopDto;
 
 public class SubscribeRespDto {
     @Setter
@@ -20,16 +21,5 @@ public class SubscribeRespDto {
             this.shopDto = new ShopDto(subscribe.getShop());
         }
 
-        @Getter
-        public class ShopDto {
-            private long id;
-            private String shopName;
-
-            public ShopDto(Shop shop) {
-                this.id = shop.getId();
-                this.shopName = shop.getShopName();
-            }
-
-        }
     }
 }

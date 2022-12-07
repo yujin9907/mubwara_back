@@ -12,6 +12,7 @@ import site.metacoding.finals.domain.option.Option;
 import site.metacoding.finals.domain.review.Review;
 import site.metacoding.finals.domain.shop.Shop;
 import site.metacoding.finals.domain.user.User;
+import site.metacoding.finals.dto.image_file.ImageFileInnerDto.ImageFileDto;
 import site.metacoding.finals.handler.ImageFileHandler;
 
 public class ShopRespDto {
@@ -40,18 +41,6 @@ public class ShopRespDto {
             this.closeTime = shop.getCloseTime();
             this.phoneNumber = shop.getPhoneNumber();
             this.imageFileDto = new ImageFileDto(shop.getImageFile());
-        }
-
-        @Getter
-        public class ImageFileDto {
-            private long id;
-            private String image;
-
-            public ImageFileDto(ImageFile imageFile) {
-                this.id = imageFile.getId();
-                this.image = ImageFileHandler.encodingFile(imageFile.getStoreFilename());
-            }
-
         }
 
     }
@@ -124,18 +113,6 @@ public class ShopRespDto {
 
         public List<ReviewDto> toReviewList(List<Review> reviews) {
             return reviews.stream().map((r) -> new ReviewDto(r)).collect(Collectors.toList());
-        }
-
-        @Getter
-        public class ImageFileDto {
-            private long id;
-            private String image;
-
-            public ImageFileDto(ImageFile imageFile) {
-                this.id = imageFile.getId();
-                this.image = ImageFileHandler.encodingFile(imageFile.getStoreFilename());
-            }
-
         }
 
         @Getter

@@ -5,6 +5,7 @@ import lombok.Setter;
 import site.metacoding.finals.domain.option.Option;
 import site.metacoding.finals.domain.option_shop.OptionShop;
 import site.metacoding.finals.domain.shop.Shop;
+import site.metacoding.finals.dto.shop.ShopInnerDto.ShopDto;
 
 public class OptionRespDto {
     @Setter
@@ -18,17 +19,6 @@ public class OptionRespDto {
             this.id = optionShop.getId();
             this.shop = new ShopDto(optionShop.getShop());
             this.option = new OptionDto(optionShop.getOption());
-        }
-
-        @Getter
-        public class ShopDto {
-            private Long id;
-            private String shopName;
-
-            public ShopDto(Shop shop) {
-                this.id = shop.getId();
-                this.shopName = shop.getShopName();
-            }
         }
 
         @Getter

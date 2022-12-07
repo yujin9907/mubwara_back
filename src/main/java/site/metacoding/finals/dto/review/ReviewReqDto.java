@@ -28,21 +28,21 @@ public class ReviewReqDto {
         }
     }
 
-    @Getter
-    @Setter
-    public static class ReviewSaveReqDto {
-        private int score;
-        private String content;
-        private String image;
-        private Long shopId;
+    // @Getter
+    // @Setter
+    // public static class ReviewSaveReqDto {
+    // private int score;
+    // private String content;
+    // private String image;
+    // private Long shopId;
 
-        public Review toEntity(Customer customer, Shop shop) {
-            return Review.builder()
-                    .content(this.content)
-                    .score(this.score)
-                    .customer(customer)
-                    .shop(shop)
-                    .build();
-        }
-    }
+    // public Review toEntity(Customer customer, Shop shop) {
+    // return Review.builder()
+    // .content(this.content)
+    // .score(this.score)
+    // .customer(customer)
+    // .shop(shop)
+    // .build();
+    // }
+    // }
 }
