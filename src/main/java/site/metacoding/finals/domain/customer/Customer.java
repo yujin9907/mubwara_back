@@ -57,7 +57,7 @@ public class Customer extends AutoTime {
     private User user;
 
     // @ColumnDefault("false")
-    @Column(name = "is_deleted", insertable = false) // 이것도 안 먹음 => 인서트할 때 직접 넣어줌
+    @Column(name = "is_deleted") // 이것도 안 먹음 => 인서트할 때 직접 넣어줌
     private Boolean isDeleted;
 
     // @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)

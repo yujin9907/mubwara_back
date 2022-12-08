@@ -22,8 +22,9 @@ public class CommercialService {
     public List<CommercialListRespDto> listCommercial() {
         List<Commercial> commercials = commercialRepository.findAll();
         if (commercials.size() == 0) {
-            throw new RuntimeApiException("광고 데이터가 없습니다", HttpStatus.NO_CONTENT);
+            throw new RuntimeApiException("광고가 없습니다.", HttpStatus.NO_CONTENT);
         }
+
         return commercials.stream().map((c) -> new CommercialListRespDto(c)).collect(Collectors.toList());
     }
 

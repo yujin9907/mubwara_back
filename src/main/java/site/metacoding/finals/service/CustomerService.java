@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import site.metacoding.finals.config.auth.PrincipalUser;
+import site.metacoding.finals.config.exception.RuntimeApiException;
 import site.metacoding.finals.domain.customer.Customer;
 import site.metacoding.finals.domain.customer.CustomerRepository;
 import site.metacoding.finals.domain.reservation.Reservation;
@@ -95,26 +97,34 @@ public class CustomerService {
 
     @Transactional(readOnly = true)
     public List<ReservationRepositoryRespDto> myPageReservation(Long id) {
-        List<ReservationRepositoryRespDto> reservationList = shopRespository.findResevationByCustomerId(id);
-        return reservationList;
+        List<ReservationRepositoryRespDto> reservations = shopRespository.findResevationByCustomerId(id);
+        if (reservations.size() == 0) {
+            throw new RuntimeApiException("예약 목록이 없음", HttpStatus.NOT_FOUND);
+        }
+        return reservations;
     }
 
     @Transactional(readOnly = true)
     public List<CustomerMyPageSubscribeRespDto> myPageSubscribe(Long id) {
 
-        List<Shop> shopList = shopRespository.findSubscribeByCustomerId(id);
+        List<Shop> shops = shopRespository.findSubscribeByCustomerId(id);
 
-        log.debug("디버그 : " + shopList.get(0).getShopName());
-        log.debug("디버그 : " + shopList.get(0).getImageFile().getStoreFilename());
+        if (shops.size() == 0) {
+            throw new RuntimeApiException("구독한 가게가 없음", HttpStatus.NOT_FOUND);
+        }
 
         List<CustomerMyPageSubscribeRespDto> respDto = new ArrayList<>();
-        shopList.forEach((s) -> respDto.add(new CustomerMyPageSubscribeRespDto(s)));
+        shops.forEach((s) -> respDto.add(new CustomerMyPageSubscribeRespDto(s)));
         return respDto;
     }
 
     @Transactional(readOnly = true)
     public List<CustomerMyPageReviewRespDto> myPageReview(Long id) {
-        List<Review> reviewList = reviewRepository.findByCustomerId(id);
-        return reviewList.stream().map((r) -> new CustomerMyPageReviewRespDto(r)).collect(Collectors.toList());
+        List<Review> reviews = reviewRepository.findByCustomerId(id);
+        if (reviews.size() == 0) {
+            throw new RuntimeApiException("작성한 리뷰가 없음", HttpStatus.NOT_FOUND);
+        }
+
+        return reviews.stream().map((r) -> new CustomerMyPageReviewRespDto(r)).collect(Collectors.toList());
     }
 }
