@@ -37,6 +37,12 @@ public interface ShopRepository extends JpaRepository<Shop, Long> {
                         "on r4.id=i.shop_id", nativeQuery = true)
         List<ReservationRepositoryRespDto> findResevationByCustomerId(@Param("customerId") Long customerId);
 
+        @Query("select s from Shop s  join fetch s.imageFile " +
+                        "right join Subscribe sb on sb.shop = s " +
+                        "right join Customer c on c = sb.customer " +
+                        "where c.id=?1")
+        List<Shop> findSubscribeByCustomerId(Long id);
+
         @Query(value = "select shop.id shopId, shop.shop_name shopName, shop.address address, shop.category category, r3.reservation_date reservationDate, r3.reservation_time reservationTime from shop "
                         +
                         "right join (select st.shop_id, r2.* from shop_table st " +
@@ -44,11 +50,5 @@ public interface ShopRepository extends JpaRepository<Shop, Long> {
                         "on st.id = r2.shop_table_id) r3 " +
                         "on shop.id=r3.shop_id", nativeQuery = true)
         List<ReservationRepositoryRespDto> findResevationByCustomerIdTEST(@Param("customerId") Long customerId);
-
-        @Query("select s from Shop s  join fetch s.imageFile " +
-                        "right join Subscribe sb on sb.shop = s " +
-                        "right join Customer c on c = sb.customer " +
-                        "where c.id=?1")
-        List<Shop> findSubscribeByCustomerId(Long id);
 
 }

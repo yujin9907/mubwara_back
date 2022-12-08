@@ -57,7 +57,7 @@ public class ReviewApiController {
                                 HttpStatus.OK);
         }
 
-        @PostMapping("/review/{id}")
+        @GetMapping("/review/{id}")
         public ResponseEntity<?> detailReview(@PathVariable("id") Long reviewId) {
                 ReviewDataRespDto respDto = reviewService.detailReview(reviewId);
                 return new ResponseEntity<>(new ResponseDto<>(HttpStatus.OK, "리뷰 상세보기", respDto),

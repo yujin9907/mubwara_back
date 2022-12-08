@@ -70,19 +70,15 @@ public class CustomerService {
 
     @Transactional
     public void delete(PrincipalUser principalUser) {
-        log.debug("디버그 : " + principalUser.getUsername());
-        log.debug("디버그 : " + principalUser.getUser().getId());
-
+        // 검증
         Customer customerPS = customerRepository.findByUserId(principalUser.getUser().getId())
                 .orElseThrow(() -> new RuntimeException("회원 정보 없음"));
 
-        customerRepository.deleteById(customerPS.getId());
+        // 유저 삭제
         userRepository.deleteById(principalUser.getUser().getId());
 
         // 구독 정보는 바로 삭제
-        log.debug("여기ㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣ까지왔음");
         if (subscribeRepository.findByCustomerId(customerPS.getId()) != null) {
-            log.debug("여기까진 왔음?");
             subscribeRepository.deleteByCustomerId(customerPS.getId());
         }
         // 예약 정보는 소프트 딜리트

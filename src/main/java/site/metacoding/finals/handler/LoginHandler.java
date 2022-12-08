@@ -32,7 +32,8 @@ public class LoginHandler implements AuthenticationSuccessHandler, Authenticatio
         ObjectMapper om = new ObjectMapper();
 
         PrincipalUser principal = (PrincipalUser) authentication.getPrincipal();
-        ResponseDto<?> responseDto = new ResponseDto<>(HttpStatus.OK, "로그인 성공", null); // 리스폰스 디티오 만들기
+        ResponseDto<?> responseDto = new ResponseDto<>(HttpStatus.OK, "로그인 성공",
+                principal.getUser().getRole().toString()); // 리스폰스 디티오 만들기
         String responseBody = om.writeValueAsString(responseDto);
 
         response.setContentType("application/json; charset=utf-8");

@@ -16,12 +16,12 @@ public class MenuRespDto {
         private ShopDto shop;
         private Long imageFile;
 
-        public MenuSaveRespDto(Menu menu) {
+        public MenuSaveRespDto(Menu menu, Long ImageId) {
             this.name = menu.getName();
             this.price = menu.getPrice();
             this.recommanded = menu.getRecommanded();
             this.shop = new ShopDto(menu.getShop());
-            this.imageFile = menu.getImageFile().getId();
+            this.imageFile = ImageId;
         }
 
     }

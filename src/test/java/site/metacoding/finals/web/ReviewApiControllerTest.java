@@ -27,7 +27,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.slf4j.Slf4j;
 import site.metacoding.finals.domain.user.User;
-import site.metacoding.finals.dto.review.ReviewReqDto.ReviewDetailRepDto;
 import site.metacoding.finals.dto.review.ReviewReqDto.TestReviewReqDto;
 import site.metacoding.finals.dummy.DummyEntity;
 
@@ -52,14 +51,11 @@ public class ReviewApiControllerTest extends DummyEntity {
         public void 리뷰디테일보기테스트() throws Exception {
 
                 // g
-                ReviewDetailRepDto repDto = new ReviewDetailRepDto();
-                repDto.setId(1L);
-                String body = om.writeValueAsString(repDto);
+                Long id = 1L;
 
                 //
                 ResultActions resultActions = mvc.perform(
-                                post("/review").content(body)
-                                                .contentType("application/json; charset=utf-8")
+                                get("/review/" + id)
                                                 .accept("application/json; charset=utf-8"));
                 String responseBody = resultActions.andReturn().getResponse().getContentAsString();
                 log.debug(responseBody);

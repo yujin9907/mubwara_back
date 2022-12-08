@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import site.metacoding.finals.config.auth.PrincipalUser;
+import site.metacoding.finals.domain.imagefile.ImageFile;
 import site.metacoding.finals.domain.imagefile.ImageFileRepository;
 import site.metacoding.finals.domain.menu.Menu;
 import site.metacoding.finals.domain.menu.MenuRepository;
@@ -26,15 +28,15 @@ public class MenuService {
     private final ImageFileHandler imageFileHandler;
 
     @Transactional
-    public MenuSaveRespDto save(MenuSaveReqDto menuSaveReqDto) {
-        Shop shopPS = shopRepository.findById(menuSaveReqDto.getShopId())
+    public MenuSaveRespDto save(MenuSaveReqDto menuSaveReqDto, PrincipalUser principalUser) {
+        Shop shopPS = shopRepository.findByUserId(principalUser.getUser().getId())
                 .orElseThrow(() -> new RuntimeException("존재하지 않는 가게 입니다"));
 
         Menu menu = menuRepository.save(menuSaveReqDto.toEntity(shopPS));
         List<ImageHandlerDto> imageDto = imageFileHandler.storeFile(menuSaveReqDto.getImageFile());
-        imageFileRepository.save(imageDto.get(0).toMenuEntity(menu));
+        ImageFile imageFile = imageFileRepository.save(imageDto.get(0).toMenuEntity(menu));
 
-        return new MenuSaveRespDto(menu);
+        return new MenuSaveRespDto(menu, imageFile.getId());
 
     }
 }

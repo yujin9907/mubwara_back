@@ -24,7 +24,6 @@ import site.metacoding.finals.domain.shop.ShopRepository;
 import site.metacoding.finals.dto.image_file.ImageFileReqDto;
 import site.metacoding.finals.dto.image_file.ImageFileReqDto.ImageHandlerDto;
 import site.metacoding.finals.dto.review.ReviewReqDto;
-import site.metacoding.finals.dto.review.ReviewReqDto.ReviewDetailRepDto;
 import site.metacoding.finals.dto.review.ReviewReqDto.TestReviewReqDto;
 import site.metacoding.finals.dto.review.ReviewRespDto.ReviewDataRespDto;
 import site.metacoding.finals.dto.review.ReviewRespDto.ReviewSaveRespDto;
