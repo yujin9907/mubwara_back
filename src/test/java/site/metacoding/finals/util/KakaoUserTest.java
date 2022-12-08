@@ -18,9 +18,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -161,17 +158,19 @@ public class KakaoUserTest {
             }
             System.out.println("response body : " + result);
 
-            JsonParser parser = new JsonParser();
-            JsonElement element = parser.parse(result);
+            // JsonParser parser = new JsonParser();
+            // JsonElement element = parser.parse(result);
 
-            JsonObject properties = element.getAsJsonObject().get("properties").getAsJsonObject();
-            JsonObject kakao_account = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
+            // JsonObject properties =
+            // element.getAsJsonObject().get("properties").getAsJsonObject();
+            // JsonObject kakao_account =
+            // element.getAsJsonObject().get("kakao_account").getAsJsonObject();
 
-            String nickname = properties.getAsJsonObject().get("nickname").getAsString();
-            String email = kakao_account.getAsJsonObject().get("email").getAsString();
+            // String nickname = properties.getAsJsonObject().get("nickname").getAsString();
+            // String email = kakao_account.getAsJsonObject().get("email").getAsString();
 
-            userInfo.put("nickname", nickname);
-            userInfo.put("email", email);
+            // userInfo.put("nickname", nickname);
+            // userInfo.put("email", email);
 
         } catch (IOException e) {
             e.printStackTrace();

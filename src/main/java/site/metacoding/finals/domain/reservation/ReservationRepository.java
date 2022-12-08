@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 
 import site.metacoding.finals.dto.repository.shop.AnalysisDto;
 
-public interface ReservationRepository extends JpaRepository<Reservation, Long>, Dao {
+public interface ReservationRepository extends JpaRepository<Reservation, Long> {
 
         @Query("select r from Reservation r join fetch r.customer left join ShopTable st on r.shopTable = st left join Shop s on st.shop = s where s.id = :shopId")
         List<Reservation> findCustomerByShopId(@Param("shopId") Long shopId);

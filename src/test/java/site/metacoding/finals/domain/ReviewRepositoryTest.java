@@ -11,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +20,7 @@ import site.metacoding.finals.domain.customer.CustomerRepository;
 import site.metacoding.finals.domain.imagefile.ImageFile;
 import site.metacoding.finals.domain.imagefile.ImageFileRepository;
 import site.metacoding.finals.domain.reservation.Reservation;
+import site.metacoding.finals.domain.reservation.ReservationQueryRepository;
 import site.metacoding.finals.domain.reservation.ReservationRepository;
 import site.metacoding.finals.domain.review.Review;
 import site.metacoding.finals.domain.review.ReviewRepository;
@@ -32,8 +34,10 @@ import site.metacoding.finals.domain.user.User;
 import site.metacoding.finals.domain.user.UserRepository;
 import site.metacoding.finals.dto.repository.customer.ReservationRepositoryRespDto;
 import site.metacoding.finals.dto.repository.customer.ScoreRespDto;
+import site.metacoding.finals.dto.test.testDto;
 import site.metacoding.finals.dummy.DummyEntity;
 
+@Import(ReservationQueryRepository.class)
 @Slf4j
 @DataJpaTest
 @ActiveProfiles("test")
@@ -58,6 +62,9 @@ public class ReviewRepositoryTest extends DummyEntity {
     private SubscribeRepository subscribeRepository;
     @Autowired
     private ReviewRepository reviewRepository;
+
+    @Autowired
+    private ReservationQueryRepository reservationQueryRepository;
 
     @BeforeEach
     public void setUp() {
@@ -99,6 +106,13 @@ public class ReviewRepositoryTest extends DummyEntity {
         em.createNativeQuery("ALTER TABLE image_file ALTER COLUMN `id` RESTART WITH 1").executeUpdate();
         em.createNativeQuery("ALTER TABLE subscribe ALTER COLUMN `id` RESTART WITH 1").executeUpdate();
 
+    }
+
+    @Test
+    public void qlrm테스트() {
+        List<testDto> t = reservationQueryRepository.findByTest();
+
+        log.debug("디버그 : " + t.get(0).getId());
     }
 
     @Test
