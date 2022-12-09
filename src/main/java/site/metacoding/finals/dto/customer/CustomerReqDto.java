@@ -29,7 +29,7 @@ public class CustomerReqDto {
                     .phoneNumber(this.phoneNumber)
                     .address(this.address)
                     .user(user)
-                    .isDeleted(Boolean.FALSE)
+                    .isDeleted(false)
                     .build();
         }
 
@@ -38,7 +38,7 @@ public class CustomerReqDto {
                     .username(this.username)
                     .password(this.password)
                     .role(Role.USER)
-                    .isDeleted(Boolean.FALSE)
+                    .isDeleted(false)
                     .build();
         }
     }

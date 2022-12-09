@@ -2,10 +2,14 @@ package site.metacoding.finals.service;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import site.metacoding.finals.config.auth.PrincipalUser;
+import site.metacoding.finals.config.exception.RuntimeApiException;
+import site.metacoding.finals.domain.imagefile.ImageFile;
 import site.metacoding.finals.domain.imagefile.ImageFileRepository;
 import site.metacoding.finals.domain.menu.Menu;
 import site.metacoding.finals.domain.menu.MenuRepository;
@@ -26,15 +30,26 @@ public class MenuService {
     private final ImageFileHandler imageFileHandler;
 
     @Transactional
-    public MenuSaveRespDto save(MenuSaveReqDto menuSaveReqDto) {
-        Shop shopPS = shopRepository.findById(menuSaveReqDto.getShopId())
-                .orElseThrow(() -> new RuntimeException("존재하지 않는 가게 입니다"));
+    public MenuSaveRespDto save(MenuSaveReqDto menuSaveReqDto, PrincipalUser principalUser) {
+        Shop shopPS = shopRepository.findByUserId(principalUser.getUser().getId())
+                .orElseThrow(() -> new RuntimeApiException("존재하지 않는 가게 입니다", HttpStatus.NOT_FOUND));
 
         Menu menu = menuRepository.save(menuSaveReqDto.toEntity(shopPS));
         List<ImageHandlerDto> imageDto = imageFileHandler.storeFile(menuSaveReqDto.getImageFile());
-        imageFileRepository.save(imageDto.get(0).toMenuEntity(menu));
+        ImageFile imageFile = imageFileRepository.save(imageDto.get(0).toMenuEntity(menu));
 
-        return new MenuSaveRespDto(menu);
+        return new MenuSaveRespDto(menu, imageFile.getId());
 
+    }
+
+    @Transactional
+    public void delete(Long id, PrincipalUser principalUser) {
+        Shop shopPS = shopRepository.findByUserId(principalUser.getUser().getId())
+                .orElseThrow(() -> new RuntimeApiException("존재하지 않는 가게 입니다", HttpStatus.NOT_FOUND));
+
+        Menu menu = menuRepository.findById(id)
+                .orElseThrow(() -> new RuntimeApiException("존재하지 않는 메뉴입니다.", HttpStatus.NOT_FOUND));
+
+        menuRepository.delete(menu);
     }
 }

@@ -22,6 +22,7 @@ public class OptionShopApiController {
 
     private final OptionShopService optionShopService;
 
+    // 테스트하려면 옵션 데이터가 있어야 됨(관리자 권한)
     @PostMapping("/shop/option")
     public ResponseEntity<?> CustomerMypageReviewApi(@RequestBody List<OptionSaveReqDto> reqDto,
             @AuthenticationPrincipal PrincipalUser principalUser) {

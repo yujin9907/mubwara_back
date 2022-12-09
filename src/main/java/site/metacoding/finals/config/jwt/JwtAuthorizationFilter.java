@@ -32,9 +32,10 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
             String token = request.getHeader("Authorization").replace("Bearer ", "");
             PrincipalUser principalUser = (PrincipalUser) JwtProcess.verify(token);
 
-            System.out.println("필터 : " + principalUser.getUser().getRole());
-            System.out.println("유저 왜 안 됨 : " + principalUser.getUser().getRole().getValue());
-            System.out.println("유저 왜 안 됨 : " + principalUser.getUser().getRole().name());
+            // System.out.println("필터 : " + principalUser.getUser().getRole());
+            // System.out.println("유저 왜 안 됨 : " +
+            // principalUser.getUser().getRole().getValue());
+            // System.out.println("유저 왜 안 됨 : " + principalUser.getUser().getRole().name());
 
             Authentication authentication = new UsernamePasswordAuthenticationToken(principalUser,
                     null, principalUser.getAuthorities());

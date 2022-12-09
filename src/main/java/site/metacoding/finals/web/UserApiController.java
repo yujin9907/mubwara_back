@@ -26,6 +26,13 @@ public class UserApiController {
     private final OauthHandler oauthHandler;
     private final UserService userService;
 
+    @GetMapping("/join/{username}")
+    public ResponseEntity<?> checkSameUsername(@PathVariable String username) {
+        String check = userService.checkUsername(username);
+        return new ResponseEntity<>(new ResponseDto<>(HttpStatus.CREATED, "아이디 중복 체크 여부", check),
+                HttpStatus.OK);
+    }
+
     @PostMapping("/join")
     public ResponseEntity<?> joinShopApi(@RequestBody JoinReqDto joinReqDto) {
         JoinRespDto respDto = userService.join(joinReqDto);
@@ -33,8 +40,8 @@ public class UserApiController {
                 HttpStatus.CREATED);
     }
 
-    @GetMapping(value = "/oauth/{serviceName}", headers = "accessToken")
-    public ResponseEntity<?> oauthKakao(@RequestHeader("accessToken") String token, @PathVariable String serviceName,
+    @GetMapping(value = "/oauth/{serviceName}", headers = "access_token")
+    public ResponseEntity<?> oauthKakao(@RequestHeader("access_token") String token, @PathVariable String serviceName,
             HttpServletResponse response) {
 
         System.out.println("디버그 토큰 : " + token);

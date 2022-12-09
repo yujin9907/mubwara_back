@@ -1,5 +1,6 @@
 package site.metacoding.finals.domain.user;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -7,6 +8,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.ColumnDefault;
@@ -22,9 +24,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import site.metacoding.finals.config.enums.Role;
 import site.metacoding.finals.domain.AutoTime;
+import site.metacoding.finals.domain.customer.Customer;
+import site.metacoding.finals.domain.shop.Shop;
 
 @DynamicInsert
-@SQLDelete(sql = "UPDATE customer SET is_deleted = true WHERE id = ?")
+@SQLDelete(sql = "UPDATE users SET is_deleted = true WHERE id = ?")
 @Where(clause = "is_deleted = false")
 @Builder
 @AllArgsConstructor
@@ -46,5 +50,10 @@ public class User extends AutoTime {
 
     @Column(name = "is_deleted")
     private Boolean isDeleted; // 디폴트 설정값
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private Customer customer;
+    @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private Shop shop;
 
 }

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -11,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import site.metacoding.finals.config.auth.PrincipalUser;
+import site.metacoding.finals.config.exception.RuntimeApiException;
 import site.metacoding.finals.domain.customer.Customer;
 import site.metacoding.finals.domain.customer.CustomerRepository;
 import site.metacoding.finals.domain.imagefile.ImageFile;
@@ -22,7 +24,6 @@ import site.metacoding.finals.domain.shop.ShopRepository;
 import site.metacoding.finals.dto.image_file.ImageFileReqDto;
 import site.metacoding.finals.dto.image_file.ImageFileReqDto.ImageHandlerDto;
 import site.metacoding.finals.dto.review.ReviewReqDto;
-import site.metacoding.finals.dto.review.ReviewReqDto.ReviewDetailRepDto;
 import site.metacoding.finals.dto.review.ReviewReqDto.TestReviewReqDto;
 import site.metacoding.finals.dto.review.ReviewRespDto.ReviewDataRespDto;
 import site.metacoding.finals.dto.review.ReviewRespDto.ReviewSaveRespDto;
@@ -85,12 +86,16 @@ public class ReviewService {
         public List<ReviewDataRespDto> listReview() {
                 List<Review> reviews = reviewRepository.findAll();
 
+                if (reviews.size() == 0) {
+                        throw new RuntimeApiException("작성된 리뷰가 없음", HttpStatus.NOT_FOUND);
+                }
+
                 return reviews.stream().map((r) -> new ReviewDataRespDto(r)).collect(Collectors.toList());
         }
 
-        public ReviewDataRespDto detailReview(ReviewDetailRepDto repDto) {
-                Review review = reviewRepository.findById(repDto.getId())
-                                .orElseThrow(() -> new RuntimeException("찾을 수 없는 리뷰입니다"));
+        public ReviewDataRespDto detailReview(Long reviewId) {
+                Review review = reviewRepository.findById(reviewId)
+                                .orElseThrow(() -> new RuntimeApiException("찾을 수 없는 리뷰입니다", HttpStatus.BAD_REQUEST));
 
                 return new ReviewDataRespDto(review);
         }

@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 import site.metacoding.finals.config.auth.PrincipalUser;
 import site.metacoding.finals.dto.ResponseDto;
-import site.metacoding.finals.dto.review.ReviewReqDto.ReviewDetailRepDto;
 import site.metacoding.finals.dto.review.ReviewReqDto.TestReviewReqDto;
 import site.metacoding.finals.dto.review.ReviewRespDto.ReviewDataRespDto;
 import site.metacoding.finals.dto.review.ReviewRespDto.ReviewSaveRespDto;
@@ -57,9 +57,9 @@ public class ReviewApiController {
                                 HttpStatus.OK);
         }
 
-        @PostMapping("/review")
-        public ResponseEntity<?> detailReview(@RequestBody ReviewDetailRepDto repDto) {
-                ReviewDataRespDto respDto = reviewService.detailReview(repDto);
+        @GetMapping("/review/{id}")
+        public ResponseEntity<?> detailReview(@PathVariable("id") Long reviewId) {
+                ReviewDataRespDto respDto = reviewService.detailReview(reviewId);
                 return new ResponseEntity<>(new ResponseDto<>(HttpStatus.OK, "리뷰 상세보기", respDto),
                                 HttpStatus.OK);
         }

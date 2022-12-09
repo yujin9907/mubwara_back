@@ -20,6 +20,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import site.metacoding.finals.domain.AutoTime;
+import site.metacoding.finals.domain.commercial.Commercial;
 import site.metacoding.finals.domain.menu.Menu;
 import site.metacoding.finals.domain.review.Review;
 import site.metacoding.finals.domain.shop.Shop;
@@ -47,6 +48,10 @@ public class ImageFile extends AutoTime {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "menu_id")
     private Menu menu;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "commercial_id")
+    private Commercial commercial;
 
     public void setReview(Review review) {
         this.review = review;

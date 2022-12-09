@@ -11,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 
@@ -20,6 +21,7 @@ import site.metacoding.finals.domain.customer.CustomerRepository;
 import site.metacoding.finals.domain.imagefile.ImageFile;
 import site.metacoding.finals.domain.imagefile.ImageFileRepository;
 import site.metacoding.finals.domain.reservation.Reservation;
+import site.metacoding.finals.domain.reservation.ReservationQueryRepository;
 import site.metacoding.finals.domain.reservation.ReservationRepository;
 import site.metacoding.finals.domain.review.Review;
 import site.metacoding.finals.domain.shop.Shop;
@@ -32,6 +34,7 @@ import site.metacoding.finals.domain.user.User;
 import site.metacoding.finals.domain.user.UserRepository;
 import site.metacoding.finals.dto.customer.CustomerReqDto.CustomerJoinReqDto;
 import site.metacoding.finals.dto.repository.shop.AnalysisDto;
+import site.metacoding.finals.dto.test.testDto;
 import site.metacoding.finals.dummy.DummyEntity;
 
 @Slf4j
