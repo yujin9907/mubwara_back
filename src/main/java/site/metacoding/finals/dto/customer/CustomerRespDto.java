@@ -86,16 +86,26 @@ public class CustomerRespDto {
         private String shopName;
         private String Address;
         private String Category;
-        private String StoreFilename;
+        private ImageDto imageDto;
 
         public CustomerMyPageSubscribeRespDto(Shop shop) {
             shopId = shop.getId();
             shopName = shop.getShopName();
             Address = shop.getAddress();
             Category = shop.getCategory();
-            StoreFilename = shop.getImageFile().getStoreFilename();
+            imageDto = new ImageDto(shop.getImageFile());
             // ReservationDate = reservationDate;
             // ReservationTime = reservationTime;
+        }
+
+        @Getter
+        public class ImageDto {
+            private String image;
+
+            public ImageDto(ImageFile imageFile) {
+                this.image = imageFile.getStoreFilename();
+            }
+
         }
 
     }
