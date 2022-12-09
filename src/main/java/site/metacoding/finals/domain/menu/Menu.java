@@ -11,6 +11,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
+
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,6 +23,8 @@ import site.metacoding.finals.domain.AutoTime;
 import site.metacoding.finals.domain.imagefile.ImageFile;
 import site.metacoding.finals.domain.shop.Shop;
 
+@SQLDelete(sql = "UPDATE menu SET is_deleted = true where id = ?")
+@Where(clause = "is_deleted = false")
 @Builder
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -38,6 +43,9 @@ public class Menu extends AutoTime {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "shop_id")
     private Shop shop;
+
+    @Column(name = "is_deleted") // 이것도 안 먹음 => 인서트할 때 직접 넣어줌
+    private Boolean isDeleted;
 
     @OneToOne(mappedBy = "menu")
     private ImageFile imageFile;

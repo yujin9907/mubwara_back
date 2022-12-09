@@ -75,22 +75,20 @@ public class CustomerService {
         Customer customerPS = customerRepository.findByUserId(principalUser.getUser().getId())
                 .orElseThrow(() -> new RuntimeException("회원 정보 없음"));
         System.out.println("====================================================");
-        // // 유저 삭제
-        // userRepository.deleteById(principalUser.getUser().getId());
+        // 유저 삭제
+        userRepository.deleteById(principalUser.getUser().getId());
 
-        // // 구독 정보는 바로 삭제
-        // if (subscribeRepository.findByCustomerId(customerPS.getId()) != null) {
-        // subscribeRepository.deleteByCustomerId(customerPS.getId());
-        // }
-        // // 예약 정보는 소프트 딜리트
-        // List<Reservation> reservationPS =
-        // reservationRepository.findByCustomerId(customerPS.getId());
-        // if (reservationPS != null) {
-        // reservationPS.stream().forEach(r ->
-        // reservationRepository.deleteById(r.getId()));
-        // }
+        // 구독 정보는 바로 삭제
+        if (subscribeRepository.findByCustomerId(customerPS.getId()) != null) {
+            subscribeRepository.deleteByCustomerId(customerPS.getId());
+        }
+        // 예약 정보는 소프트 딜리트
+        List<Reservation> reservationPS = reservationRepository.findByCustomerId(customerPS.getId());
+        if (reservationPS != null) {
+            reservationPS.stream().forEach(r -> reservationRepository.deleteById(r.getId()));
+        }
 
-        // // 리뷰는 삭제하지 않음
+        // 리뷰는 삭제하지 않음
 
     }
 
