@@ -2,6 +2,7 @@ package site.metacoding.finals.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,7 @@ import site.metacoding.finals.domain.reservation.ReservationRepository;
 import site.metacoding.finals.domain.review.Review;
 import site.metacoding.finals.domain.review.ReviewRepository;
 import site.metacoding.finals.domain.shop.Shop;
+import site.metacoding.finals.domain.shop.ShopQueryRepository;
 import site.metacoding.finals.domain.shop.ShopRepository;
 import site.metacoding.finals.domain.subscribe.SubscribeRepository;
 import site.metacoding.finals.domain.user.User;
@@ -30,7 +32,10 @@ import site.metacoding.finals.dto.customer.CustomerRespDto.CustomerJoinRespDto;
 import site.metacoding.finals.dto.customer.CustomerRespDto.CustomerMyPageReviewRespDto;
 import site.metacoding.finals.dto.customer.CustomerRespDto.CustomerMyPageSubscribeRespDto;
 import site.metacoding.finals.dto.customer.CustomerRespDto.CustomerUpdateRespDto;
+import site.metacoding.finals.dto.image_file.ImageFileReqDto.ImageHandlerDto;
 import site.metacoding.finals.dto.repository.customer.ReservationRepositoryRespDto;
+import site.metacoding.finals.dto.shop.ShopRespDto.ReservationShopRespDto;
+import site.metacoding.finals.handler.ImageFileHandler;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -44,6 +49,8 @@ public class CustomerService {
     private final ReservationRepository reservationRepository;
     private final SubscribeRepository subscribeRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final ImageFileHandler imageFileHandler;
+    private final ShopQueryRepository shopQueryRepository;
 
     @Transactional
     public CustomerJoinRespDto join(CustomerJoinReqDto customerJoinReqDto) {
@@ -93,12 +100,12 @@ public class CustomerService {
     }
 
     @Transactional(readOnly = true)
-    public List<ReservationRepositoryRespDto> myPageReservation(Long id) {
+    public List<ReservationShopRespDto> myPageReservation(Long id) {
         List<ReservationRepositoryRespDto> reservations = shopRespository.findResevationByCustomerId(id);
         if (reservations.size() == 0) {
             throw new RuntimeApiException("예약 목록이 없음", HttpStatus.NOT_FOUND);
         }
-        return reservations;
+        return reservations.stream().map((r) -> new ReservationShopRespDto(r)).collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)

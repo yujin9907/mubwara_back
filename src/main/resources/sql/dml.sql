@@ -18,7 +18,7 @@ insert into users(username, password, role, is_deleted, created_at) values ('cos
 insert into shop(category, address, close_time, information, open_time, per_hour, per_price, phone_number, shop_name, user_id, is_opened, created_at)
 values ('한식', '가게주소', '22', '소개', '10', '1', '10000', '01011113333', '가게', 2, 1, now());
 
-insert into image_file(store_filename, shop_id, created_at) values('a.txt', 1, now());
+insert into image_file(store_filename, shop_id, created_at) values('498e8a11-1048-429c-ad13-b1b51fd714b7.png', 1, now());
 
 
 
@@ -29,8 +29,8 @@ values ('주소', '커스터머', '01099966462', 1, false, now());
 insert into review(score, content, shop_id, customer_id, created_at) values (5, 'test',1, 1,now());
 insert into review(score, content, shop_id, customer_id, created_at) values (4, 'test',1, 1,now());
 
-insert into image_file(store_filename, review_id, created_at) values('a.txt', 1, now());
-insert into image_file(store_filename, review_id, created_at) values('a.txt', 1, now());
+insert into image_file(store_filename, review_id, created_at) values('498e8a11-1048-429c-ad13-b1b51fd714b7.png', 1, now());
+insert into image_file(store_filename, review_id, created_at) values('498e8a11-1048-429c-ad13-b1b51fd714b7.png', 1, now());
 
 
 insert into shop_table(max_people, shop_id, is_active, created_at)

@@ -13,7 +13,7 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
 
     List<Review> findByShopId(Long shopId);
 
-    //
+    // //
     @Query(value = "select avg(r.score) score from review r where shop_id=:shopId", nativeQuery = true)
     ScoreRespDto findByAvgScore(@Param("shopId") Long shopId);
 

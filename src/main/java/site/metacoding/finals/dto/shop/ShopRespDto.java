@@ -11,8 +11,31 @@ import site.metacoding.finals.domain.review.Review;
 import site.metacoding.finals.domain.shop.Shop;
 import site.metacoding.finals.domain.user.User;
 import site.metacoding.finals.dto.image_file.ImageFileInnerDto.ImageFileDto;
+import site.metacoding.finals.dto.repository.customer.ReservationRepositoryRespDto;
 
 public class ShopRespDto {
+
+    @Setter
+    @Getter
+    public static class ReservationShopRespDto {
+
+        private String shopName;
+        private String address;
+        private String category;
+        private String reservationDate;
+        private String reservationTime;
+        private ImageFileDto imageFile;
+
+        public ReservationShopRespDto(ReservationRepositoryRespDto dto) {
+            this.shopName = dto.getShopName();
+            this.address = dto.getAddress();
+            this.category = dto.getCategory();
+            this.reservationDate = dto.getReservationDate();
+            this.reservationTime = dto.getReservationTime();
+            this.imageFile = new ImageFileDto(dto.getStoreFilename());
+        }
+
+    }
 
     @Setter
     @Getter

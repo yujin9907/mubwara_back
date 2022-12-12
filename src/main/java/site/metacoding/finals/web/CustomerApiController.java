@@ -24,6 +24,7 @@ import site.metacoding.finals.dto.customer.CustomerRespDto.CustomerMyPageReviewR
 import site.metacoding.finals.dto.customer.CustomerRespDto.CustomerMyPageSubscribeRespDto;
 import site.metacoding.finals.dto.customer.CustomerRespDto.CustomerUpdateRespDto;
 import site.metacoding.finals.dto.repository.customer.ReservationRepositoryRespDto;
+import site.metacoding.finals.dto.shop.ShopRespDto.ReservationShopRespDto;
 import site.metacoding.finals.service.CustomerService;
 
 @Slf4j
@@ -62,7 +63,7 @@ public class CustomerApiController {
     @GetMapping("/user/mypage/reservation")
     public ResponseEntity<?> CustomerMypageReservationApi(
             @AuthenticationPrincipal PrincipalUser principalUser) {
-        List<ReservationRepositoryRespDto> dto = customerService.myPageReservation(principalUser.getUser().getId());
+        List<ReservationShopRespDto> dto = customerService.myPageReservation(principalUser.getUser().getId());
         return new ResponseEntity<>(new ResponseDto<>(HttpStatus.OK, "마이페이지 예약 목록", dto), HttpStatus.OK);
     }
 

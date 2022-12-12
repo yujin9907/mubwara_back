@@ -18,5 +18,9 @@ public class ImageFileInnerDto {
             this.image = ImageFileHandler.encodingFile(imageFile.getStoreFilename());
         }
 
+        public ImageFileDto(String filename) {
+            this.image = ImageFileHandler.encodingFile(filename);
+        }
+
     }
 }

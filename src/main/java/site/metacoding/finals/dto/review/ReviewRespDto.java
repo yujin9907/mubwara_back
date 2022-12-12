@@ -14,6 +14,12 @@ import site.metacoding.finals.dto.shop.ShopInnerDto.ShopDto;
 import site.metacoding.finals.dto.shop.ShopInnerDto.ShopImageDto;
 
 public class ReviewRespDto {
+    @Setter
+    @Getter
+    public static class ReviewAvgRespDto {
+        private Double avg;
+    }
+
     @Getter
     @Setter
     public static class ReviewSaveRespDto {

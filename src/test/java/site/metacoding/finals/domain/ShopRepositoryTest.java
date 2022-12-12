@@ -123,11 +123,12 @@ public class ShopRepositoryTest extends DummyEntity {
 
     @Test
     public void findByResevationCustomerIdTest() {
-        Long customerId = 1L;
+        // Long customerId = 1L;
 
-        List<ReservationRepositoryRespDto> shop = shopRepository.findResevationByCustomerId(customerId);
+        // List<ReservationRepositoryRespDto> shop =
+        // shopRepository.findResevationByCustomerId(customerId);
 
-        System.out.println("디버그 : " + shop.get(0).getStoreFilename());
+        // System.out.println("디버그 : " + shop.get(0).getStoreFilename());
     }
 
     @Test

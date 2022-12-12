@@ -102,9 +102,10 @@ public class ShopService {
                 .collect(Collectors.toList());
 
         respDtos.forEach(dto -> {
-            System.out.println("디버그 : " + reviewrRepository.findByShopId(dto.getId()));
             if (reviewrRepository.findByShopId(dto.getId()).size() != 0) {
                 dto.setScoreAvg(reviewrRepository.findByAvgScore(dto.getId()).getScore());
+            } else {
+                dto.setScoreAvg(0.0);
             }
         });
         return respDtos;

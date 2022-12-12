@@ -6,6 +6,7 @@ import java.util.Optional;
 import javax.persistence.EntityManager;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -14,6 +15,7 @@ import site.metacoding.finals.dto.repository.customer.ReservationRepositoryRespD
 
 public interface ShopRepository extends JpaRepository<Shop, Long> {
 
+        @EntityGraph(attributePaths = { "imageFile", "review" })
         @Query("select s from Shop s")
         List<Shop> findAllList();
 
