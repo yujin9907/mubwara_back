@@ -33,18 +33,19 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
         if (JwtProcess.isHeaderVerify(request, response)) {
             String token = request.getHeader("Authorization").replace("Bearer ", "");
-            try {
-                PrincipalUser principalUser = (PrincipalUser) JwtProcess.verify(token);
+            // try {
+            PrincipalUser principalUser = (PrincipalUser) JwtProcess.verify(token);
 
-                Authentication authentication = new UsernamePasswordAuthenticationToken(principalUser,
-                        null, principalUser.getAuthorities());
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+            Authentication authentication = new UsernamePasswordAuthenticationToken(principalUser,
+                    null, principalUser.getAuthorities());
+            SecurityContextHolder.getContext().setAuthentication(authentication);
 
-                System.out.println("정상적으로됨 " + authentication);
-            } catch (Exception e) {
-                System.out.println("익셉션 실행됨");
-                JwtExceptionHandler.sendError(HttpStatus.FORBIDDEN, "엑세스 토큰 만료됨 재요청 필요", response);
-            }
+            System.out.println("정상적으로됨 " + authentication);
+            // } catch (Exception e) {
+            // System.out.println("익셉션 실행됨");
+            // JwtExceptionHandler.sendError(HttpStatus.FORBIDDEN, "엑세스 토큰 만료됨 재요청 필요",
+            // response);
+            // }
 
         }
 

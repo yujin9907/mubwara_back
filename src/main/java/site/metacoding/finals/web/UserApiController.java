@@ -64,14 +64,14 @@ public class UserApiController {
 
     }
 
-    @GetMapping(value = "/refresh/token", headers = "Authorization")
-    public ResponseEntity<?> refreshToken(@RequestHeader("Authorization") String token, HttpServletRequest request,
+    @GetMapping(value = "/refresh/token", headers = "refresh-token")
+    public void refreshToken(@RequestHeader("refresh-token") String token, HttpServletRequest request,
             HttpServletResponse response) {
 
         System.out.println("디버그 토큰 : " + token);
 
-        String refresh = request.getHeader("Authorization").replace("Bearer ", "");
-        DecodedJWT decodedJWT = JWT.require(Algorithm.HMAC256(JwtSecret.SECRET)).build().verify(token);
+        String refresh = request.getHeader("refresh-token").replace("Bearer ", "");
+        DecodedJWT decodedJWT = JWT.require(Algorithm.HMAC256(JwtSecret.SECRET)).build().verify(refresh);
 
         Long id = decodedJWT.getClaim("id").asLong();
         User userPS = userService.findById(id);
@@ -79,10 +79,12 @@ public class UserApiController {
         String access = JwtProcess.create(principalUser, (1000 * 60 * 60));
 
         response.setHeader("access-token", access);
+        response.setStatus(201);
 
         // 403 포비든으로 던져주기
-        return new ResponseEntity<>(new ResponseDto<>(HttpStatus.OK, "엑세스 토큰 재발급", "유저아이디 : " + id),
-                HttpStatus.OK);
+        // return new ResponseEntity<>(new ResponseDto<>(HttpStatus.OK, "엑세스 토큰 재발급",
+        // "유저아이디 : " + id),
+        // HttpStatus.OK);
 
     }
 }
