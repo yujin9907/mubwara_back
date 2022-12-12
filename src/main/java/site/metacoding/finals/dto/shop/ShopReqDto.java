@@ -13,6 +13,36 @@ public class ShopReqDto {
 
     @Setter
     @Getter
+    public static class ShopUpdateReqDto {
+        private String shopName;
+        private String phoneNumber;
+        private String address;
+        private String category;
+        private String information;
+        private String openTime;
+        private String closeTime;
+        private int perPrice;
+        private int perHour;
+        private List<String> image;
+
+        public Shop toEntity(User user) {
+            return Shop.builder()
+                    .shopName(shopName)
+                    .phoneNumber(phoneNumber)
+                    .category(category)
+                    .address(address)
+                    .information(information)
+                    .openTime(openTime)
+                    .closeTime(closeTime)
+                    .perPrice(perPrice)
+                    .perHour(perHour)
+                    .user(user)
+                    .build();
+        }
+    }
+
+    @Setter
+    @Getter
     public static class ShopInfoSaveReqDto {
         private String shopName;
         private String phoneNumber;

@@ -8,6 +8,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,9 +20,11 @@ import site.metacoding.finals.dto.repository.shop.AnalysisDto;
 import site.metacoding.finals.dto.reservation.ReservationReqDto.AnalysisDateReqDto;
 import site.metacoding.finals.dto.reservation.ReservationRespDto.AnalysisWeekRespDto;
 import site.metacoding.finals.dto.shop.ShopReqDto.ShopInfoSaveReqDto;
+import site.metacoding.finals.dto.shop.ShopReqDto.ShopUpdateReqDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.ShopDetailRespDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.ShopInfoSaveRespDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.ShopListRespDto;
+import site.metacoding.finals.dto.shop.ShopRespDto.ShopUpdateRespDto;
 import site.metacoding.finals.service.ShopService;
 
 @Slf4j
@@ -40,6 +43,21 @@ public class ShopApiController {
         ShopInfoSaveRespDto shopInfoSaveRespDto = shopService.save(shopInfoSaveReqDto, principalUser);
         return new ResponseEntity<>(new ResponseDto<>(HttpStatus.CREATED, "가게 정보등록 완료", shopInfoSaveRespDto),
                 HttpStatus.CREATED);
+    }
+
+    @GetMapping("/shop/update")
+    public ResponseEntity<?> updatePageShop(@AuthenticationPrincipal PrincipalUser principalUser) {
+        ShopUpdateRespDto respDto = shopService.updatePage(principalUser);
+        return new ResponseEntity<>(new ResponseDto<>(HttpStatus.ACCEPTED, "가게 수정 페이지", respDto),
+                HttpStatus.OK);
+    }
+
+    @PutMapping("/shop/update")
+    public ResponseEntity<?> updateShop(@AuthenticationPrincipal PrincipalUser principalUser,
+            @RequestBody ShopUpdateReqDto reqDto) {
+        ShopUpdateRespDto respDto = shopService.update(reqDto, principalUser);
+        return new ResponseEntity<>(new ResponseDto<>(HttpStatus.ACCEPTED, "가게 수정 완료", respDto),
+                HttpStatus.OK);
     }
 
     @PostMapping("/shop/analysis/date")

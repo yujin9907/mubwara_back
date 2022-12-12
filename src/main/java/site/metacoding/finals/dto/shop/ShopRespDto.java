@@ -102,6 +102,38 @@ public class ShopRespDto {
         }
     }
 
+    @Setter
+    @Getter
+    public static class ShopUpdateRespDto {
+        private Long id;
+        private String shopName;
+        private String phoneNumber;
+        private String category;
+        private String address;
+        private String information;
+        private String openTime;
+        private String closeTime;
+        private int perPrice;
+        private int perHour;
+        private User user;
+        private ImageFileDto image;
+
+        public ShopUpdateRespDto(Shop shop) {
+            this.id = shop.getId();
+            this.shopName = shop.getShopName();
+            this.phoneNumber = shop.getPhoneNumber();
+            this.category = shop.getCategory();
+            this.address = shop.getAddress();
+            this.information = shop.getInformation();
+            this.openTime = shop.getOpenTime();
+            this.closeTime = shop.getCloseTime();
+            this.perPrice = shop.getPerPrice();
+            this.perHour = shop.getPerHour();
+            this.user = shop.getUser();
+            this.image = new ImageFileDto(shop.getImageFile());
+        }
+    }
+
     @Getter
     @Setter
     public static class ShopDetailRespDto {

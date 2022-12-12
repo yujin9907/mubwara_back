@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import site.metacoding.finals.config.auth.PrincipalUser;
+import site.metacoding.finals.config.exception.RuntimeApiException;
 import site.metacoding.finals.domain.imagefile.ImageFile;
 import site.metacoding.finals.domain.imagefile.ImageFileRepository;
 import site.metacoding.finals.domain.option.Option;
@@ -35,9 +37,11 @@ import site.metacoding.finals.dto.repository.shop.AnalysisDto;
 import site.metacoding.finals.dto.reservation.ReservationReqDto.AnalysisDateReqDto;
 import site.metacoding.finals.dto.reservation.ReservationRespDto.AnalysisWeekRespDto;
 import site.metacoding.finals.dto.shop.ShopReqDto.ShopInfoSaveReqDto;
+import site.metacoding.finals.dto.shop.ShopReqDto.ShopUpdateReqDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.ShopDetailRespDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.ShopInfoSaveRespDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.ShopListRespDto;
+import site.metacoding.finals.dto.shop.ShopRespDto.ShopUpdateRespDto;
 import site.metacoding.finals.handler.ImageFileHandler;
 
 @Slf4j
@@ -49,7 +53,6 @@ public class ShopService {
     @PersistenceContext
     private EntityManager em;
 
-    private final UserRepository userRepository;
     private final ShopRepository shopRepository;
     private final ImageFileHandler imageFileHandler;
     private final ImageFileRepository imageFileRepository;
@@ -64,12 +67,40 @@ public class ShopService {
         Shop shopPS = shopRepository.save(shopInfoSaveReqDto.toEntity(principalUser.getUser()));
 
         // images save
-        List<ImageHandlerDto> images = imageFileHandler.storeFile(shopInfoSaveReqDto.getImage()); // 여기 로직 수정
+        List<ImageHandlerDto> images = imageFileHandler.storeFile(shopInfoSaveReqDto.getImage());
         images.forEach(image -> {
             imageFileRepository.save(image.toShopEntity(shopPS));
         });
 
         return new ShopInfoSaveRespDto(shopPS);
+    }
+
+    @Transactional
+    public ShopUpdateRespDto update(ShopUpdateReqDto reqDto, PrincipalUser principalUser) {
+        // 검증
+
+        // shop information save
+        Shop shopPS = shopRepository.save(reqDto.toEntity(principalUser.getUser()));
+
+        // images save
+        List<ImageHandlerDto> images = imageFileHandler.storeFile(reqDto.getImage());
+        images.forEach(image -> {
+            imageFileRepository.save(image.toShopEntity(shopPS));
+        });
+
+        return new ShopUpdateRespDto(shopPS);
+    }
+
+    public ShopUpdateRespDto updatePage(PrincipalUser principalUser) {
+        // 검증
+
+        // shop information save
+        Shop shopPS = shopRepository.findByUserId(principalUser.getUser().getId())
+                .orElseThrow(() -> new RuntimeApiException("잘못된 가게 회원 요청입니다", HttpStatus.NOT_FOUND));
+
+        // images save
+
+        return new ShopUpdateRespDto(shopPS);
     }
 
     public List<AnalysisDto> analysisDate(PrincipalUser principalUser, AnalysisDateReqDto analysisDateReqDto) {
