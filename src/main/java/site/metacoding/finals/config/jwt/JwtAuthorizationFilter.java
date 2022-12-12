@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.context.annotation.Profile;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -15,6 +16,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import site.metacoding.finals.config.auth.PrincipalUser;
+import site.metacoding.finals.config.exception.JwtExceptionHandler;
+import site.metacoding.finals.config.exception.RuntimeApiException;
 
 public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
@@ -30,18 +33,19 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
         if (JwtProcess.isHeaderVerify(request, response)) {
             String token = request.getHeader("Authorization").replace("Bearer ", "");
-            PrincipalUser principalUser = (PrincipalUser) JwtProcess.verify(token);
+            try {
+                PrincipalUser principalUser = (PrincipalUser) JwtProcess.verify(token);
 
-            // System.out.println("필터 : " + principalUser.getUser().getRole());
-            // System.out.println("유저 왜 안 됨 : " +
-            // principalUser.getUser().getRole().getValue());
-            // System.out.println("유저 왜 안 됨 : " + principalUser.getUser().getRole().name());
+                Authentication authentication = new UsernamePasswordAuthenticationToken(principalUser,
+                        null, principalUser.getAuthorities());
+                SecurityContextHolder.getContext().setAuthentication(authentication);
 
-            Authentication authentication = new UsernamePasswordAuthenticationToken(principalUser,
-                    null, principalUser.getAuthorities());
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+                System.out.println("정상적으로됨 " + authentication);
+            } catch (Exception e) {
+                System.out.println("익셉션 실행됨");
+                JwtExceptionHandler.sendError(HttpStatus.FORBIDDEN, "엑세스 토큰 만료됨 재요청 필요", response);
+            }
 
-            System.out.println("정상적으로됨 " + authentication);
         }
 
         System.out.println("필터가 종료됨");

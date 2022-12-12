@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import site.metacoding.finals.config.jwt.JwtProcess;
 import site.metacoding.finals.domain.user.User;
 import site.metacoding.finals.domain.user.UserRepository;
 import site.metacoding.finals.dto.user.UserReqDto.JoinReqDto;
@@ -35,6 +36,11 @@ public class UserService {
 
         // userPS값을 바로 return하면 Entity에 영향이 가나?
         return new JoinRespDto(userPS);
+    }
+
+    @Transactional(readOnly = true)
+    public User findById(Long id) {
+        return userRepository.findById(id).get();
     }
 
 }

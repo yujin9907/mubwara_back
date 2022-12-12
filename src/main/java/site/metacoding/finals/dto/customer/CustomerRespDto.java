@@ -1,17 +1,13 @@
 package site.metacoding.finals.dto.customer;
 
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import site.metacoding.finals.domain.customer.Customer;
-import site.metacoding.finals.domain.imagefile.ImageFile;
 import site.metacoding.finals.domain.reservation.Reservation;
 import site.metacoding.finals.domain.review.Review;
 import site.metacoding.finals.domain.shop.Shop;
@@ -19,7 +15,6 @@ import site.metacoding.finals.domain.user.User;
 import site.metacoding.finals.dto.image_file.ImageFileInnerDto.ImageFileDto;
 import site.metacoding.finals.dto.shop.ShopInnerDto.ShopDto;
 import site.metacoding.finals.dto.shop.ShopInnerDto.ShopImageDto;
-import site.metacoding.finals.handler.ImageFileHandler;
 
 public class CustomerRespDto {
 
