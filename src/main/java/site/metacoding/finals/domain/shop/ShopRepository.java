@@ -25,7 +25,8 @@ public interface ShopRepository extends JpaRepository<Shop, Long> {
         @Query("select s from Shop s where s.category = :category")
         List<Shop> findByCategory(@Param("category") String category);
 
-        @Query(value = "select i.store_filename as storeFilename, r4.shop_name as shopName, r4.category as category, " +
+        @Query(value = "select i.store_filename as storeFilename, r4.shop_name as shopName, r4.address as address, r4.category as category, "
+                        +
                         "r4.reservation_time as reservationTime, r4.reservation_date as reservationDate " +
                         "from image_file i " +
                         "right join (select shop.id, shop.shop_name, shop.address, shop.category, r3.reservation_date, r3.reservation_time from shop "
