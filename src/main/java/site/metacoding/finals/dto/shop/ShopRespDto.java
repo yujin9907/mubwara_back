@@ -11,7 +11,9 @@ import site.metacoding.finals.domain.review.Review;
 import site.metacoding.finals.domain.shop.Shop;
 import site.metacoding.finals.domain.user.User;
 import site.metacoding.finals.dto.image_file.ImageFileInnerDto.ImageFileDto;
+import site.metacoding.finals.dto.image_file.ImageFileReqDto.ImageHandlerDto;
 import site.metacoding.finals.dto.repository.customer.ReservationRepositoryRespDto;
+import site.metacoding.finals.handler.ImageFileHandler;
 
 public class ShopRespDto {
 
@@ -85,7 +87,6 @@ public class ShopRespDto {
         private String closeTime;
         private int perPrice;
         private int perHour;
-        private User user;
 
         public ShopInfoSaveRespDto(Shop shop) {
             this.id = shop.getId();
@@ -98,7 +99,6 @@ public class ShopRespDto {
             this.closeTime = shop.getCloseTime();
             this.perPrice = shop.getPerPrice();
             this.perHour = shop.getPerHour();
-            this.user = shop.getUser();
         }
     }
 
@@ -115,7 +115,6 @@ public class ShopRespDto {
         private String closeTime;
         private int perPrice;
         private int perHour;
-        private User user;
         private ImageFileDto image;
 
         public ShopUpdateRespDto(Shop shop) {
@@ -129,9 +128,23 @@ public class ShopRespDto {
             this.closeTime = shop.getCloseTime();
             this.perPrice = shop.getPerPrice();
             this.perHour = shop.getPerHour();
-            this.user = shop.getUser();
             this.image = new ImageFileDto(shop.getImageFile());
         }
+
+        public ShopUpdateRespDto(Shop shop, String imageName) {
+            this.id = shop.getId();
+            this.shopName = shop.getShopName();
+            this.phoneNumber = shop.getPhoneNumber();
+            this.category = shop.getCategory();
+            this.address = shop.getAddress();
+            this.information = shop.getInformation();
+            this.openTime = shop.getOpenTime();
+            this.closeTime = shop.getCloseTime();
+            this.perPrice = shop.getPerPrice();
+            this.perHour = shop.getPerHour();
+            this.image = new ImageFileDto(imageName); // 확인 용도로만
+        }
+
     }
 
     @Getter

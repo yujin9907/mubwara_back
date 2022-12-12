@@ -82,13 +82,18 @@ public class ShopService {
         // shop information save
         Shop shopPS = shopRepository.save(reqDto.toEntity(principalUser.getUser()));
 
+        System.out.println("------------디버그---------------------");
+        System.out.println(reqDto.getImage());
+
         // images save
         List<ImageHandlerDto> images = imageFileHandler.storeFile(reqDto.getImage());
         images.forEach(image -> {
             imageFileRepository.save(image.toShopEntity(shopPS));
         });
 
-        return new ShopUpdateRespDto(shopPS);
+        System.out.println(images.get(0).getStoreFilename());
+
+        return new ShopUpdateRespDto(shopPS, images.get(0).getStoreFilename());
     }
 
     public ShopUpdateRespDto updatePage(PrincipalUser principalUser) {
@@ -97,8 +102,6 @@ public class ShopService {
         // shop information save
         Shop shopPS = shopRepository.findByUserId(principalUser.getUser().getId())
                 .orElseThrow(() -> new RuntimeApiException("잘못된 가게 회원 요청입니다", HttpStatus.NOT_FOUND));
-
-        // images save
 
         return new ShopUpdateRespDto(shopPS);
     }

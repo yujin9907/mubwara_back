@@ -22,5 +22,9 @@ public class ImageFileInnerDto {
             this.image = ImageFileHandler.encodingFile(filename);
         }
 
+        public ImageFileDto(Long id) {
+            this.id = id;
+        }
+
     }
 }

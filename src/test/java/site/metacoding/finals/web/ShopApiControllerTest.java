@@ -1,5 +1,8 @@
 package site.metacoding.finals.web;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +25,7 @@ import site.metacoding.finals.domain.imagefile.ImageFileRepository;
 import site.metacoding.finals.domain.shop.ShopRepository;
 import site.metacoding.finals.domain.user.User;
 import site.metacoding.finals.dto.reservation.ReservationReqDto.AnalysisDateReqDto;
+import site.metacoding.finals.dto.shop.ShopReqDto.ShopUpdateReqDto;
 import site.metacoding.finals.dummy.DummyEntity;
 
 @Sql({ "classpath:sql/dml.sql" })
@@ -152,4 +156,57 @@ public class ShopApiControllerTest extends DummyEntity {
         //
         resultActions.andExpect(MockMvcResultMatchers.status().isOk());
     }
+
+    @WithUserDetails(value = "cos", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+    @Test
+    public void 가게업데이트페이지테스트() throws Exception {
+        //
+
+        //
+        ResultActions resultActions = mvc.perform(
+                MockMvcRequestBuilders.get("/shop/update")
+                        .accept("application/json; charset=utf-8"));
+
+        String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+        log.debug(responseBody);
+
+        //
+        resultActions.andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    @WithUserDetails(value = "cos", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+    @Test
+    public void 가게업데이트테스트() throws Exception {
+        //
+        List<String> images = new ArrayList<>();
+        images.add("ZGZhZGZhZg==");
+
+        ShopUpdateReqDto reqDto = new ShopUpdateReqDto();
+        reqDto.setShopName("테스트");
+        reqDto.setPhoneNumber("0390324234");
+        reqDto.setAddress("주소주소");
+        reqDto.setCategory("양식");
+        reqDto.setInformation("변경된 소개");
+        reqDto.setOpenTime("12");
+        reqDto.setCloseTime("22");
+        reqDto.setPerPrice(10);
+        reqDto.setPerHour(1);
+        reqDto.setImage(images);
+
+        String body = om.writeValueAsString(reqDto);
+
+        //
+        ResultActions resultActions = mvc.perform(
+                MockMvcRequestBuilders.put("/shop/update")
+                        .contentType("application/json; charset=utf-8")
+                        .content(body)
+                        .accept("application/json; charset=utf-8"));
+
+        String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+        log.debug(responseBody);
+
+        //
+        resultActions.andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
 }

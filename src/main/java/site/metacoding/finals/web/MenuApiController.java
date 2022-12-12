@@ -48,6 +48,6 @@ public class MenuApiController {
             @AuthenticationPrincipal PrincipalUser principalUser) {
 
         menuService.delete(id, principalUser);
-        return new ResponseEntity<>(new ResponseDto<>(HttpStatus.ACCEPTED, "메뉴 저장", null), HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(new ResponseDto<>(HttpStatus.ACCEPTED, "메뉴 삭제", null), HttpStatus.ACCEPTED);
     }
 }
