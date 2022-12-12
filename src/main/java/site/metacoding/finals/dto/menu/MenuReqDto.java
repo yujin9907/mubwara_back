@@ -24,6 +24,7 @@ public class MenuReqDto {
                     .price(price)
                     .recommanded(recommanded)
                     .shop(shop)
+                    .isDeleted(false)
                     .build();
         }
 

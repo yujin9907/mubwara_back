@@ -25,7 +25,6 @@ public class ShopTableReqDto {
             return ShopTable.builder()
                     .maxPeople(maxPeople)
                     .shop(shop)
-                    .isActive(true)
                     .build();
         }
     }

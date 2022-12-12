@@ -48,6 +48,7 @@ public class ShopTableRespDto {
         public static class ShopTableDto {
             private Long id;
             private int maxPeople;
+            private int qty;
             private ShopDto shop;
 
             public ShopTableDto(ShopTable shopTable) {

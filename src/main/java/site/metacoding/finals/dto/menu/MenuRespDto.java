@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import site.metacoding.finals.domain.imagefile.ImageFile;
 import site.metacoding.finals.domain.menu.Menu;
+import site.metacoding.finals.dto.image_file.ImageFileInnerDto.ImageFileDto;
 import site.metacoding.finals.dto.shop.ShopInnerDto.ShopDto;
 
 public class MenuRespDto {
@@ -15,24 +16,14 @@ public class MenuRespDto {
         private Integer price;
         private Integer recommanded;
         private ShopDto shop;
-        private ImageDto imageFile;
+        private ImageFileDto imageFile;
 
         public MenuListRespDto(Menu menu) {
             this.name = menu.getName();
             this.price = menu.getPrice();
             this.recommanded = menu.getRecommanded();
             this.shop = new ShopDto(menu.getShop());
-            this.imageFile = new ImageDto(menu.getImageFile());
-        }
-
-        @Getter
-        public class ImageDto {
-            private String image;
-
-            public ImageDto(ImageFile imageFile) {
-                this.image = imageFile.getStoreFilename();
-            }
-
+            this.imageFile = new ImageFileDto(menu.getImageFile());
         }
     }
 

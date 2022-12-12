@@ -1,5 +1,6 @@
 package site.metacoding.finals.service;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,10 +9,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import site.metacoding.finals.config.auth.PrincipalUser;
 import site.metacoding.finals.domain.shop.Shop;
 import site.metacoding.finals.domain.shop.ShopRepository;
 import site.metacoding.finals.domain.shop_table.ShopTable;
 import site.metacoding.finals.domain.shop_table.ShopTableRepository;
+import site.metacoding.finals.dto.repository.shop.QtyTableDto;
 import site.metacoding.finals.dto.shop_table.ShopTableReqDto.ShopTableUpdateReqDto;
 import site.metacoding.finals.dto.shop_table.ShopTableReqDto.ShopTableUpdateReqDto.ShopTableQtyDto;
 import site.metacoding.finals.dto.shop_table.ShopTableRespDto.AllShopTableRespDto;
@@ -26,17 +29,35 @@ public class ShopTableService {
     private final ShopRepository shopRepository;
 
     @Transactional
-    public AllShopTableRespDto findAllByShopId(Long userId) {
-        Shop shopPS = shopRepository.findByUserId(userId)
-                .orElseThrow(() -> new RuntimeException("해당 가게가 없습니다."));
+    public QtyTableDto findAllByShopId(PrincipalUser principalUser) {
+        // Shop shopPS = shopRepository.findByUserId(userId)
+        // .orElseThrow(() -> new RuntimeException("해당 가게가 없습니다."));
 
-        return new AllShopTableRespDto(shopTableRepository.findByShopId(shopPS.getId()));
+        return shopTableRepository.findQtyTable();
+
+        // return new
+        // AllShopTableRespDto(shopTableRepository.findByShopId(shopPS.getId()));
     }
 
     @Transactional
-    public ShopTableSaveRespDto update(ShopTableUpdateReqDto shopTableUpdateReqDto, Long userId) {
+    public void save(ShopTableUpdateReqDto shopTableUpdateReqDto) {
+        List<ShopTableQtyDto> tableList = shopTableUpdateReqDto.getShopTableQtyDtoList();
+        // 리스트를 dto로 감쌀 필요 없음(넘겨주는 게 이게 다라서)
+
+        // 기준 데이터
+        QtyTableDto qtyPS = shopTableRepository
+                .findQtyTableByNum(shopTableUpdateReqDto.getShopTableQtyDtoList().get(0).getMaxPeople());
+
+        if (qtyPS.getQty() > shopTableUpdateReqDto.getShopTableQtyDtoList().get(0).getQty()) {
+
+        }
+
+    }
+
+    @Transactional
+    public ShopTableSaveRespDto update(ShopTableUpdateReqDto shopTableUpdateReqDto, PrincipalUser principalUser) {
         // 가게 확인
-        Shop shopPS = shopRepository.findByUserId(userId)
+        Shop shopPS = shopRepository.findByUserId(principalUser.getUser().getId())
                 .orElseThrow(() -> new RuntimeException("해당 가게가 없습니다."));
         log.debug("디버그 : 가게ID " + shopPS.getId());
 
