@@ -15,7 +15,9 @@ import site.metacoding.finals.config.auth.PrincipalUser;
 import site.metacoding.finals.dto.ResponseDto;
 import site.metacoding.finals.dto.shop_table.ShopTableReqDto.ShopTableUpdateReqDto;
 import site.metacoding.finals.dto.shop_table.ShopTableRespDto.ShopTableListRespDto;
+import site.metacoding.finals.dto.shop_table.ShopTableRespDto.ShopTableListRespDto;
 import site.metacoding.finals.dto.shop_table.ShopTableRespDto.ShopTableSaveRespDto;
+import site.metacoding.finals.dto.shop_table.ShopTableRespDto.ShopTableListRespDto;
 import site.metacoding.finals.service.ShopTableService;
 
 @RequiredArgsConstructor
@@ -36,6 +38,7 @@ public class ShopTableApiController {
 
         @GetMapping("/shop/table")
         public ResponseEntity<?> tableList(@AuthenticationPrincipal PrincipalUser principalUser) {
+                List<ShopTableListRespDto> allShopTableRespDto = shopTableService.findAllByShopId(principalUser);
                 List<ShopTableListRespDto> allShopTableRespDto = shopTableService.findAllByShopId(principalUser);
                 return new ResponseEntity<>(new ResponseDto<>(HttpStatus.OK, "가게 테이블 전체보기 성공", allShopTableRespDto),
                                 HttpStatus.OK);

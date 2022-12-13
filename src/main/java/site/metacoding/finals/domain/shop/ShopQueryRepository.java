@@ -7,9 +7,14 @@ import javax.persistence.Query;
 
 import org.qlrm.mapper.JpaResultMapper;
 import org.springframework.expression.spel.support.ReflectivePropertyAccessor.OptimalPropertyAccessor;
+import org.springframework.expression.spel.support.ReflectivePropertyAccessor.OptimalPropertyAccessor;
 import org.springframework.stereotype.Repository;
 
 import lombok.RequiredArgsConstructor;
+import site.metacoding.finals.dto.repository.shop.PopularListRespDto;
+import site.metacoding.finals.dto.shop.ShopReqDto.OptionListReqDto;
+import site.metacoding.finals.dto.shop.ShopRespDto.OptionListRespDto;
+import site.metacoding.finals.dto.shop.ShopRespDto.PriceListRespDto;
 import site.metacoding.finals.dto.repository.shop.PopularListRespDto;
 import site.metacoding.finals.dto.shop.ShopReqDto.OptionListReqDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.OptionListRespDto;
