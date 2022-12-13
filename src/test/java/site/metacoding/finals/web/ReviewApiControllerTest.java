@@ -101,7 +101,7 @@ public class ReviewApiControllerTest extends DummyEntity {
                 String body = om.writeValueAsString(reqDtodata);
 
                 // when
-                ResultActions resultActions = mvc.perform(post("/user/review")
+                ResultActions resultActions = mvc.perform(post("/auth/review")
                                 .content(body)
                                 .contentType("application/json; charset=utf-8")
                                 .accept("application/json; charset=utf-8"));

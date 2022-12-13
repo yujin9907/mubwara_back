@@ -46,7 +46,7 @@ public class SubscribeApiControllerTest extends DummyEntity {
 
         //
         ResultActions resultActions = mvc.perform(
-                MockMvcRequestBuilders.get("/user/" + shopId + "/subscribe")
+                MockMvcRequestBuilders.get("/auth/" + shopId + "/subscribe")
                         .accept("application/json; charset=utf-8"));
 
         String responseBody = resultActions.andReturn().getResponse().getContentAsString();

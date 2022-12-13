@@ -51,7 +51,7 @@ public class CustomerApiController {
     }
 
     // 삭제 권한 체크 필요
-    @DeleteMapping("/user/customer")
+    @DeleteMapping("/auth/customer")
     public ResponseEntity<?> deleteCustomerApi(@AuthenticationPrincipal PrincipalUser principalUser) {
         customerService.delete(principalUser);
         return new ResponseEntity<>(new ResponseDto<>(HttpStatus.ACCEPTED, "회원 삭제", null), HttpStatus.ACCEPTED);

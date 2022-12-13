@@ -117,7 +117,7 @@ public class CustomerApiControllerTest extends DummyEntity {
     public void 회원삭제() throws Exception {
 
         //
-        ResultActions resultActions = mvc.perform(MockMvcRequestBuilders.delete("/user/customer")
+        ResultActions resultActions = mvc.perform(MockMvcRequestBuilders.delete("/auth/customer")
                 .accept("application/json; charset=utf-8"));
 
         String responseBody = resultActions.andReturn().getResponse().getContentAsString();
@@ -137,7 +137,7 @@ public class CustomerApiControllerTest extends DummyEntity {
 
         //
         ResultActions resultActions = mvc.perform(
-                MockMvcRequestBuilders.get("/user/mypage/reservation")
+                MockMvcRequestBuilders.get("/auth/mypage/reservation")
                         .accept("application/json; charset=utf-8"));
 
         String responseBody = resultActions.andReturn().getResponse().getContentAsString();
@@ -157,7 +157,7 @@ public class CustomerApiControllerTest extends DummyEntity {
 
         //
         ResultActions resultActions = mvc.perform(
-                MockMvcRequestBuilders.get("/user/mypage/subscribe")
+                MockMvcRequestBuilders.get("/auth/mypage/subscribe")
                         .accept("application/json; charset=utf-8"));
 
         String responseBody = resultActions.andReturn().getResponse().getContentAsString();
@@ -175,7 +175,7 @@ public class CustomerApiControllerTest extends DummyEntity {
 
         //
         ResultActions resultActions = mvc.perform(
-                MockMvcRequestBuilders.get("/user/mypage/review")
+                MockMvcRequestBuilders.get("/auth/mypage/review")
                         .accept("application/json; charset=utf-8"));
 
         String responseBody = resultActions.andReturn().getResponse().getContentAsString();

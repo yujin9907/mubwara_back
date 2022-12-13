@@ -113,7 +113,7 @@ public class ReservationApiControllerTest extends DummyEntity {
         String body = om.writeValueAsString(dto);
 
         // when
-        ResultActions resultActions = mvc.perform(MockMvcRequestBuilders.post("/user/reservation")
+        ResultActions resultActions = mvc.perform(MockMvcRequestBuilders.post("/auth/reservation")
                 .content(body)
                 .contentType("application/json; charset=utf-8")
                 .accept("application/json; charset=utf-8"));
