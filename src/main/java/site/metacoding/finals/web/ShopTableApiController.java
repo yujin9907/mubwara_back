@@ -16,6 +16,8 @@ import site.metacoding.finals.dto.ResponseDto;
 import site.metacoding.finals.dto.shop_table.ShopTableReqDto.ShopTableUpdateReqDto;
 import site.metacoding.finals.dto.shop_table.ShopTableRespDto.ShopTableListRespDto;
 import site.metacoding.finals.dto.shop_table.ShopTableRespDto.ShopTableSaveRespDto;
+import site.metacoding.finals.dto.shop_table.ShopTableRespDto.AllShopTableRespDto;
+import site.metacoding.finals.dto.shop_table.ShopTableRespDto.ShopTableListRespDto;
 import site.metacoding.finals.service.ShopTableService;
 
 @RequiredArgsConstructor
