@@ -27,7 +27,8 @@ public class ShopTableApiController {
         @PostMapping("/shop/table")
         public ResponseEntity<?> tableUpdate(@RequestBody ShopTableUpdateReqDto shopTableUpdateReqDto,
                         @AuthenticationPrincipal PrincipalUser principalUser) {
-                ShopTableSaveRespDto shopTableSaveRespDto = shopTableService.update();
+                ShopTableSaveRespDto shopTableSaveRespDto = shopTableService.update(shopTableUpdateReqDto,
+                                principalUser);
                 return new ResponseEntity<>(new ResponseDto<>(HttpStatus.OK, "테이블 수 변경 완료", shopTableSaveRespDto),
                                 HttpStatus.OK);
         }

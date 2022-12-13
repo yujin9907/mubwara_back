@@ -17,7 +17,6 @@ import site.metacoding.finals.domain.shop_table.ShopTableRepository;
 import site.metacoding.finals.dto.repository.shop.QtyTableDto;
 import site.metacoding.finals.dto.shop_table.ShopTableReqDto.ShopTableUpdateReqDto;
 import site.metacoding.finals.dto.shop_table.ShopTableReqDto.ShopTableUpdateReqDto.ShopTableQtyDto;
-import site.metacoding.finals.dto.shop_table.ShopTableRespDto.AllShopTableRespDto;
 import site.metacoding.finals.dto.shop_table.ShopTableRespDto.ShopTableSaveRespDto;
 
 @Slf4j
@@ -41,17 +40,6 @@ public class ShopTableService {
 
     @Transactional
     public void save(ShopTableUpdateReqDto shopTableUpdateReqDto) {
-        List<ShopTableQtyDto> tableList = shopTableUpdateReqDto.getShopTableQtyDtoList();
-        // 리스트를 dto로 감쌀 필요 없음(넘겨주는 게 이게 다라서)
-
-        // 기준 데이터
-        QtyTableDto qtyPS = shopTableRepository
-                .findQtyTableByNum(shopTableUpdateReqDto.getShopTableQtyDtoList().get(0).getMaxPeople());
-
-        if (qtyPS.getQty() > shopTableUpdateReqDto.getShopTableQtyDtoList().get(0).getQty()) {
-
-        }
-
     }
 
     @Transactional
@@ -75,7 +63,7 @@ public class ShopTableService {
                 for (int i = 0; i < Math.abs(shopTableDto.getQty()); i++) {
                     ShopTable shopTable = shopTableRepository.findByMaxPeopleToMinId(shopPS.getId(),
                             shopTableDto.getMaxPeople());
-                    shopTable.deleteShopTable(shopTable.getId());
+                    shopTableRepository.delete(shopTable);
                 }
             }
             log.debug("디버그 : delete로직 실행 완료");

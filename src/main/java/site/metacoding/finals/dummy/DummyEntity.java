@@ -94,7 +94,6 @@ public abstract class DummyEntity {
         return ShopTable.builder()
                 .maxPeople(4)
                 .shop(shop)
-                .isActive(true)
                 .build();
     }
 
