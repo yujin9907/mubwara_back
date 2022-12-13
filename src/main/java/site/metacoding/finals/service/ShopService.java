@@ -29,6 +29,7 @@ import site.metacoding.finals.domain.reservation.ReservationRepository;
 import site.metacoding.finals.domain.review.Review;
 import site.metacoding.finals.domain.review.ReviewRepository;
 import site.metacoding.finals.domain.shop.Shop;
+import site.metacoding.finals.domain.shop.ShopQueryRepository;
 import site.metacoding.finals.domain.shop.ShopRepository;
 import site.metacoding.finals.domain.user.User;
 import site.metacoding.finals.domain.user.UserRepository;
@@ -37,8 +38,10 @@ import site.metacoding.finals.dto.repository.shop.AnalysisDto;
 import site.metacoding.finals.dto.repository.shop.PopularListRespDto;
 import site.metacoding.finals.dto.reservation.ReservationReqDto.AnalysisDateReqDto;
 import site.metacoding.finals.dto.reservation.ReservationRespDto.AnalysisWeekRespDto;
+import site.metacoding.finals.dto.shop.ShopReqDto.OptionListReqDto;
 import site.metacoding.finals.dto.shop.ShopReqDto.ShopInfoSaveReqDto;
 import site.metacoding.finals.dto.shop.ShopReqDto.ShopUpdateReqDto;
+import site.metacoding.finals.dto.shop.ShopRespDto.OptionListRespDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.ShopDetailRespDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.ShopInfoSaveRespDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.ShopListRespDto;
@@ -60,6 +63,7 @@ public class ShopService {
     private final ImageFileRepository imageFileRepository;
     private final ReservationRepository reservationRepository;
     private final ReviewRepository reviewrRepository;
+    private final ShopQueryRepository shopQueryRepository;
 
     @Transactional
     public ShopInfoSaveRespDto save(ShopInfoSaveReqDto shopInfoSaveReqDto, PrincipalUser principalUser) {
@@ -180,7 +184,7 @@ public class ShopService {
 
     }
 
-    public void optionList() {
-
+    public List<OptionListRespDto> optionList(List<OptionListReqDto> reqDto) {
+        return shopQueryRepository.findOptionListByOptionId(reqDto);
     }
 }

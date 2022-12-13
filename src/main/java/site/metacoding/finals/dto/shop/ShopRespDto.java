@@ -1,5 +1,6 @@
 package site.metacoding.finals.dto.shop;
 
+import java.math.BigInteger;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -241,6 +242,36 @@ public class ShopRespDto {
             this.phoneNumber = shop.getPhoneNumber();
             this.subscribeCount = shop.getCount();
             this.imageFileDto = new ImageFileDto(shop.getStoreFileName());
+        }
+
+    }
+
+    @Setter
+    @Getter
+    public static class OptionListRespDto {
+        private Long id;
+        private String shopName;
+        private String address;
+        private String category;
+        private String openTime;
+        private String closeTime;
+        private String phoneNumber;
+        private ImageFileDto imageFileDto;
+        private Integer count;
+
+        public OptionListRespDto(BigInteger shopId, String shopName, String address, String category,
+                String storeFileName,
+                String openTime,
+                String closeTime, String phoneNumber, BigInteger count) {
+            this.id = shopId.longValue();
+            this.shopName = shopName;
+            this.address = address;
+            this.category = category;
+            this.openTime = openTime;
+            this.closeTime = closeTime;
+            this.phoneNumber = phoneNumber;
+            this.imageFileDto = new ImageFileDto(storeFileName);
+            this.count = count.intValue();
         }
 
     }

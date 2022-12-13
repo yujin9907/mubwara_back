@@ -25,6 +25,7 @@ import site.metacoding.finals.domain.imagefile.ImageFileRepository;
 import site.metacoding.finals.domain.shop.ShopRepository;
 import site.metacoding.finals.domain.user.User;
 import site.metacoding.finals.dto.reservation.ReservationReqDto.AnalysisDateReqDto;
+import site.metacoding.finals.dto.shop.ShopReqDto.OptionListReqDto;
 import site.metacoding.finals.dto.shop.ShopReqDto.ShopUpdateReqDto;
 import site.metacoding.finals.dummy.DummyEntity;
 
@@ -216,6 +217,35 @@ public class ShopApiControllerTest extends DummyEntity {
         //
         ResultActions resultActions = mvc.perform(
                 MockMvcRequestBuilders.get("/list/popular")
+                        .accept("application/json; charset=utf-8"));
+
+        String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+        log.debug(responseBody);
+
+        //
+        resultActions.andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    @Test
+    public void 편의시설순목록보기테스트() throws Exception {
+        //
+        OptionListReqDto dto = new OptionListReqDto();
+        dto.setOption(1L);
+        OptionListReqDto dto2 = new OptionListReqDto();
+        dto2.setOption(2L);
+        List<OptionListReqDto> dtos = new ArrayList<>();
+        dtos.add(dto);
+        dtos.add(dto2);
+
+        System.out.println("인풋데이터 : " + dtos.get(1).getOption());
+
+        String body = om.writeValueAsString(dtos);
+
+        //
+        ResultActions resultActions = mvc.perform(
+                MockMvcRequestBuilders.post("/list/option")
+                        .contentType("application/json; charset=utf-8")
+                        .content(body)
                         .accept("application/json; charset=utf-8"));
 
         String responseBody = resultActions.andReturn().getResponse().getContentAsString();

@@ -3,6 +3,8 @@ package site.metacoding.finals.dummy;
 import site.metacoding.finals.config.enums.Role;
 import site.metacoding.finals.domain.customer.Customer;
 import site.metacoding.finals.domain.imagefile.ImageFile;
+import site.metacoding.finals.domain.option.Option;
+import site.metacoding.finals.domain.option_shop.OptionShop;
 import site.metacoding.finals.domain.reservation.Reservation;
 import site.metacoding.finals.domain.review.Review;
 import site.metacoding.finals.domain.shop.Shop;
@@ -101,6 +103,20 @@ public abstract class DummyEntity {
         return Subscribe.builder()
                 .customer(customer)
                 .shop(shop)
+                .build();
+    }
+
+    protected Option newOption(String name) {
+        return Option.builder()
+                .name(name)
+                .imageFile(null)
+                .build();
+    }
+
+    protected OptionShop newOptionShop(Shop shop, Option option) {
+        return OptionShop.builder()
+                .shop(shop)
+                .option(option)
                 .build();
     }
 

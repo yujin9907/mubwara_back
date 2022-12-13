@@ -60,7 +60,7 @@ public class JwtAutenticationFilter extends UsernamePasswordAuthenticationFilter
 
         PrincipalUser principalUser = (PrincipalUser) authResult.getPrincipal();
 
-        String access = JwtProcess.create(principalUser, 1); // (1000 * 60 * 60)
+        String access = JwtProcess.create(principalUser, (1000 * 60 * 60)); //
         String refresh = JwtProcess.createRe(principalUser, (1000 * 60 * 60 * 24)); // 리프레시 1일로 설정
 
         response.setHeader("access-token", "Bearer " + access);
