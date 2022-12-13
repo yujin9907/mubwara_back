@@ -86,7 +86,7 @@ public class CustomerService {
         userRepository.deleteById(principalUser.getUser().getId());
 
         // 구독 정보는 바로 삭제
-        if (subscribeRepository.findByCustomerId(customerPS.getId()) != null) {
+        if (subscribeRepository.findByCustomerId(customerPS.getId()).size() != 0) {
             subscribeRepository.deleteByCustomerId(customerPS.getId());
         }
         // 예약 정보는 소프트 딜리트

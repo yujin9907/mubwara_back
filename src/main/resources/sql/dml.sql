@@ -97,3 +97,10 @@ insert into menu(created_at, name, price, recommanded, shop_id, is_deleted)
 values (now(), '3-1메뉴', 10000, 2, 3, false);
 insert into menu(created_at, name, price, recommanded, shop_id, is_deleted)
 values (now(), '3-2메뉴', 20000, 2, 3, false);
+
+insert into image_file(store_filename, menu_id, created_at) values('498e8a11-1048-429c-ad13-b1b51fd714b7.png', 1, now());
+insert into image_file(store_filename, menu_id, created_at) values('498e8a11-1048-429c-ad13-b1b51fd714b7.png', 2, now());
+insert into image_file(store_filename, menu_id, created_at) values('498e8a11-1048-429c-ad13-b1b51fd714b7.png', 3, now());
+insert into image_file(store_filename, menu_id, created_at) values('498e8a11-1048-429c-ad13-b1b51fd714b7.png', 4, now());
+insert into image_file(store_filename, menu_id, created_at) values('498e8a11-1048-429c-ad13-b1b51fd714b7.png', 5, now());
+

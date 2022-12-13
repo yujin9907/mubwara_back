@@ -26,6 +26,10 @@ import site.metacoding.finals.domain.shop.ShopRepository;
 import site.metacoding.finals.domain.user.User;
 import site.metacoding.finals.dto.reservation.ReservationReqDto.AnalysisDateReqDto;
 import site.metacoding.finals.dto.shop.ShopReqDto.ShopUpdateReqDto;
+import site.metacoding.finals.dto.shop_table.ShopTableReqDto.ShopTableUpdateReqDto;
+import site.metacoding.finals.dto.shop_table.ShopTableReqDto.ShopTableUpdateReqDto.ShopTableQtyDto;
+import site.metacoding.finals.dto.shop_table.ShopTableRespDto.ShopTableSaveRespDto;
+import site.metacoding.finals.dto.shop_table.ShopTableRespDto.AllShopTableRespDto.ShopTableDto;
 import site.metacoding.finals.dummy.DummyEntity;
 
 @Sql({ "classpath:sql/dml.sql" })
@@ -54,8 +58,14 @@ public class ShopTableApiControllerTest extends DummyEntity {
     @Test
     public void 테이블인서트하기테스트() throws Exception {
         //
-        AnalysisDateReqDto dto = new AnalysisDateReqDto();
-        dto.setDate("20221126");
+        ShopTableUpdateReqDto dto = new ShopTableUpdateReqDto();
+        ShopTableQtyDto innerDto = new ShopTableQtyDto();
+        innerDto.setMaxPeople(4);
+        innerDto.setQty(2);
+        List<ShopTableQtyDto> listDto = new ArrayList<>();
+        listDto.add(innerDto);
+        dto.setShopTableQtyDtoList(listDto);
+
         String body = om.writeValueAsString(dto);
 
         //
