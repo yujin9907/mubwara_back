@@ -2,6 +2,7 @@ package site.metacoding.finals.domain;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -11,6 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 
 import lombok.extern.slf4j.Slf4j;
@@ -18,9 +20,16 @@ import site.metacoding.finals.domain.customer.Customer;
 import site.metacoding.finals.domain.customer.CustomerRepository;
 import site.metacoding.finals.domain.imagefile.ImageFile;
 import site.metacoding.finals.domain.imagefile.ImageFileRepository;
+import site.metacoding.finals.domain.menu.Menu;
+import site.metacoding.finals.domain.menu.MenuRepository;
+import site.metacoding.finals.domain.option.Option;
+import site.metacoding.finals.domain.option.OptionRepository;
+import site.metacoding.finals.domain.option_shop.OptionShop;
+import site.metacoding.finals.domain.option_shop.OptionShopRepository;
 import site.metacoding.finals.domain.reservation.Reservation;
 import site.metacoding.finals.domain.reservation.ReservationRepository;
 import site.metacoding.finals.domain.shop.Shop;
+import site.metacoding.finals.domain.shop.ShopQueryRepository;
 import site.metacoding.finals.domain.shop.ShopRepository;
 import site.metacoding.finals.domain.shop_table.ShopTable;
 import site.metacoding.finals.domain.shop_table.ShopTableRepository;
@@ -29,8 +38,10 @@ import site.metacoding.finals.domain.subscribe.SubscribeRepository;
 import site.metacoding.finals.domain.user.User;
 import site.metacoding.finals.domain.user.UserRepository;
 import site.metacoding.finals.dto.repository.shop.ReservationRepositoryRespDto;
+import site.metacoding.finals.dto.shop.ShopReqDto.OptionListReqDto;
 import site.metacoding.finals.dummy.DummyEntity;
 
+@Import(ShopQueryRepository.class)
 @Slf4j
 @DataJpaTest
 @ActiveProfiles("test")
@@ -53,6 +64,14 @@ public class ShopRepositoryTest extends DummyEntity {
     private ReservationRepository reservationRepository;
     @Autowired
     private SubscribeRepository subscribeRepository;
+    @Autowired
+    private ShopQueryRepository shopQueryRepository;
+    @Autowired
+    private OptionRepository optionRepository;
+    @Autowired
+    private OptionShopRepository optionShopRepository;
+    @Autowired
+    private MenuRepository menuRepository;
 
     @BeforeEach
     public void setUp() {
@@ -76,8 +95,26 @@ public class ShopRepositoryTest extends DummyEntity {
 
         Subscribe subscribe = newSubscribe(customer, shop);
         subscribeRepository.save(subscribe);
-        // em.persist(imageFile);
-        // em.persist(shop);
+
+        Option option = newOption("옵션1");
+        optionRepository.save(option);
+        Option option2 = newOption("옵션2");
+        optionRepository.save(option2);
+
+        OptionShop optionShop = newOptionShop(shop, option);
+        OptionShop optionShop2 = newOptionShop(shop, option2);
+        OptionShop optionShop3 = newOptionShop(shop2, option);
+        optionShopRepository.save(optionShop);
+        optionShopRepository.save(optionShop2);
+        optionShopRepository.save(optionShop3);
+
+        Menu menu = newMenu(10000, shop);
+        Menu menu2 = newMenu(20000, shop);
+        Menu menu3 = newMenu(10000, shop2);
+        menuRepository.save(menu);
+        menuRepository.save(menu2);
+        menuRepository.save(menu3);
+
     }
 
     @AfterEach
@@ -167,6 +204,25 @@ public class ShopRepositoryTest extends DummyEntity {
         em.clear();
 
         shopRepository.findByPopularList();
+    }
+
+    @Test
+    public void findOptionListByOptionIdTest() {
+        OptionListReqDto dto = new OptionListReqDto();
+        dto.setOption(1L);
+        List<OptionListReqDto> test = new ArrayList<>();
+        test.add(dto);
+
+        em.clear();
+
+        shopQueryRepository.findOptionListByOptionId(test);
+    }
+
+    @Test
+    public void findByPriceListTest() {
+
+        shopQueryRepository.findByPriceList("heiger");
+
     }
 
 }

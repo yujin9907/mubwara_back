@@ -4,11 +4,13 @@ import javax.persistence.EntityManager;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import lombok.extern.slf4j.Slf4j;
+import site.metacoding.finals.config.enums.Role;
 import site.metacoding.finals.domain.customer.Customer;
 import site.metacoding.finals.domain.customer.CustomerRepository;
 import site.metacoding.finals.domain.reservation.Reservation;
@@ -63,6 +65,11 @@ public class CustomerRepositoryTest extends DummyEntity {
         em.createNativeQuery("ALTER TABLE shop_table ALTER COLUMN `id` RESTART WITH 1").executeUpdate();
         em.createNativeQuery("ALTER TABLE reservation ALTER COLUMN `id` RESTART WITH 1").executeUpdate();
 
+    }
+
+    @Test
+    public void 테스트이넘() {
+        userRepository.findbyTestuser(Role.USER);
     }
 
     // @Test

@@ -72,8 +72,7 @@ public class Shop extends AutoTime {
     private List<Review> review;
     @OneToOne(mappedBy = "shop")
     private Commercial commercial;
-
-    @Column
-    private boolean isOpened = Boolean.FALSE;
+    // @Column(nullable = true)
+    // private boolean isOpened;
 
 }

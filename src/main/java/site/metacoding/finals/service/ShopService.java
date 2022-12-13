@@ -3,7 +3,9 @@ package site.metacoding.finals.service;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
@@ -29,6 +31,7 @@ import site.metacoding.finals.domain.reservation.ReservationRepository;
 import site.metacoding.finals.domain.review.Review;
 import site.metacoding.finals.domain.review.ReviewRepository;
 import site.metacoding.finals.domain.shop.Shop;
+import site.metacoding.finals.domain.shop.ShopQueryRepository;
 import site.metacoding.finals.domain.shop.ShopRepository;
 import site.metacoding.finals.domain.user.User;
 import site.metacoding.finals.domain.user.UserRepository;
@@ -37,8 +40,11 @@ import site.metacoding.finals.dto.repository.shop.AnalysisDto;
 import site.metacoding.finals.dto.repository.shop.PopularListRespDto;
 import site.metacoding.finals.dto.reservation.ReservationReqDto.AnalysisDateReqDto;
 import site.metacoding.finals.dto.reservation.ReservationRespDto.AnalysisWeekRespDto;
+import site.metacoding.finals.dto.shop.ShopReqDto.OptionListReqDto;
 import site.metacoding.finals.dto.shop.ShopReqDto.ShopInfoSaveReqDto;
 import site.metacoding.finals.dto.shop.ShopReqDto.ShopUpdateReqDto;
+import site.metacoding.finals.dto.shop.ShopRespDto.OptionListRespDto;
+import site.metacoding.finals.dto.shop.ShopRespDto.PriceListRespDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.ShopDetailRespDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.ShopInfoSaveRespDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.ShopListRespDto;
@@ -60,6 +66,7 @@ public class ShopService {
     private final ImageFileRepository imageFileRepository;
     private final ReservationRepository reservationRepository;
     private final ReviewRepository reviewrRepository;
+    private final ShopQueryRepository shopQueryRepository;
 
     @Transactional
     public ShopInfoSaveRespDto save(ShopInfoSaveReqDto shopInfoSaveReqDto, PrincipalUser principalUser) {
@@ -180,7 +187,17 @@ public class ShopService {
 
     }
 
-    public void optionList() {
+    public Map<String, Object> optionList(List<OptionListReqDto> reqDto) {
+        List<OptionListRespDto> dtoPS = shopQueryRepository.findOptionListByOptionId(reqDto);
+        Map<String, Object> dto = new HashMap<>();
+        dto.put("option", reqDto);
+        dto.put("shop", dtoPS);
+        return dto;
+    }
+
+    public List<PriceListRespDto> priceList(String value) {
+
+        return shopQueryRepository.findByPriceList(value);
 
     }
 }

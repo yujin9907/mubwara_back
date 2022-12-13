@@ -22,8 +22,8 @@ insert into users(username, password, role, is_deleted, created_at) values ('cos
 insert into users(username, password, role, is_deleted, created_at) values ('cos4', '$2a$10$sPyqasyfpVYeHDVrtRcXKelXutSQobLuWzf32BXmQvnLTMbddkIwy', 'SHOP', false,now());
 insert into users(username, password, role, is_deleted, created_at) values ('cos5', '$2a$10$sPyqasyfpVYeHDVrtRcXKelXutSQobLuWzf32BXmQvnLTMbddkIwy', 'SHOP',false, now());
 
-insert into shop(category, address, close_time, information, open_time, per_hour, per_price, phone_number, shop_name, user_id, is_opened,created_at)
-values ('한식', '가게주소', '22', '소개', '10', '1', '10000', '01011113333', '가게', 2, 1, now());
+insert into shop(category, address, close_time, information, open_time, per_hour, per_price, phone_number, shop_name, user_id, created_at)
+values ('한식', '가게주소', '22', '소개', '10', '1', '10000', '01011113333', '가게', 2, now());
 insert into shop(category, address, close_time, information, open_time, per_hour, per_price, phone_number, shop_name, user_id, created_at)
 values ('한식', '가게주소2', '22', '소개2', '12', '1', '15000', '01011112222', '가게2', 3,  now());
 insert into shop(category, address, close_time, information, open_time, per_hour, per_price, phone_number, shop_name, user_id, created_at)
@@ -39,6 +39,10 @@ insert into customer(address, name, phone_number, user_id, is_deleted, created_a
 values ('주소', '커스터머2', '01099966462', 7, false, now());
 
 insert into image_file(store_filename, shop_id, created_at) values('498e8a11-1048-429c-ad13-b1b51fd714b7.png', 1, now());
+insert into image_file(store_filename, shop_id, created_at) values('498e8a11-1048-429c-ad13-b1b51fd714b7.png', 2, now());
+insert into image_file(store_filename, shop_id, created_at) values('498e8a11-1048-429c-ad13-b1b51fd714b7.png', 3, now());
+insert into image_file(store_filename, shop_id, created_at) values('498e8a11-1048-429c-ad13-b1b51fd714b7.png', 4, now());
+insert into image_file(store_filename, shop_id, created_at) values('498e8a11-1048-429c-ad13-b1b51fd714b7.png', 5, now());
 
 insert into review(score, content, shop_id, customer_id, created_at) values (5, 'test',1, 1,now());
 insert into review(score, content, shop_id, customer_id, created_at) values (4, 'test',1, 1,now());
@@ -78,6 +82,18 @@ insert into subscribe (created_at, customer_id, shop_id)
 values (now(), 1, 1);
 insert into subscribe (created_at, customer_id, shop_id)
 values (now(), 2, 1);
-
 insert into subscribe (created_at, customer_id, shop_id)
 values (now(), 1, 2);
+
+
+--가격정렬을 위한 메뉴 더미
+insert into menu(created_at, name, price, recommanded, shop_id, is_deleted)
+values (now(), '1-1메뉴', 10000, 1, 1, false);
+insert into menu(created_at, name, price, recommanded, shop_id, is_deleted)
+values (now(), '1-2메뉴', 10000, 2, 1, false);
+insert into menu(created_at, name, price, recommanded, shop_id, is_deleted)
+values (now(), '2-1메뉴', 20000, 2, 2, false);
+insert into menu(created_at, name, price, recommanded, shop_id, is_deleted)
+values (now(), '3-1메뉴', 10000, 2, 3, false);
+insert into menu(created_at, name, price, recommanded, shop_id, is_deleted)
+values (now(), '3-2메뉴', 20000, 2, 3, false);
