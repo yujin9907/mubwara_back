@@ -28,7 +28,7 @@ public class ShopTableService {
     private final ShopRepository shopRepository;
 
     @Transactional
-    public QtyTableDto findAllByShopId(PrincipalUser principalUser) {
+    public List<QtyTableDto> findAllByShopId(PrincipalUser principalUser) {
         // Shop shopPS = shopRepository.findByUserId(userId)
         // .orElseThrow(() -> new RuntimeException("해당 가게가 없습니다."));
 

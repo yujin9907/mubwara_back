@@ -19,6 +19,7 @@ import site.metacoding.finals.dto.ResponseDto;
 import site.metacoding.finals.dto.repository.shop.AnalysisDto;
 import site.metacoding.finals.dto.reservation.ReservationReqDto.AnalysisDateReqDto;
 import site.metacoding.finals.dto.reservation.ReservationRespDto.AnalysisWeekRespDto;
+import site.metacoding.finals.dto.shop.ShopReqDto.OptionListReqDto;
 import site.metacoding.finals.dto.shop.ShopReqDto.ShopInfoSaveReqDto;
 import site.metacoding.finals.dto.shop.ShopReqDto.ShopUpdateReqDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.ShopDetailRespDto;
@@ -103,6 +104,13 @@ public class ShopApiController {
     public ResponseEntity<?> shopPopularList() {
         List<ShopPopularListRespDto> respDtos = shopService.popularList();
         return new ResponseEntity<>(new ResponseDto<>(HttpStatus.OK, "인기순 가게 리스트 조회", respDtos), HttpStatus.OK);
+    }
+
+    @PostMapping("/list/option")
+    public ResponseEntity<?> shopOptionList(@RequestBody List<OptionListReqDto> reqDto) {
+
+        return new ResponseEntity<>(new ResponseDto<>(HttpStatus.OK, "편의시설 가게 리스트 조회", null),
+                HttpStatus.OK);
     }
 
 }

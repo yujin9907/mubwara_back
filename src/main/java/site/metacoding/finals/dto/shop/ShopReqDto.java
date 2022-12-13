@@ -79,4 +79,10 @@ public class ShopReqDto {
         private int time;
     }
 
+    @Setter
+    @Getter
+    public static class OptionListReqDto {
+        private Long option;
+    }
+
 }

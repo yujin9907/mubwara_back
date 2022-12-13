@@ -174,9 +174,13 @@ public class ShopService {
     public List<ShopPopularListRespDto> popularList() {
         List<PopularListRespDto> dtos = shopRepository.findByPopularList();
 
-        System.out.println("디버그 : " + dtos.size());
+        // System.out.println("디버그 : " + dtos.size());
 
         return dtos.stream().map((d) -> new ShopPopularListRespDto(d)).collect(Collectors.toList());
+
+    }
+
+    public void optionList() {
 
     }
 }
