@@ -3,6 +3,8 @@ package site.metacoding.finals.service;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +19,7 @@ import site.metacoding.finals.domain.shop_table.ShopTableRepository;
 import site.metacoding.finals.dto.repository.shop.QtyTableDto;
 import site.metacoding.finals.dto.shop_table.ShopTableReqDto.ShopTableUpdateReqDto;
 import site.metacoding.finals.dto.shop_table.ShopTableReqDto.ShopTableUpdateReqDto.ShopTableQtyDto;
+import site.metacoding.finals.dto.shop_table.ShopTableRespDto.ShopTableListRespDto;
 import site.metacoding.finals.dto.shop_table.ShopTableRespDto.ShopTableSaveRespDto;
 
 @Slf4j
@@ -28,11 +31,12 @@ public class ShopTableService {
     private final ShopRepository shopRepository;
 
     @Transactional
-    public List<QtyTableDto> findAllByShopId(PrincipalUser principalUser) {
+    public List<ShopTableListRespDto> findAllByShopId(PrincipalUser principalUser) {
         // Shop shopPS = shopRepository.findByUserId(userId)
         // .orElseThrow(() -> new RuntimeException("해당 가게가 없습니다."));
+        List<QtyTableDto> dtos = shopTableRepository.findQtyTable();
 
-        return shopTableRepository.findQtyTable();
+        return dtos.stream().map((d) -> new ShopTableListRespDto(d)).collect(Collectors.toList());
 
         // return new
         // AllShopTableRespDto(shopTableRepository.findByShopId(shopPS.getId()));
