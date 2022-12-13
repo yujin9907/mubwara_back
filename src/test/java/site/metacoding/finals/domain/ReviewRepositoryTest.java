@@ -32,8 +32,8 @@ import site.metacoding.finals.domain.subscribe.Subscribe;
 import site.metacoding.finals.domain.subscribe.SubscribeRepository;
 import site.metacoding.finals.domain.user.User;
 import site.metacoding.finals.domain.user.UserRepository;
-import site.metacoding.finals.dto.repository.customer.ReservationRepositoryRespDto;
 import site.metacoding.finals.dto.repository.customer.ScoreRespDto;
+import site.metacoding.finals.dto.repository.shop.ReservationRepositoryRespDto;
 import site.metacoding.finals.dto.test.testDto;
 import site.metacoding.finals.dummy.DummyEntity;
 

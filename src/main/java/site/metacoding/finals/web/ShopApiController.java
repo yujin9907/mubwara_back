@@ -24,6 +24,7 @@ import site.metacoding.finals.dto.shop.ShopReqDto.ShopUpdateReqDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.ShopDetailRespDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.ShopInfoSaveRespDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.ShopListRespDto;
+import site.metacoding.finals.dto.shop.ShopRespDto.ShopPopularListRespDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.ShopUpdateRespDto;
 import site.metacoding.finals.service.ShopService;
 
@@ -85,6 +86,12 @@ public class ShopApiController {
         return new ResponseEntity<>(new ResponseDto<>(HttpStatus.OK, "전체 가게 리스트 조회", shopList), HttpStatus.OK);
     }
 
+    @GetMapping("/detail/{id}")
+    public ResponseEntity<?> shopDetail(@PathVariable Long id) {
+        ShopDetailRespDto dto = shopService.detatil(id);
+        return new ResponseEntity<>(new ResponseDto<>(HttpStatus.OK, "가게 상세보기 조회", dto), HttpStatus.OK);
+    }
+
     // 리스폰스 dto 방식 얘만 다름
     @GetMapping("/list/{categoryName}")
     public ResponseEntity<?> shopCategoryList(@PathVariable String categoryName) {
@@ -92,9 +99,10 @@ public class ShopApiController {
         return new ResponseEntity<>(new ResponseDto<>(HttpStatus.OK, "카테고리별 가게 리스트 조회", shopList), HttpStatus.OK);
     }
 
-    @GetMapping("/detail/{id}")
-    public ResponseEntity<?> shopDetail(@PathVariable Long id) {
-        ShopDetailRespDto dto = shopService.detatil(id);
-        return new ResponseEntity<>(new ResponseDto<>(HttpStatus.OK, "가게 상세보기 조회", dto), HttpStatus.OK);
+    @GetMapping("/list/popular")
+    public ResponseEntity<?> shopPopularList() {
+        List<ShopPopularListRespDto> respDtos = shopService.popularList();
+        return new ResponseEntity<>(new ResponseDto<>(HttpStatus.OK, "인기순 가게 리스트 조회", respDtos), HttpStatus.OK);
     }
+
 }

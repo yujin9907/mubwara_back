@@ -1,7 +1,7 @@
 package site.metacoding.finals.dto.repository.shop;
 
 public interface QtyTableDto {
-    Integer getMaxPeople();
+    String getMaxPeople();
 
     Integer getQty();
 }

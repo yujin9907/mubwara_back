@@ -34,6 +34,7 @@ import site.metacoding.finals.domain.user.User;
 import site.metacoding.finals.domain.user.UserRepository;
 import site.metacoding.finals.dto.image_file.ImageFileReqDto.ImageHandlerDto;
 import site.metacoding.finals.dto.repository.shop.AnalysisDto;
+import site.metacoding.finals.dto.repository.shop.PopularListRespDto;
 import site.metacoding.finals.dto.reservation.ReservationReqDto.AnalysisDateReqDto;
 import site.metacoding.finals.dto.reservation.ReservationRespDto.AnalysisWeekRespDto;
 import site.metacoding.finals.dto.shop.ShopReqDto.ShopInfoSaveReqDto;
@@ -41,6 +42,7 @@ import site.metacoding.finals.dto.shop.ShopReqDto.ShopUpdateReqDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.ShopDetailRespDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.ShopInfoSaveRespDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.ShopListRespDto;
+import site.metacoding.finals.dto.shop.ShopRespDto.ShopPopularListRespDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.ShopUpdateRespDto;
 import site.metacoding.finals.handler.ImageFileHandler;
 
@@ -145,14 +147,6 @@ public class ShopService {
         return respDtos;
     }
 
-    public List<ShopListRespDto> categoryList(String categoryName) {
-        List<Shop> shopList = shopRepository.findByCategory(categoryName);
-
-        return shopList.stream()
-                .map((dto) -> new ShopListRespDto(dto)).collect(Collectors.toList());
-
-    }
-
     public ShopDetailRespDto detatil(Long shopId) {
         // 가게 정보
         Shop shopPS = shopRepository.findById(shopId)
@@ -167,5 +161,22 @@ public class ShopService {
         }
 
         return respDto;
+    }
+
+    public List<ShopListRespDto> categoryList(String categoryName) {
+        List<Shop> shopList = shopRepository.findByCategory(categoryName);
+
+        return shopList.stream()
+                .map((dto) -> new ShopListRespDto(dto)).collect(Collectors.toList());
+
+    }
+
+    public List<ShopPopularListRespDto> popularList() {
+        List<PopularListRespDto> dtos = shopRepository.findByPopularList();
+
+        System.out.println("디버그 : " + dtos.size());
+
+        return dtos.stream().map((d) -> new ShopPopularListRespDto(d)).collect(Collectors.toList());
+
     }
 }

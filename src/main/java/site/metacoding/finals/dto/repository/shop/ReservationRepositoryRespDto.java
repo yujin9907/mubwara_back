@@ -1,4 +1,4 @@
-package site.metacoding.finals.dto.repository.customer;
+package site.metacoding.finals.dto.repository.shop;
 
 public interface ReservationRepositoryRespDto {
     // shop.id shop_id, shop.shop_name, shop.address, shop.category,
