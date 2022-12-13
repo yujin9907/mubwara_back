@@ -1,6 +1,7 @@
 package site.metacoding.finals.web;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +24,7 @@ import site.metacoding.finals.dto.shop.ShopReqDto.OptionListReqDto;
 import site.metacoding.finals.dto.shop.ShopReqDto.ShopInfoSaveReqDto;
 import site.metacoding.finals.dto.shop.ShopReqDto.ShopUpdateReqDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.OptionListRespDto;
+import site.metacoding.finals.dto.shop.ShopRespDto.PriceListRespDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.ShopDetailRespDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.ShopInfoSaveRespDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.ShopListRespDto;
@@ -108,9 +110,15 @@ public class ShopApiController {
 
     @PostMapping("/list/option")
     public ResponseEntity<?> shopOptionList(@RequestBody List<OptionListReqDto> reqDto) {
-        List<OptionListRespDto> respDtos = shopService.optionList(reqDto);
+        Map<String, Object> respDtos = shopService.optionList(reqDto);
         return new ResponseEntity<>(new ResponseDto<>(HttpStatus.OK, "편의시설 가게 리스트 조회", respDtos),
                 HttpStatus.OK);
+    }
+
+    @GetMapping("/list/price/{value}")
+    public ResponseEntity<?> shopPriceList(@PathVariable("value") String value) {
+        List<PriceListRespDto> respDtos = shopService.priceList(value);
+        return new ResponseEntity<>(new ResponseDto<>(HttpStatus.OK, "가격순 가게 리스트 조회", respDtos), HttpStatus.OK);
     }
 
 }

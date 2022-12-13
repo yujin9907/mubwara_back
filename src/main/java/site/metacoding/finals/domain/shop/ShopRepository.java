@@ -16,6 +16,12 @@ import site.metacoding.finals.dto.repository.shop.ReservationRepositoryRespDto;
 
 public interface ShopRepository extends JpaRepository<Shop, Long> {
 
+        // @Query(value = "select s.* from shop s left join( " +
+        // "select round(avg(price), 1) avg, shop_id from menu group by shop_id) m " +
+        // "on s.id = m.shop_id " +
+        // "order by avg ?1", nativeQuery = true)
+        // List<Shop> findByPriceList(@Param("value") String value);
+
         @EntityGraph(attributePaths = { "imageFile", "review" })
         @Query("select s from Shop s")
         List<Shop> findAllList();

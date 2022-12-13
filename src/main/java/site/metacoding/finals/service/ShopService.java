@@ -3,7 +3,9 @@ package site.metacoding.finals.service;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
@@ -42,6 +44,7 @@ import site.metacoding.finals.dto.shop.ShopReqDto.OptionListReqDto;
 import site.metacoding.finals.dto.shop.ShopReqDto.ShopInfoSaveReqDto;
 import site.metacoding.finals.dto.shop.ShopReqDto.ShopUpdateReqDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.OptionListRespDto;
+import site.metacoding.finals.dto.shop.ShopRespDto.PriceListRespDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.ShopDetailRespDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.ShopInfoSaveRespDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.ShopListRespDto;
@@ -184,7 +187,17 @@ public class ShopService {
 
     }
 
-    public List<OptionListRespDto> optionList(List<OptionListReqDto> reqDto) {
-        return shopQueryRepository.findOptionListByOptionId(reqDto);
+    public Map<String, Object> optionList(List<OptionListReqDto> reqDto) {
+        List<OptionListRespDto> dtoPS = shopQueryRepository.findOptionListByOptionId(reqDto);
+        Map<String, Object> dto = new HashMap<>();
+        dto.put("option", reqDto);
+        dto.put("shop", dtoPS);
+        return dto;
+    }
+
+    public List<PriceListRespDto> priceList(String value) {
+
+        return shopQueryRepository.findByPriceList(value);
+
     }
 }

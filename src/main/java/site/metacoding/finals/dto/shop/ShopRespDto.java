@@ -64,7 +64,7 @@ public class ShopRespDto {
             this.openTime = shop.getOpenTime();
             this.closeTime = shop.getCloseTime();
             this.phoneNumber = shop.getPhoneNumber();
-            this.imageFileDto = new ImageFileDto(shop.getImageFile());
+            this.imageFileDto = new ImageFileDto(shop.getImageFile().getStoreFilename());
         }
 
     }
@@ -258,6 +258,7 @@ public class ShopRespDto {
         private String phoneNumber;
         private ImageFileDto imageFileDto;
         private Integer count;
+        private List<Long> optionList;
 
         public OptionListRespDto(BigInteger shopId, String shopName, String address, String category,
                 String storeFileName,
@@ -272,6 +273,37 @@ public class ShopRespDto {
             this.phoneNumber = phoneNumber;
             this.imageFileDto = new ImageFileDto(storeFileName);
             this.count = count.intValue();
+        }
+
+    }
+
+    @Setter
+    @Getter
+    public static class PriceListRespDto {
+        private Long id;
+        private String shopName;
+        private String address;
+        private String category;
+        private String openTime;
+        private String closeTime;
+        private String phoneNumber;
+        private ImageFileDto imageFileDto;
+        private Integer priceAvg = 0;
+        private List<Long> optionList;
+
+        public PriceListRespDto(BigInteger shopId, String shopName, String address, String category,
+                String storeFileName,
+                String openTime,
+                String closeTime, String phoneNumber, Double avg) {
+            this.id = shopId.longValue();
+            this.shopName = shopName;
+            this.address = address;
+            this.category = category;
+            this.openTime = openTime;
+            this.closeTime = closeTime;
+            this.phoneNumber = phoneNumber;
+            this.imageFileDto = new ImageFileDto(storeFileName);
+            this.priceAvg = avg.intValue();
         }
 
     }

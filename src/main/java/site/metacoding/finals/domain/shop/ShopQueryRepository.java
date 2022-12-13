@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import site.metacoding.finals.dto.repository.shop.PopularListRespDto;
 import site.metacoding.finals.dto.shop.ShopReqDto.OptionListReqDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.OptionListRespDto;
+import site.metacoding.finals.dto.shop.ShopRespDto.PriceListRespDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.ReservationShopRespDto;
 
 @Repository
@@ -21,11 +22,31 @@ public class ShopQueryRepository {
 
     private final EntityManager em;
 
-    public List<OptionListRespDto> findOptionListByOptionId(List<OptionListReqDto> opitonIds) {
+    public List<PriceListRespDto> findByPriceList(String value) {
 
-        System.out.println("디버그 : " + opitonIds.size());
-        System.out.println("디버그 첫번째 : " + opitonIds.get(0).getOption().toString());
-        System.out.println("디버그 두번째 : " + opitonIds.get(1).getOption().toString());
+        String query = "select s.id shopId, s.shop_name shopName, s.address, s.category, i.store_filename storeFileName, ";
+        query += "s.open_time openTime, s.close_time closeTime, s.phone_number phoneNumber, ifnull(m.avg, 0) ";
+        query += "from shop s ";
+        query += "left join(select round(avg(price), 1) avg, shop_id  from menu group by shop_id) m on s.id = m.shop_id ";
+        query += "left join image_file i on s.id = i.shop_id ";
+        query += "order by avg ";
+
+        if (value.equals("heiger")) {
+            query += "asc";
+        }
+        if (value.equals("lower")) {
+            query += "desc";
+        }
+
+        JpaResultMapper jpaResultMapper = new JpaResultMapper();
+        Query q = em.createNativeQuery(query);
+
+        List<PriceListRespDto> result = jpaResultMapper.list(q, PriceListRespDto.class);
+
+        return result;
+    }
+
+    public List<OptionListRespDto> findOptionListByOptionId(List<OptionListReqDto> opitonIds) {
 
         String query = "select s.id shopId, s.shop_name shopName, s.address, s.category, i.store_filename storeFileName, ";
         query += "s.open_time openTime, s.close_time closeTime, s.phone_number phoneNumber, count(os.id) count ";
@@ -42,8 +63,6 @@ public class ShopQueryRepository {
         }
         query += ") os on s.id = os.shop_id ";
         query += "group by s.id order by count desc";
-
-        // System.out.println("디버그 : " + query);
 
         JpaResultMapper jpaResultMapper = new JpaResultMapper();
         Query q = em.createNativeQuery(query);

@@ -255,4 +255,21 @@ public class ShopApiControllerTest extends DummyEntity {
         resultActions.andExpect(MockMvcResultMatchers.status().isOk());
     }
 
+    @Test
+    public void 가격순목록보기테스트() throws Exception {
+        //
+        String str = "heiger";
+
+        //
+        ResultActions resultActions = mvc.perform(
+                MockMvcRequestBuilders.get("/list/price/" + str)
+                        .accept("application/json; charset=utf-8"));
+
+        String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+        log.debug(responseBody);
+
+        //
+        resultActions.andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
 }

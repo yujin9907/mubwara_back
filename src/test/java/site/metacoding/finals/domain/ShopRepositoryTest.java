@@ -20,6 +20,8 @@ import site.metacoding.finals.domain.customer.Customer;
 import site.metacoding.finals.domain.customer.CustomerRepository;
 import site.metacoding.finals.domain.imagefile.ImageFile;
 import site.metacoding.finals.domain.imagefile.ImageFileRepository;
+import site.metacoding.finals.domain.menu.Menu;
+import site.metacoding.finals.domain.menu.MenuRepository;
 import site.metacoding.finals.domain.option.Option;
 import site.metacoding.finals.domain.option.OptionRepository;
 import site.metacoding.finals.domain.option_shop.OptionShop;
@@ -68,6 +70,8 @@ public class ShopRepositoryTest extends DummyEntity {
     private OptionRepository optionRepository;
     @Autowired
     private OptionShopRepository optionShopRepository;
+    @Autowired
+    private MenuRepository menuRepository;
 
     @BeforeEach
     public void setUp() {
@@ -103,6 +107,13 @@ public class ShopRepositoryTest extends DummyEntity {
         optionShopRepository.save(optionShop);
         optionShopRepository.save(optionShop2);
         optionShopRepository.save(optionShop3);
+
+        Menu menu = newMenu(10000, shop);
+        Menu menu2 = newMenu(20000, shop);
+        Menu menu3 = newMenu(10000, shop2);
+        menuRepository.save(menu);
+        menuRepository.save(menu2);
+        menuRepository.save(menu3);
 
     }
 
@@ -205,6 +216,13 @@ public class ShopRepositoryTest extends DummyEntity {
         em.clear();
 
         shopQueryRepository.findOptionListByOptionId(test);
+    }
+
+    @Test
+    public void findByPriceListTest() {
+
+        shopQueryRepository.findByPriceList("heiger");
+
     }
 
 }
