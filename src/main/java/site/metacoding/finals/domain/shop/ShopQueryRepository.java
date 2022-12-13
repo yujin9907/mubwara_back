@@ -9,6 +9,7 @@ import org.qlrm.mapper.JpaResultMapper;
 import org.springframework.stereotype.Repository;
 
 import lombok.RequiredArgsConstructor;
+import site.metacoding.finals.dto.repository.shop.PopularListRespDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.ReservationShopRespDto;
 
 @Repository
@@ -16,6 +17,25 @@ import site.metacoding.finals.dto.shop.ShopRespDto.ReservationShopRespDto;
 public class ShopQueryRepository {
 
     private final EntityManager em;
+
+    public List<PopularListRespDto> findOptionListByOptionId(List<Long> opitonIds) {
+
+        String query = "select s.id shopId, s.shop_name shopName, s.address, s.category, i.store_filename storeFileName, ";
+        query += "s.open_time openTime, s.close_time closeTime, s.phone_number phoneNumber, count(os.id) count ";
+        query += "from shop s";
+        query += "left join image_file i on s.id = i.shop_id ";
+        query += "left join (select * from option_shop o where o.option_id=1) os on s.id = os.shop_id "; // 여기가 웨어 절이
+                                                                                                         // 돌아야 됨
+
+        String innerQuery = "";
+        for (Long id : opitonIds) {
+            // innerQuery =
+        }
+
+        query += "group by s.id order by count desc";
+
+        return null;
+    }
 
     public List<ReservationShopRespDto> findResevationByCustomerId(Long customerId) {
 

@@ -7,9 +7,23 @@ import lombok.Getter;
 import lombok.Setter;
 import site.metacoding.finals.domain.shop.Shop;
 import site.metacoding.finals.domain.shop_table.ShopTable;
+import site.metacoding.finals.dto.repository.shop.QtyTableDto;
 import site.metacoding.finals.dto.shop.ShopInnerDto.ShopDto;
 
 public class ShopTableRespDto {
+    @Setter
+    @Getter
+    public static class ShopTableListRespDto {
+        private String maxPeople;
+        private Integer qty;
+
+        public ShopTableListRespDto(QtyTableDto dto) {
+            this.maxPeople = dto.getMaxPeople();
+            this.qty = dto.getQty();
+        }
+
+    }
+
     // 가게 테이블 저장
     @Setter
     @Getter
