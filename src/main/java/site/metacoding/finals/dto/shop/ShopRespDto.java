@@ -12,7 +12,8 @@ import site.metacoding.finals.domain.shop.Shop;
 import site.metacoding.finals.domain.user.User;
 import site.metacoding.finals.dto.image_file.ImageFileInnerDto.ImageFileDto;
 import site.metacoding.finals.dto.image_file.ImageFileReqDto.ImageHandlerDto;
-import site.metacoding.finals.dto.repository.customer.ReservationRepositoryRespDto;
+import site.metacoding.finals.dto.repository.shop.PopularListRespDto;
+import site.metacoding.finals.dto.repository.shop.ReservationRepositoryRespDto;
 import site.metacoding.finals.handler.ImageFileHandler;
 
 public class ShopRespDto {
@@ -212,6 +213,34 @@ public class ShopRespDto {
                 this.imageFile = new ImageFileDto(menu.getImageFile());
             }
 
+        }
+
+    }
+
+    @Setter
+    @Getter
+    public static class ShopPopularListRespDto {
+        private Long id;
+        private String shopName;
+        private String address;
+        private String category;
+        private String openTime;
+        private String closeTime;
+        private String phoneNumber;
+        private ImageFileDto imageFileDto;
+        private Integer subscribeCount;
+        private Double scoreAvg;
+
+        public ShopPopularListRespDto(PopularListRespDto shop) {
+            this.id = shop.getShopId();
+            this.shopName = shop.getShopName();
+            this.address = shop.getAddress();
+            this.category = shop.getCategory();
+            this.openTime = shop.getOpenTime();
+            this.closeTime = shop.getCloseTime();
+            this.phoneNumber = shop.getPhoneNumber();
+            this.subscribeCount = shop.getCount();
+            this.imageFileDto = new ImageFileDto(shop.getStoreFileName());
         }
 
     }

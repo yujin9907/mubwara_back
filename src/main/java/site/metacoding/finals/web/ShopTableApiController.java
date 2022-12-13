@@ -1,5 +1,7 @@
 package site.metacoding.finals.web;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -35,7 +37,7 @@ public class ShopTableApiController {
 
         @GetMapping("/shop/table")
         public ResponseEntity<?> tableList(@AuthenticationPrincipal PrincipalUser principalUser) {
-                QtyTableDto allShopTableRespDto = shopTableService.findAllByShopId(principalUser);
+                List<QtyTableDto> allShopTableRespDto = shopTableService.findAllByShopId(principalUser);
                 return new ResponseEntity<>(new ResponseDto<>(HttpStatus.OK, "가게 테이블 전체보기 성공", allShopTableRespDto),
                                 HttpStatus.OK);
         }

@@ -52,7 +52,7 @@ public class ShopTableApiControllerTest extends DummyEntity {
 
     @WithUserDetails(value = "cos", setupBefore = TestExecutionEvent.TEST_EXECUTION)
     @Test
-    public void 주간통계요청테스트() throws Exception {
+    public void 테이블인서트하기테스트() throws Exception {
         //
         AnalysisDateReqDto dto = new AnalysisDateReqDto();
         dto.setDate("20221126");
@@ -63,6 +63,23 @@ public class ShopTableApiControllerTest extends DummyEntity {
                 MockMvcRequestBuilders.post("/shop/table")
                         .content(body)
                         .contentType("application/json; charset=utf-8")
+                        .accept("application/json; charset=utf-8"));
+
+        String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+        log.debug(responseBody);
+
+        //
+        resultActions.andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    @WithUserDetails(value = "cos", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+    @Test
+    public void 테이블목록보기테스트() throws Exception {
+        //
+
+        //
+        ResultActions resultActions = mvc.perform(
+                MockMvcRequestBuilders.get("/shop/table")
                         .accept("application/json; charset=utf-8"));
 
         String responseBody = resultActions.andReturn().getResponse().getContentAsString();

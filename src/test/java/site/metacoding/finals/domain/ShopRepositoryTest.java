@@ -28,7 +28,7 @@ import site.metacoding.finals.domain.subscribe.Subscribe;
 import site.metacoding.finals.domain.subscribe.SubscribeRepository;
 import site.metacoding.finals.domain.user.User;
 import site.metacoding.finals.domain.user.UserRepository;
-import site.metacoding.finals.dto.repository.customer.ReservationRepositoryRespDto;
+import site.metacoding.finals.dto.repository.shop.ReservationRepositoryRespDto;
 import site.metacoding.finals.dummy.DummyEntity;
 
 @Slf4j
@@ -159,6 +159,14 @@ public class ShopRepositoryTest extends DummyEntity {
         List<Shop> shop = shopRepository.findByCategory(name);
 
         assertEquals(shop.get(0).getCategory(), name);
+    }
+
+    @Test
+    public void findByPopularListTest() {
+
+        em.clear();
+
+        shopRepository.findByPopularList();
     }
 
 }

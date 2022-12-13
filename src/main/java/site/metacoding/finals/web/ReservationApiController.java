@@ -56,7 +56,7 @@ public class ReservationApiController {
     }
 
     // 자기 아이디로만 저장할 수 있어야 함
-    @PostMapping(value = "/user/reservation")
+    @PostMapping(value = "/auth/reservation")
     public ResponseEntity<?> reservationSave(@RequestBody ReservationSaveReqDto dto,
             @AuthenticationPrincipal PrincipalUser principalUser) {
         ReservationSaveRespDto respDto = reservationService.save(dto, principalUser.getUsername());

@@ -25,10 +25,10 @@ public interface ShopTableRepository extends JpaRepository<ShopTable, Long> {
 
     // -----------------------------------------------------------------------------------------
 
-    @Query(value = "select max_people as mexPeople, count(max_people) qty from shop_table group by max_people", nativeQuery = true)
-    QtyTableDto findQtyTable();
+    @Query(value = "select max_people as maxPeople, count(max_people) qty from shop_table group by max_people", nativeQuery = true)
+    List<QtyTableDto> findQtyTable();
 
-    @Query(value = "select max_people as mexPeople, count(max_people) qty from shop_table group by max_people having max_people=:People", nativeQuery = true)
+    @Query(value = "select max_people as maxPeople, count(max_people) qty from shop_table group by max_people having max_people=:people", nativeQuery = true)
     QtyTableDto findQtyTableByNum(@Param("people") int people);
 
 }

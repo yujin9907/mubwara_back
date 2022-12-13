@@ -33,7 +33,7 @@ import site.metacoding.finals.dto.customer.CustomerRespDto.CustomerMyPageReviewR
 import site.metacoding.finals.dto.customer.CustomerRespDto.CustomerMyPageSubscribeRespDto;
 import site.metacoding.finals.dto.customer.CustomerRespDto.CustomerUpdateRespDto;
 import site.metacoding.finals.dto.image_file.ImageFileReqDto.ImageHandlerDto;
-import site.metacoding.finals.dto.repository.customer.ReservationRepositoryRespDto;
+import site.metacoding.finals.dto.repository.shop.ReservationRepositoryRespDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.ReservationShopRespDto;
 import site.metacoding.finals.handler.ImageFileHandler;
 
@@ -131,4 +131,5 @@ public class CustomerService {
 
         return reviews.stream().map((r) -> new CustomerMyPageReviewRespDto(r)).collect(Collectors.toList());
     }
+
 }

@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,7 +22,6 @@ import site.metacoding.finals.dto.customer.CustomerRespDto.CustomerJoinRespDto;
 import site.metacoding.finals.dto.customer.CustomerRespDto.CustomerMyPageReviewRespDto;
 import site.metacoding.finals.dto.customer.CustomerRespDto.CustomerMyPageSubscribeRespDto;
 import site.metacoding.finals.dto.customer.CustomerRespDto.CustomerUpdateRespDto;
-import site.metacoding.finals.dto.repository.customer.ReservationRepositoryRespDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.ReservationShopRespDto;
 import site.metacoding.finals.service.CustomerService;
 
@@ -60,7 +58,7 @@ public class CustomerApiController {
     }
 
     // 내거 보기 권한 체크 필요
-    @GetMapping("/user/mypage/reservation")
+    @GetMapping("/auth/mypage/reservation")
     public ResponseEntity<?> CustomerMypageReservationApi(
             @AuthenticationPrincipal PrincipalUser principalUser) {
         List<ReservationShopRespDto> dto = customerService.myPageReservation(principalUser.getUser().getId());
@@ -69,7 +67,7 @@ public class CustomerApiController {
 
     // 내거 보기 권한 체크 필요
 
-    @GetMapping("/user/mypage/subscribe")
+    @GetMapping("/auth/mypage/subscribe")
     public ResponseEntity<?> CustomerMypageSubscribeApi(@AuthenticationPrincipal PrincipalUser principalUser) {
         List<CustomerMyPageSubscribeRespDto> dto = customerService.myPageSubscribe(principalUser.getUser().getId());
         return new ResponseEntity<>(new ResponseDto<>(HttpStatus.OK, "마이페이지 구독 목록", dto), HttpStatus.OK);
@@ -77,7 +75,7 @@ public class CustomerApiController {
 
     // 내거 보기 권한 체크 필요
 
-    @GetMapping("/user/mypage/review")
+    @GetMapping("/auth/mypage/review")
     public ResponseEntity<?> CustomerMypageReviewApi(@AuthenticationPrincipal PrincipalUser principalUser) {
         List<CustomerMyPageReviewRespDto> dto = customerService.myPageReview(principalUser.getUser().getId());
         return new ResponseEntity<>(new ResponseDto<>(HttpStatus.OK, "마이페이지 리뷰 목록", dto), HttpStatus.OK);

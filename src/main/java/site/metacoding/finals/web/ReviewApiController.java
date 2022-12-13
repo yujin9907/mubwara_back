@@ -41,7 +41,7 @@ public class ReviewApiController {
         // HttpStatus.CREATED);
         // }
 
-        @PostMapping(value = "/user/review")
+        @PostMapping(value = "/auth/review")
         public ResponseEntity<?> saveBase64Review(@RequestBody TestReviewReqDto testReviewReqDto,
                         @AuthenticationPrincipal PrincipalUser principalUser) {
                 ReviewSaveRespDto respDto = reviewService.saveBase64(testReviewReqDto,
