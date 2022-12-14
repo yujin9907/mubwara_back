@@ -177,6 +177,7 @@ public class ShopRespDto {
             this.imageFile = new ImageFileDto(shop.getImageFile());
             this.review = toReviewList(shop.getReview());
             this.menu = toMenuList(shop.getMenu());
+            this.scoreAvg = 0.0;
         }
 
         public List<MenuDto> toMenuList(List<Menu> menus) {

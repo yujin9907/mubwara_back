@@ -49,8 +49,6 @@ public class CustomerService {
     private final ReservationRepository reservationRepository;
     private final SubscribeRepository subscribeRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-    private final ImageFileHandler imageFileHandler;
-    private final ShopQueryRepository shopQueryRepository;
 
     @Transactional
     public CustomerJoinRespDto join(CustomerJoinReqDto customerJoinReqDto) {
@@ -64,11 +62,11 @@ public class CustomerService {
     }
 
     @Transactional
-    public CustomerUpdateRespDto update(Long id, CustomerUpdateReqDto customerUpdateReqDto) {
-        Customer customerPS = customerRepository.findById(id)
+    public CustomerUpdateRespDto update(PrincipalUser principalUser, CustomerUpdateReqDto customerUpdateReqDto) {
+        Customer customerPS = customerRepository.findById(principalUser.getId())
                 .orElseThrow(() -> new RuntimeException("유저 정보 찾을 수 없음"));
 
-        customerPS.toEntity(customerUpdateReqDto);
+        customerPS.updateCustomer(customerUpdateReqDto);
 
         customerRepository.save(customerPS);
 

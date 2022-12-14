@@ -5,8 +5,6 @@ import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.core.log.LogDelegateFactory;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.auth0.jwt.JWT;
@@ -14,10 +12,8 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 
-import lombok.extern.slf4j.Slf4j;
 import site.metacoding.finals.config.auth.PrincipalUser;
 import site.metacoding.finals.config.enums.Role;
-import site.metacoding.finals.config.exception.JwtExceptionHandler;
 import site.metacoding.finals.domain.user.User;
 
 public class JwtProcess {

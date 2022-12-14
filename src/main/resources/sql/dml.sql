@@ -75,6 +75,10 @@ values (1, 1, now());
 
 insert into option(name, image_file_id, created_at) values ('옵션', 1, now());
 
+insert into commercial (created_at, specification, is_deleted, shop_id)
+values (now(), '광고입니다', false, 1);
+insert into image_file(store_filename, commercial_id, created_at) values('498e8a11-1048-429c-ad13-b1b51fd714b7.png', 1, now());
+
 
 
 -- 가게 정렬을 위한 더미데이터 추가

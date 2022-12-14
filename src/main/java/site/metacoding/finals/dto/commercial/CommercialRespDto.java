@@ -5,6 +5,7 @@ import lombok.Setter;
 import site.metacoding.finals.domain.commercial.Commercial;
 import site.metacoding.finals.domain.imagefile.ImageFile;
 import site.metacoding.finals.domain.shop.Shop;
+import site.metacoding.finals.dto.image_file.ImageFileInnerDto.ImageFileDto;
 
 public class CommercialRespDto {
     @Setter
@@ -16,18 +17,8 @@ public class CommercialRespDto {
 
         public CommercialListRespDto(Commercial commercial) {
             this.Specification = commercial.getSpecification();
-            this.imageFile = new ImageFileDto(commercial.getImageFile());
+            this.imageFile = new ImageFileDto(commercial.getImageFile().getStoreFilename());
             this.shop = new ShopDto(commercial.getShop());
-        }
-
-        @Getter
-        public class ImageFileDto {
-            private String image;
-
-            public ImageFileDto(ImageFile imageFile) {
-                this.image = imageFile.getStoreFilename();
-            }
-
         }
 
         @Getter

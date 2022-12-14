@@ -49,7 +49,7 @@ public class Customer extends AutoTime {
     @Column(name = "is_deleted") // 이것도 안 먹음 => 인서트할 때 직접 넣어줌
     private Boolean isDeleted;
 
-    public Customer toEntity(CustomerUpdateReqDto dto) {
+    public Customer updateCustomer(CustomerUpdateReqDto dto) {
         return Customer.builder()
                 .id(this.id)
                 .name(dto.getName())

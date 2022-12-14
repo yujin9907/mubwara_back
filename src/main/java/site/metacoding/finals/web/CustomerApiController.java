@@ -45,7 +45,7 @@ public class CustomerApiController {
             @AuthenticationPrincipal PrincipalUser principalUser) {
         // 벨리데이션 체크 나중에
 
-        CustomerUpdateRespDto dto = customerService.update(principalUser.getUser().getId(), customerUpdateReqDto);
+        CustomerUpdateRespDto dto = customerService.update(principalUser, customerUpdateReqDto);
 
         return new ResponseEntity<>(new ResponseDto<>(HttpStatus.ACCEPTED, "회원정보수정 완료", dto), HttpStatus.ACCEPTED);
     }
