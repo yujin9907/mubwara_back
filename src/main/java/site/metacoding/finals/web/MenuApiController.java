@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
+import site.metacoding.finals.config.annotation.VerifyShop;
 import site.metacoding.finals.config.auth.PrincipalUser;
 import site.metacoding.finals.dto.ResponseDto;
 import site.metacoding.finals.dto.menu.MenuReqDto.MenuSaveReqDto;
@@ -26,6 +27,7 @@ public class MenuApiController {
 
     private final MenuService menuService;
 
+    @VerifyShop
     @GetMapping("/shop/menu")
     public ResponseEntity<?> viewMenu(
             @AuthenticationPrincipal PrincipalUser principalUser) {

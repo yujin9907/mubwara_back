@@ -23,7 +23,7 @@ public class SubscribeApiController {
     @GetMapping("/auth/{shopId}/subscribe")
     public ResponseEntity<?> saveSubscribe(@PathVariable Long shopId,
             @AuthenticationPrincipal PrincipalUser principalUser) {
-        SubscribeSaveRespDto respDto = subscribeService.save(shopId, principalUser);
+        SubscribeSaveRespDto respDto = subscribeService.save(principalUser, shopId);
         return new ResponseEntity<>(new ResponseDto<>(HttpStatus.CREATED, "구독하기", respDto), HttpStatus.CREATED);
     }
 

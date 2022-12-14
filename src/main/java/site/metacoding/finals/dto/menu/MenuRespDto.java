@@ -12,6 +12,7 @@ public class MenuRespDto {
     @Setter
     @Getter
     public static class MenuListRespDto {
+        private Long id;
         private String name;
         private Integer price;
         private Integer recommanded;
@@ -19,6 +20,7 @@ public class MenuRespDto {
         private ImageFileDto imageFile;
 
         public MenuListRespDto(Menu menu) {
+            this.id = menu.getId();
             this.name = menu.getName();
             this.price = menu.getPrice();
             this.recommanded = menu.getRecommanded();

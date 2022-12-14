@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import site.metacoding.finals.config.annotation.VerifyCustomer;
 import site.metacoding.finals.config.auth.PrincipalUser;
 import site.metacoding.finals.dto.ResponseDto;
 import site.metacoding.finals.dto.customer.CustomerReqDto.CustomerJoinReqDto;
@@ -40,10 +41,10 @@ public class CustomerApiController {
     }
 
     // 업데이트 권한 체크 필요
+    @VerifyCustomer
     @PutMapping("/user/customer")
-    public ResponseEntity<?> updateCustomerApi(@RequestBody CustomerUpdateReqDto customerUpdateReqDto,
-            @AuthenticationPrincipal PrincipalUser principalUser) {
-        // 벨리데이션 체크 나중에
+    public ResponseEntity<?> updateCustomerApi(@AuthenticationPrincipal PrincipalUser principalUser,
+            @RequestBody CustomerUpdateReqDto customerUpdateReqDto) {
 
         CustomerUpdateRespDto dto = customerService.update(principalUser, customerUpdateReqDto);
 
@@ -51,13 +52,13 @@ public class CustomerApiController {
     }
 
     // 삭제 권한 체크 필요
-    @DeleteMapping("/auth/customer")
+    @VerifyCustomer
+    @DeleteMapping("/user/customer")
     public ResponseEntity<?> deleteCustomerApi(@AuthenticationPrincipal PrincipalUser principalUser) {
         customerService.delete(principalUser);
         return new ResponseEntity<>(new ResponseDto<>(HttpStatus.ACCEPTED, "회원 삭제", null), HttpStatus.ACCEPTED);
     }
 
-    // 내거 보기 권한 체크 필요
     @GetMapping("/auth/mypage/reservation")
     public ResponseEntity<?> CustomerMypageReservationApi(
             @AuthenticationPrincipal PrincipalUser principalUser) {
@@ -65,15 +66,11 @@ public class CustomerApiController {
         return new ResponseEntity<>(new ResponseDto<>(HttpStatus.OK, "마이페이지 예약 목록", dto), HttpStatus.OK);
     }
 
-    // 내거 보기 권한 체크 필요
-
     @GetMapping("/auth/mypage/subscribe")
     public ResponseEntity<?> CustomerMypageSubscribeApi(@AuthenticationPrincipal PrincipalUser principalUser) {
         List<CustomerMyPageSubscribeRespDto> dto = customerService.myPageSubscribe(principalUser.getUser().getId());
         return new ResponseEntity<>(new ResponseDto<>(HttpStatus.OK, "마이페이지 구독 목록", dto), HttpStatus.OK);
     }
-
-    // 내거 보기 권한 체크 필요
 
     @GetMapping("/auth/mypage/review")
     public ResponseEntity<?> CustomerMypageReviewApi(@AuthenticationPrincipal PrincipalUser principalUser) {

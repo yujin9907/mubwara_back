@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import site.metacoding.finals.config.annotation.VerifyCustomer;
 import site.metacoding.finals.config.auth.PrincipalUser;
 import site.metacoding.finals.config.exception.RuntimeApiException;
 import site.metacoding.finals.domain.customer.Customer;
@@ -61,13 +62,13 @@ public class CustomerService {
         return new CustomerJoinRespDto(customer, user);
     }
 
+    @VerifyCustomer
     @Transactional
     public CustomerUpdateRespDto update(PrincipalUser principalUser, CustomerUpdateReqDto customerUpdateReqDto) {
-        Customer customerPS = customerRepository.findById(principalUser.getId())
-                .orElseThrow(() -> new RuntimeException("유저 정보 찾을 수 없음"));
+        // 검증 = aop
+        Customer customerPS = principalUser.getCustomer();
 
         customerPS.updateCustomer(customerUpdateReqDto);
-
         customerRepository.save(customerPS);
 
         return new CustomerUpdateRespDto(customerPS);
@@ -75,20 +76,17 @@ public class CustomerService {
 
     @Transactional
     public void delete(PrincipalUser principalUser) {
-        // 검증
-        System.out.println("====================================================");
-        Customer customerPS = customerRepository.findByUserId(principalUser.getUser().getId())
-                .orElseThrow(() -> new RuntimeException("회원 정보 없음"));
-        System.out.println("====================================================");
+        // 검증 = aop
+
         // 유저 삭제
         userRepository.deleteById(principalUser.getUser().getId());
 
         // 구독 정보는 바로 삭제
-        if (subscribeRepository.findByCustomerId(customerPS.getId()).size() != 0) {
-            subscribeRepository.deleteByCustomerId(customerPS.getId());
+        if (subscribeRepository.findByCustomerId(principalUser.getCustomer().getId()).size() != 0) {
+            subscribeRepository.deleteByCustomerId(principalUser.getCustomer().getId());
         }
         // 예약 정보는 소프트 딜리트
-        List<Reservation> reservationPS = reservationRepository.findByCustomerId(customerPS.getId());
+        List<Reservation> reservationPS = reservationRepository.findByCustomerId(principalUser.getCustomer().getId());
         if (reservationPS != null) {
             reservationPS.stream().forEach(r -> reservationRepository.deleteById(r.getId()));
         }

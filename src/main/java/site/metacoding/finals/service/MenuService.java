@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import site.metacoding.finals.config.annotation.VerifyShop;
 import site.metacoding.finals.config.auth.PrincipalUser;
 import site.metacoding.finals.config.exception.RuntimeApiException;
 import site.metacoding.finals.domain.imagefile.ImageFile;
@@ -34,6 +35,7 @@ public class MenuService {
 
     @Transactional(readOnly = true)
     public List<MenuListRespDto> list(PrincipalUser principalUser) {
+        // System.out.println("aop 실행 후 shop : " + shop);
         // 검증
         Shop shopPS = shopRepository.findByUserId(principalUser.getUser().getId())
                 .orElseThrow(() -> new RuntimeApiException("존재하지 않는 가게 입니다", HttpStatus.NOT_FOUND));

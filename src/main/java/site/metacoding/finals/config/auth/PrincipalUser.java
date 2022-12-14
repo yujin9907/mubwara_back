@@ -10,6 +10,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
+import site.metacoding.finals.domain.customer.Customer;
+import site.metacoding.finals.domain.shop.Shop;
 import site.metacoding.finals.domain.user.User;
 
 @Getter
@@ -18,10 +20,14 @@ public class PrincipalUser implements UserDetails {
 
     private final User user;
     private final Long id;
+    private final Customer customer;
+    private final Shop shop;
 
     public PrincipalUser(User user) {
         this.user = user;
         this.id = user.getId();
+        this.customer = user.getCustomer();
+        this.shop = user.getShop();
     }
 
     @Override

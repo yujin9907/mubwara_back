@@ -117,7 +117,7 @@ public class CustomerApiControllerTest extends DummyEntity {
     public void 회원삭제() throws Exception {
 
         //
-        ResultActions resultActions = mvc.perform(MockMvcRequestBuilders.delete("/auth/customer")
+        ResultActions resultActions = mvc.perform(MockMvcRequestBuilders.delete("/user/customer")
                 .accept("application/json; charset=utf-8"));
 
         String responseBody = resultActions.andReturn().getResponse().getContentAsString();
