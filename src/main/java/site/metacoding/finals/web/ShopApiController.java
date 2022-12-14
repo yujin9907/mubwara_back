@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import site.metacoding.finals.config.annotation.VerifyCustomer;
+import site.metacoding.finals.config.annotation.VerifyShop;
 import site.metacoding.finals.config.auth.PrincipalUser;
 import site.metacoding.finals.dto.ResponseDto;
 import site.metacoding.finals.dto.repository.shop.AnalysisDto;
@@ -50,6 +52,7 @@ public class ShopApiController {
                 HttpStatus.CREATED);
     }
 
+    @VerifyShop
     @GetMapping("/shop/update")
     public ResponseEntity<?> updatePageShop(@AuthenticationPrincipal PrincipalUser principalUser) {
         ShopUpdateRespDto respDto = shopService.updatePage(principalUser);
@@ -65,6 +68,7 @@ public class ShopApiController {
                 HttpStatus.OK);
     }
 
+    @VerifyShop
     @PostMapping("/shop/analysis/date")
     public ResponseEntity<?> dateAnalysis(@AuthenticationPrincipal PrincipalUser principalUser,
             @RequestBody AnalysisDateReqDto reqDto) {
@@ -73,6 +77,7 @@ public class ShopApiController {
                 HttpStatus.OK);
     }
 
+    @VerifyShop
     @PostMapping("/shop/analysis/week")
     public ResponseEntity<?> weekAnalysis(@AuthenticationPrincipal PrincipalUser principalUser,
             @RequestBody AnalysisDateReqDto reqDto) {

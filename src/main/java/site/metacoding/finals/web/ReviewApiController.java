@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
+import site.metacoding.finals.config.annotation.VerifyCustomer;
 import site.metacoding.finals.config.auth.PrincipalUser;
 import site.metacoding.finals.dto.ResponseDto;
 import site.metacoding.finals.dto.review.ReviewReqDto.TestReviewReqDto;
@@ -25,7 +26,6 @@ import site.metacoding.finals.service.ReviewService;
 public class ReviewApiController {
 
         private final ReviewService reviewService;
-        private final ImageFileHandler imageFileService;
 
         // @PostMapping(value = "/review", consumes = {
         // MediaType.APPLICATION_JSON_VALUE,
@@ -41,9 +41,10 @@ public class ReviewApiController {
         // HttpStatus.CREATED);
         // }
 
+        @VerifyCustomer
         @PostMapping(value = "/auth/review")
-        public ResponseEntity<?> saveBase64Review(@RequestBody TestReviewReqDto testReviewReqDto,
-                        @AuthenticationPrincipal PrincipalUser principalUser) {
+        public ResponseEntity<?> saveBase64Review(@AuthenticationPrincipal PrincipalUser principalUser,
+                        @RequestBody TestReviewReqDto testReviewReqDto) {
                 ReviewSaveRespDto respDto = reviewService.saveBase64(testReviewReqDto,
                                 principalUser);
                 return new ResponseEntity<>(new ResponseDto<>(HttpStatus.CREATED, "리뷰 (베이스 64 이미지) 저장", respDto),

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
+import site.metacoding.finals.config.annotation.VerifyShop;
 import site.metacoding.finals.config.auth.PrincipalUser;
 import site.metacoding.finals.dto.ResponseDto;
 import site.metacoding.finals.dto.option.OptionReqDto.OptionSaveReqDto;
@@ -22,10 +23,10 @@ public class OptionShopApiController {
 
     private final OptionShopService optionShopService;
 
-    // 테스트하려면 옵션 데이터가 있어야 됨(관리자 권한)
+    @VerifyShop
     @PostMapping("/shop/option")
-    public ResponseEntity<?> CustomerMypageReviewApi(@RequestBody List<OptionSaveReqDto> reqDto,
-            @AuthenticationPrincipal PrincipalUser principalUser) {
+    public ResponseEntity<?> CustomerMypageReviewApi(@AuthenticationPrincipal PrincipalUser principalUser,
+            @RequestBody List<OptionSaveReqDto> reqDto) {
         List<OptionSaveRepsDto> repsDtos = optionShopService.saveOption(reqDto, principalUser);
         return new ResponseEntity<>(new ResponseDto<>(HttpStatus.CREATED, "편의시설 등록", repsDtos), HttpStatus.CREATED);
     }

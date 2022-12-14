@@ -29,11 +29,10 @@ public class SubscribeService {
                 // 사용자 검증
                 Shop shopPS = shopRepository.findById(ShopId)
                                 .orElseThrow(() -> new RuntimeException("존재하지 않는 가게입니다"));
-                Customer customerPS = customerRepository.findById(principalUser.getId())
-                                .orElseThrow(() -> new RuntimeException("존재하지 않는 회원입니다"));
 
                 // 구독하기
-                Subscribe subscribe = subscribeRepository.save(new Subscribe(null, customerPS, shopPS));
+                Subscribe subscribe = subscribeRepository
+                                .save(new Subscribe(null, principalUser.getCustomer(), shopPS));
 
                 return new SubscribeSaveRespDto(subscribe);
         }
@@ -43,8 +42,6 @@ public class SubscribeService {
                 // 사용자 검증
                 Subscribe subscribePS = subscribeRepository.findById(subscribeId)
                                 .orElseThrow(() -> new RuntimeException("존재하지 않는 구독 내역입니다"));
-                customerRepository.findById(principalUser.getUser().getId())
-                                .orElseThrow(() -> new RuntimeException("존재하지 않는 회원입니다"));
 
                 // 구독취소하기
                 subscribeRepository.delete(subscribePS);

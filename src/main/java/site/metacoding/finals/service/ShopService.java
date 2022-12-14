@@ -41,7 +41,6 @@ import site.metacoding.finals.dto.shop.ShopRespDto.ShopListRespDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.ShopPopularListRespDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.ShopSearchListRespDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.ShopUpdateRespDto;
-import site.metacoding.finals.dto.user.UserReqDto.UpdateShopUser;
 import site.metacoding.finals.handler.ImageFileHandler;
 
 @Slf4j
@@ -49,9 +48,6 @@ import site.metacoding.finals.handler.ImageFileHandler;
 @Service
 @RequiredArgsConstructor
 public class ShopService {
-
-    @PersistenceContext
-    private EntityManager em;
 
     private final ShopRepository shopRepository;
     private final ImageFileHandler imageFileHandler;
@@ -90,47 +86,31 @@ public class ShopService {
         // shop information save
         Shop shopPS = shopRepository.save(reqDto.toEntity(principalUser.getUser()));
 
-        System.out.println("------------디버그---------------------");
-        System.out.println(reqDto.getImage());
-
         // images save
         List<ImageHandlerDto> images = imageFileHandler.storeFile(reqDto.getImage());
         images.forEach(image -> {
             imageFileRepository.save(image.toShopEntity(shopPS));
         });
 
-        System.out.println(images.get(0).getStoreFilename());
-
         return new ShopUpdateRespDto(shopPS, images.get(0).getStoreFilename());
     }
 
     public ShopUpdateRespDto updatePage(PrincipalUser principalUser) {
-        // 검증
 
-        // shop information save
-        Shop shopPS = shopRepository.findByUserId(principalUser.getUser().getId())
-                .orElseThrow(() -> new RuntimeApiException("잘못된 가게 회원 요청입니다", HttpStatus.NOT_FOUND));
-
-        return new ShopUpdateRespDto(shopPS);
+        return new ShopUpdateRespDto(principalUser.getShop());
     }
 
     public List<AnalysisDto> analysisDate(PrincipalUser principalUser, AnalysisDateReqDto analysisDateReqDto) {
 
-        // 가게 정보 조회
-        Optional<Shop> shopPS = shopRepository.findByUserId(principalUser.getUser().getId());
-
-        return reservationRepository.findBySumDate(shopPS.get().getId(),
+        return reservationRepository.findBySumDate(principalUser.getShop().getId(),
                 analysisDateReqDto.getDate());
 
     }
 
     public List<AnalysisWeekRespDto> analysisWeek(PrincipalUser principalUser, AnalysisDateReqDto analysisDateReqDto) {
 
-        // 가게 정보 조회
-        Optional<Shop> shopPS = shopRepository.findByUserId(principalUser.getUser().getId());
-
         // 매출 데이터
-        List<AnalysisDto> weekDtos = reservationRepository.findBySumWeek(shopPS.get().getId());
+        List<AnalysisDto> weekDtos = reservationRepository.findBySumWeek(principalUser.getShop().getId());
 
         // dto로 변경
         return weekDtos.stream().map((w) -> new AnalysisWeekRespDto(w)).collect(Collectors.toList());

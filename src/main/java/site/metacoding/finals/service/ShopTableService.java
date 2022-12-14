@@ -48,24 +48,21 @@ public class ShopTableService {
 
     @Transactional
     public ShopTableSaveRespDto update(ShopTableUpdateReqDto shopTableUpdateReqDto, PrincipalUser principalUser) {
-        // 가게 확인
-        Shop shopPS = shopRepository.findByUserId(principalUser.getUser().getId())
-                .orElseThrow(() -> new RuntimeException("해당 가게가 없습니다."));
-        log.debug("디버그 : 가게ID " + shopPS.getId());
 
         for (ShopTableQtyDto shopTableDto : shopTableUpdateReqDto.getShopTableQtyDtoList()) {
             if (shopTableDto.getQty() > 0) {
                 for (int i = 0; i < shopTableDto.getQty(); i++) {
                     shopTableRepository
-                            .save(shopTableUpdateReqDto.toShopTableEntity(shopTableDto.getMaxPeople(), shopPS));
+                            .save(shopTableUpdateReqDto.toShopTableEntity(shopTableDto.getMaxPeople(),
+                                    principalUser.getShop()));
                     log.debug("디버그 : shopTableUpdateReqDto 값" + shopTableUpdateReqDto
-                            .toShopTableEntity(shopTableDto.getMaxPeople(), shopPS).getMaxPeople());
+                            .toShopTableEntity(shopTableDto.getMaxPeople(), principalUser.getShop()).getMaxPeople());
                 }
             }
             log.debug("디버그 : save로직 실행 완료");
             if (shopTableDto.getQty() < 0) {
                 for (int i = 0; i < Math.abs(shopTableDto.getQty()); i++) {
-                    ShopTable shopTable = shopTableRepository.findByMaxPeopleToMinId(shopPS.getId(),
+                    ShopTable shopTable = shopTableRepository.findByMaxPeopleToMinId(principalUser.getShop().getId(),
                             shopTableDto.getMaxPeople());
                     shopTableRepository.delete(shopTable);
                 }
@@ -73,6 +70,6 @@ public class ShopTableService {
             log.debug("디버그 : delete로직 실행 완료");
         }
 
-        return new ShopTableSaveRespDto(shopTableRepository.findByShopId(shopPS.getId()));
+        return new ShopTableSaveRespDto(shopTableRepository.findByShopId(principalUser.getShop().getId()));
     }
 }

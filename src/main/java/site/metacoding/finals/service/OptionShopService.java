@@ -29,11 +29,9 @@ public class OptionShopService {
 
     @Transactional
     public List<OptionSaveRepsDto> saveOption(List<OptionSaveReqDto> reqDtos, PrincipalUser principalUser) {
-        // 가게 정보 찾기
-        Optional<Shop> shopPS = shopRepository.findByUserId(principalUser.getUser().getId());
         // 옵션 찾기
         List<OptionShop> optionShops = reqDtos.stream()
-                .map((r) -> r.toEntity(optionRepository.findById(r.getOptionList()).get(), shopPS.get()))
+                .map((r) -> r.toEntity(optionRepository.findById(r.getOptionList()).get(), principalUser.getShop()))
                 .collect(Collectors.toList());
 
         // optin shop에 저장

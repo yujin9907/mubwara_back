@@ -43,17 +43,14 @@ public class ReservationService {
 
     // shop reservation
     public List<ReservationShopViewAllRespDto> viewShopReservation(PrincipalUser principalUser) {
-        Shop shopPS = shopRespository.findByUserId(principalUser.getUser().getId())
-                .orElseThrow(() -> new RuntimeApiException("존재하지 않는 회원입니다", HttpStatus.BAD_REQUEST));
 
-        List<Reservation> reservationPS = reservationRepository.findCustomerByShopId(shopPS.getId());
+        List<Reservation> reservationPS = reservationRepository.findCustomerByShopId(principalUser.getShop().getId());
 
         if (reservationPS.size() == 0) {
             new RuntimeApiException("예약이 없음", HttpStatus.NOT_FOUND);
         }
 
         List<ReservationShopViewAllRespDto> result = new ArrayList<>();
-
         reservationPS.forEach(r -> {
             result.add(new ReservationShopViewAllRespDto(r));
         });
@@ -93,16 +90,12 @@ public class ReservationService {
         return distinctTime;
     }
 
-    public ReservationSaveRespDto save(ReservationSaveReqDto dto, String username) {
-        User userPS = userRepository.findByUsername(username);
-
-        Customer customerPS = customerRepository.findById(dto.getCustomerId())
-                .orElseThrow(() -> new RuntimeApiException("잘못된 유저 회원입니다.", HttpStatus.BAD_REQUEST));
+    public ReservationSaveRespDto save(ReservationSaveReqDto dto, PrincipalUser principalUser) {
 
         ShopTable shopTablePS = shopTableRepository.findById(dto.getShopTableId())
                 .orElseThrow(() -> new RuntimeApiException("잘못된 가게입니다", HttpStatus.BAD_REQUEST));
 
-        Reservation reservation = reservationRepository.save(dto.toEntity(customerPS, shopTablePS));
+        Reservation reservation = reservationRepository.save(dto.toEntity(principalUser.getCustomer(), shopTablePS));
 
         return new ReservationSaveRespDto(reservation);
     }

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
+import site.metacoding.finals.config.annotation.VerifyShop;
 import site.metacoding.finals.config.auth.PrincipalUser;
 import site.metacoding.finals.dto.ResponseDto;
 import site.metacoding.finals.dto.option.OptionRespDto.OptionListRespDto;
@@ -20,6 +21,7 @@ public class OptionApiController {
 
     private final OptionService optionService;
 
+    @VerifyShop
     @GetMapping("/shop/option")
     public ResponseEntity<?> optionList(@AuthenticationPrincipal PrincipalUser principalUser) {
         List<OptionListRespDto> respDto = optionService.optionList(principalUser);
