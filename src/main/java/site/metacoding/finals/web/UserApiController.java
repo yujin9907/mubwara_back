@@ -55,16 +55,25 @@ public class UserApiController {
     }
 
     @GetMapping(value = "/oauth/{serviceName}", headers = "access-token")
-    public ResponseEntity<?> oauthKakao(@RequestHeader("access-token") String token, @PathVariable String serviceName,
-            HttpServletResponse response) {
+    public void oauthKakao(@RequestHeader("access-token") String token, @PathVariable String serviceName,
+            HttpServletResponse response) throws IOException {
 
         System.out.println("디버그 토큰 : " + token);
 
         OauthLoginRespDto respDto = oauthHandler.processKakaoLogin(serviceName, token);
 
-        return new ResponseEntity<>(new ResponseDto<>(HttpStatus.OK, "카카오 로그인", respDto),
-                HttpStatus.OK);
+        try {
+            ObjectMapper om = new ObjectMapper();
+            String responseBody = om.writeValueAsString(respDto);
 
+            response.setContentType("application/json; charset=utf-8");
+            response.setHeader("access-token", respDto.getToken());
+            response.setHeader("refresh-token", respDto.getRefreshToken());
+            response.setStatus(201);
+            response.getWriter().println(responseBody);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeApiException("파싱 에러", HttpStatus.EXPECTATION_FAILED);
+        }
     }
 
     @GetMapping(value = "/refresh/token", headers = "refresh-token")

@@ -19,6 +19,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import site.metacoding.finals.config.enums.Role;
 import site.metacoding.finals.config.exception.RuntimeApiException;
+import site.metacoding.finals.config.jwt.JwtProcess;
 import site.metacoding.finals.config.jwt.JwtSecret;
 import site.metacoding.finals.domain.user.User;
 import site.metacoding.finals.domain.user.UserRepository;
@@ -53,8 +54,9 @@ public class OauthHandler {
         }
         // 토큰 발급
         String resultToken = createToken(userPS);
+        String resultRefreshToken = JwtProcess.createRefresh(1000 * 60 * 60 * 24);
 
-        return new OauthLoginRespDto(result, resultToken, userPS);
+        return new OauthLoginRespDto(result, resultToken, resultRefreshToken, userPS);
     }
 
     public String getKakaoUser(String token) {

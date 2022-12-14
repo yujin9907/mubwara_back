@@ -30,11 +30,10 @@ public class JwtProcess {
         return jwtToken;
     }
 
-    public static String createRefresh(PrincipalUser principalUser, int time) {
+    public static String createRefresh(int time) {
         String jwtToken = JWT.create()
                 .withSubject("refress-auth")
                 .withExpiresAt(new Date(System.currentTimeMillis() + time))
-                .withClaim("id", principalUser.getUser().getId())
                 .sign(Algorithm.HMAC256(JwtSecret.SECRET));
 
         return jwtToken;
