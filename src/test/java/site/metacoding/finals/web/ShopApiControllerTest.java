@@ -26,6 +26,7 @@ import site.metacoding.finals.domain.shop.ShopRepository;
 import site.metacoding.finals.domain.user.User;
 import site.metacoding.finals.dto.reservation.ReservationReqDto.AnalysisDateReqDto;
 import site.metacoding.finals.dto.shop.ShopReqDto.OptionListReqDto;
+import site.metacoding.finals.dto.shop.ShopReqDto.ShopSaveReqDto;
 import site.metacoding.finals.dto.shop.ShopReqDto.ShopUpdateReqDto;
 import site.metacoding.finals.dummy.DummyEntity;
 
@@ -62,6 +63,41 @@ public class ShopApiControllerTest extends DummyEntity {
     public void setUp() {
         User ssar = newUser("ssar");
         User cos = newShopUser("cos");
+    }
+
+    @WithUserDetails(value = "ssar", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+    @Test
+    public void 가게등록하기테스트() throws Exception {
+        //
+        List<String> images = new ArrayList<>();
+        images.add("dskjlsdf");
+
+        ShopSaveReqDto dto = new ShopSaveReqDto();
+        dto.setShopName("테스트");
+        dto.setPhoneNumber("1");
+        dto.setAddress("주소테스트");
+        dto.setCategory("한식");
+        dto.setInformation("설명");
+        dto.setOpenTime("1");
+        dto.setCloseTime("1");
+        dto.setPerHour(1);
+        dto.setPerPrice(1);
+        dto.setImage(images);
+
+        String body = om.writeValueAsString(dto);
+
+        //
+        ResultActions resultActions = mvc.perform(
+                MockMvcRequestBuilders.post("/user/shop/save")
+                        .content(body)
+                        .contentType("application/json; charset=utf-8")
+                        .accept("application/json; charset=utf-8"));
+
+        String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+        log.debug(responseBody);
+
+        //
+        resultActions.andExpect(MockMvcResultMatchers.status().isCreated());
     }
 
     @WithUserDetails(value = "cos", setupBefore = TestExecutionEvent.TEST_EXECUTION)

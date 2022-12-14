@@ -1,34 +1,24 @@
 package site.metacoding.finals.service;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import site.metacoding.finals.config.auth.PrincipalUser;
 import site.metacoding.finals.config.exception.RuntimeApiException;
-import site.metacoding.finals.domain.imagefile.ImageFile;
 import site.metacoding.finals.domain.imagefile.ImageFileRepository;
-import site.metacoding.finals.domain.option.Option;
-import site.metacoding.finals.domain.option.OptionRepository;
 import site.metacoding.finals.domain.reservation.ReservationRepository;
-import site.metacoding.finals.domain.review.Review;
 import site.metacoding.finals.domain.review.ReviewRepository;
 import site.metacoding.finals.domain.shop.Shop;
 import site.metacoding.finals.domain.shop.ShopQueryRepository;
@@ -41,7 +31,7 @@ import site.metacoding.finals.dto.repository.shop.PopularListRespDto;
 import site.metacoding.finals.dto.reservation.ReservationReqDto.AnalysisDateReqDto;
 import site.metacoding.finals.dto.reservation.ReservationRespDto.AnalysisWeekRespDto;
 import site.metacoding.finals.dto.shop.ShopReqDto.OptionListReqDto;
-import site.metacoding.finals.dto.shop.ShopReqDto.ShopInfoSaveReqDto;
+import site.metacoding.finals.dto.shop.ShopReqDto.ShopSaveReqDto;
 import site.metacoding.finals.dto.shop.ShopReqDto.ShopUpdateReqDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.OptionListRespDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.PriceListRespDto;
@@ -72,20 +62,20 @@ public class ShopService {
     private final UserRepository userRepository;
 
     @Transactional
-    public ShopInfoSaveRespDto save(ShopInfoSaveReqDto shopInfoSaveReqDto, PrincipalUser principalUser) {
+    public ShopInfoSaveRespDto save(ShopSaveReqDto shopSaveReqDto, PrincipalUser principalUser) {
         // 검증
         User user = userRepository.findById(principalUser.getId())
                 .orElseThrow(() -> new RuntimeApiException("잘못된 유저입니다", HttpStatus.NOT_FOUND));
 
-        // shop information save
-        Shop shopPS = shopRepository.save(shopInfoSaveReqDto.toEntity(user));
-
         // GrantedAuthority update shop
-        UpdateShopUser shopUser = new UpdateShopUser(principalUser);
-        userRepository.save(shopUser.toEntity());
+        user.updateToShop();
+        userRepository.save(user);
+
+        // shop information save
+        Shop shopPS = shopRepository.save(shopSaveReqDto.toEntity(user));
 
         // images save
-        List<ImageHandlerDto> images = imageFileHandler.storeFile(shopInfoSaveReqDto.getImage());
+        List<ImageHandlerDto> images = imageFileHandler.storeFile(shopSaveReqDto.getImage());
         images.forEach(image -> {
             imageFileRepository.save(image.toShopEntity(shopPS));
         });

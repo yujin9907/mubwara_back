@@ -56,13 +56,8 @@ public class User extends AutoTime {
     @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE)
     private Shop shop;
 
-    public User updateToShop() {
-        return User.builder()
-                .username(username)
-                .password(password)
-                .role(Role.SHOP)
-                .isDeleted(false)
-                .build();
+    public void updateToShop() {
+        this.role = Role.SHOP;
     }
 
 }

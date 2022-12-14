@@ -43,7 +43,7 @@ public class ShopReqDto {
 
     @Setter
     @Getter
-    public static class ShopInfoSaveReqDto {
+    public static class ShopSaveReqDto {
         private String shopName;
         private String phoneNumber;
         private String address;

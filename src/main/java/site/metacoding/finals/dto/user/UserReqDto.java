@@ -1,5 +1,7 @@
 package site.metacoding.finals.dto.user;
 
+import java.time.LocalDateTime;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -60,6 +62,7 @@ public class UserReqDto {
 
         public User toEntity() {
             return User.builder()
+                    .id(id)
                     .username(username)
                     .password(password)
                     .role(role)
