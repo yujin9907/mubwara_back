@@ -258,7 +258,6 @@ public class ShopRespDto {
         private String phoneNumber;
         private ImageFileDto imageFileDto;
         private Integer count;
-        private List<Long> optionList;
 
         public OptionListRespDto(BigInteger shopId, String shopName, String address, String category,
                 String storeFileName,
