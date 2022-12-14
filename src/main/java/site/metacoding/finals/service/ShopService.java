@@ -49,6 +49,7 @@ import site.metacoding.finals.dto.shop.ShopRespDto.ShopDetailRespDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.ShopInfoSaveRespDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.ShopListRespDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.ShopPopularListRespDto;
+import site.metacoding.finals.dto.shop.ShopRespDto.ShopSearchListRespDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.ShopUpdateRespDto;
 import site.metacoding.finals.handler.ImageFileHandler;
 
@@ -200,4 +201,17 @@ public class ShopService {
         return shopQueryRepository.findByPriceList(value);
 
     }
+
+    public List<ShopSearchListRespDto> searchList(String keyword) {
+
+        System.out.println("디버그 : " + keyword);
+
+        List<Shop> shopPS = shopRepository.findBySearchList(keyword)
+                .orElseThrow(() -> new RuntimeApiException(keyword + "해당 검색 결과 없음", HttpStatus.NOT_FOUND));
+
+        System.out.println("디버그 : " + shopPS.size());
+
+        return shopPS.stream().map((s) -> new ShopSearchListRespDto(s)).collect(Collectors.toList());
+    }
+
 }

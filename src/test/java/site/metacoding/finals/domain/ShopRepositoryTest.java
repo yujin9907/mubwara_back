@@ -225,4 +225,9 @@ public class ShopRepositoryTest extends DummyEntity {
 
     }
 
+    @Test
+    public void findBySearchListTest() {
+        shopRepository.findBySearchList("가");
+    }
+
 }

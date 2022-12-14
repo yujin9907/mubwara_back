@@ -308,4 +308,28 @@ public class ShopRespDto {
 
     }
 
+    @Setter
+    @Getter
+    public static class ShopSearchListRespDto {
+        private Long id;
+        private String shopName;
+        private String address;
+        private String category;
+        private String openTime;
+        private String closeTime;
+        private String phoneNumber;
+        private ImageFileDto imageFileDto;
+
+        public ShopSearchListRespDto(Shop shop) {
+            this.id = shop.getId();
+            this.shopName = shop.getShopName();
+            this.address = shop.getAddress();
+            this.category = shop.getCategory();
+            this.openTime = shop.getOpenTime();
+            this.closeTime = shop.getCloseTime();
+            this.phoneNumber = shop.getPhoneNumber();
+            this.imageFileDto = new ImageFileDto(shop.getImageFile());
+        }
+    }
+
 }

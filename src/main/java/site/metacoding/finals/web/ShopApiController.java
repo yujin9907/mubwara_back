@@ -29,6 +29,7 @@ import site.metacoding.finals.dto.shop.ShopRespDto.ShopDetailRespDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.ShopInfoSaveRespDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.ShopListRespDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.ShopPopularListRespDto;
+import site.metacoding.finals.dto.shop.ShopRespDto.ShopSearchListRespDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.ShopUpdateRespDto;
 import site.metacoding.finals.service.ShopService;
 
@@ -119,6 +120,12 @@ public class ShopApiController {
     public ResponseEntity<?> shopPriceList(@PathVariable("value") String value) {
         List<PriceListRespDto> respDtos = shopService.priceList(value);
         return new ResponseEntity<>(new ResponseDto<>(HttpStatus.OK, "가격순 가게 리스트 조회", respDtos), HttpStatus.OK);
+    }
+
+    @GetMapping("/list/search/{keyword}")
+    public ResponseEntity<?> shopSearchList(@PathVariable("keyword") String keyword) {
+        List<ShopSearchListRespDto> respDtos = shopService.searchList(keyword);
+        return new ResponseEntity<>(new ResponseDto<>(HttpStatus.OK, "검색 리스트 조회", respDtos), HttpStatus.OK);
     }
 
 }
