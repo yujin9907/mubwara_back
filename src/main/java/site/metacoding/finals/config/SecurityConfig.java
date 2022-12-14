@@ -37,10 +37,10 @@ public class SecurityConfig {
         http.headers().frameOptions().disable();
         http.csrf().disable(); // 포스트맨 임시
 
-        // http.exceptionHandling().authenticationEntryPoint(
-        // (request, response, authException) -> {
-        // CustomResponseUtil.forbidden(response, "권한없음");
-        // });
+        http.exceptionHandling().authenticationEntryPoint(
+                (request, response, authException) -> {
+                    JwtExceptionHandler.sendError(HttpStatus.BAD_REQUEST, "만료된 토큰 재요청 필요", response);
+                });
 
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()

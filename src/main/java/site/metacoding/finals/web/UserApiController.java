@@ -1,5 +1,7 @@
 package site.metacoding.finals.web;
 
+import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -15,14 +17,15 @@ import org.springframework.web.bind.annotation.RestController;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
-import net.bytebuddy.asm.MemberSubstitution.Substitution.Chain.Step.Resolution;
 import site.metacoding.finals.config.auth.PrincipalUser;
+import site.metacoding.finals.config.exception.RuntimeApiException;
 import site.metacoding.finals.config.jwt.JwtProcess;
 import site.metacoding.finals.config.jwt.JwtSecret;
 import site.metacoding.finals.domain.user.User;
-import site.metacoding.finals.domain.user.UserRepository;
 import site.metacoding.finals.dto.ResponseDto;
 import site.metacoding.finals.dto.user.UserReqDto.JoinReqDto;
 import site.metacoding.finals.dto.user.UserRespDto.JoinRespDto;
@@ -66,9 +69,7 @@ public class UserApiController {
 
     @GetMapping(value = "/refresh/token", headers = "refresh-token")
     public void refreshToken(@RequestHeader("refresh-token") String token, HttpServletRequest request,
-            HttpServletResponse response) {
-
-        System.out.println("디버그 토큰 : " + token);
+            HttpServletResponse response) throws IOException {
 
         String refresh = request.getHeader("refresh-token").replace("Bearer ", "");
         DecodedJWT decodedJWT = JWT.require(Algorithm.HMAC256(JwtSecret.SECRET)).build().verify(refresh);
@@ -78,13 +79,19 @@ public class UserApiController {
         PrincipalUser principalUser = new PrincipalUser(userPS);
         String access = JwtProcess.create(principalUser, (1000 * 60 * 60));
 
-        response.setHeader("access-token", access);
-        response.setStatus(201);
+        try {
+            ObjectMapper om = new ObjectMapper();
+            ResponseDto<?> responseDto = new ResponseDto<>(HttpStatus.CREATED, "엑세스 토큰발급완료", null);
+            String responseBody;
+            responseBody = om.writeValueAsString(responseDto);
 
-        // 403 포비든으로 던져주기
-        // return new ResponseEntity<>(new ResponseDto<>(HttpStatus.OK, "엑세스 토큰 재발급",
-        // "유저아이디 : " + id),
-        // HttpStatus.OK);
+            response.setContentType("application/json; charset=utf-8");
+            response.setHeader("access-token", access);
+            response.setStatus(201);
+            response.getWriter().println(responseBody);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeApiException("파싱 에러", HttpStatus.EXPECTATION_FAILED);
+        }
 
     }
 }

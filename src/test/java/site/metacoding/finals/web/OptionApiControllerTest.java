@@ -1,10 +1,6 @@
 package site.metacoding.finals.web;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,7 +20,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.slf4j.Slf4j;
 import site.metacoding.finals.domain.user.User;
-import site.metacoding.finals.dto.option.OptionReqDto.OptionSaveReqDto;
 import site.metacoding.finals.dummy.DummyEntity;
 
 @Sql("classpath:sql/dml.sql")

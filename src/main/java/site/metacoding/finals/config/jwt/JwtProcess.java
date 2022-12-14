@@ -34,7 +34,7 @@ public class JwtProcess {
         return jwtToken;
     }
 
-    public static String createRe(PrincipalUser principalUser, int time) {
+    public static String createRefresh(PrincipalUser principalUser, int time) {
         String jwtToken = JWT.create()
                 .withSubject("refress-auth")
                 .withExpiresAt(new Date(System.currentTimeMillis() + time))
