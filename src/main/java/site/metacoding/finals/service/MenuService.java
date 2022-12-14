@@ -35,23 +35,17 @@ public class MenuService {
 
     @Transactional(readOnly = true)
     public List<MenuListRespDto> list(PrincipalUser principalUser) {
-        // System.out.println("aop 실행 후 shop : " + shop);
-        // 검증
-        Shop shopPS = shopRepository.findByUserId(principalUser.getUser().getId())
-                .orElseThrow(() -> new RuntimeApiException("존재하지 않는 가게 입니다", HttpStatus.NOT_FOUND));
+        // 검증 =aop
 
-        List<Menu> menus = menuRepository.findByShopId(shopPS.getId());
-
+        List<Menu> menus = menuRepository.findByShopId(principalUser.getShop().getId());
         return menus.stream().map((m) -> new MenuListRespDto(m)).collect(Collectors.toList());
 
     }
 
     @Transactional
     public MenuSaveRespDto save(MenuSaveReqDto menuSaveReqDto, PrincipalUser principalUser) {
-        Shop shopPS = shopRepository.findByUserId(principalUser.getUser().getId())
-                .orElseThrow(() -> new RuntimeApiException("존재하지 않는 가게 입니다", HttpStatus.NOT_FOUND));
 
-        Menu menu = menuRepository.save(menuSaveReqDto.toEntity(shopPS));
+        Menu menu = menuRepository.save(menuSaveReqDto.toEntity(principalUser.getShop()));
         List<ImageHandlerDto> imageDto = imageFileHandler.storeFile(menuSaveReqDto.getImageFile());
         ImageFile imageFile = imageFileRepository.save(imageDto.get(0).toMenuEntity(menu));
 
@@ -61,8 +55,6 @@ public class MenuService {
 
     @Transactional
     public void delete(Long id, PrincipalUser principalUser) {
-        Shop shopPS = shopRepository.findByUserId(principalUser.getUser().getId())
-                .orElseThrow(() -> new RuntimeApiException("존재하지 않는 가게 입니다", HttpStatus.NOT_FOUND));
 
         Menu menu = menuRepository.findById(id)
                 .orElseThrow(() -> new RuntimeApiException("존재하지 않는 메뉴입니다.", HttpStatus.NOT_FOUND));

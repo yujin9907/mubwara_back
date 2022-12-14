@@ -36,18 +36,19 @@ public class MenuApiController {
         return new ResponseEntity<>(new ResponseDto<>(HttpStatus.OK, "메뉴 목록 보기", respDtos), HttpStatus.OK);
     }
 
+    @VerifyShop
     @PostMapping("/shop/menu")
-    public ResponseEntity<?> saveMenu(@RequestBody MenuSaveReqDto menuSaveReqDto,
-            @AuthenticationPrincipal PrincipalUser principalUser) {
+    public ResponseEntity<?> saveMenu(@AuthenticationPrincipal PrincipalUser principalUser,
+            @RequestBody MenuSaveReqDto menuSaveReqDto) {
 
         MenuSaveRespDto respDto = menuService.save(menuSaveReqDto, principalUser);
 
         return new ResponseEntity<>(new ResponseDto<>(HttpStatus.CREATED, "메뉴 저장", respDto), HttpStatus.CREATED);
     }
 
+    @VerifyShop
     @DeleteMapping("/shop/menu/{id}")
-    public ResponseEntity<?> deleteMenu(@PathVariable Long id,
-            @AuthenticationPrincipal PrincipalUser principalUser) {
+    public ResponseEntity<?> deleteMenu(@AuthenticationPrincipal PrincipalUser principalUser, @PathVariable Long id) {
 
         menuService.delete(id, principalUser);
         return new ResponseEntity<>(new ResponseDto<>(HttpStatus.ACCEPTED, "메뉴 삭제", null), HttpStatus.ACCEPTED);

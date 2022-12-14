@@ -42,31 +42,27 @@ public class VerifyAdvice {
 
         Object args = joinpoint.getArgs()[0];
         PrincipalUser user = (PrincipalUser) args;
+
         System.out.println(user.getUsername());
         System.out.println(user.getId());
 
         customerRepository.findByUserId(user.getId())
-                .orElseThrow(() -> new RuntimeApiException("잘못된 유저 요청입니다", HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new RuntimeApiException("존재하지 않는 유저 요청입니다", HttpStatus.NOT_FOUND));
 
     }
 
-    @Around(value = "cutShop()")
-    public void verifyCustomer(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+    @Before(value = "cutShop()")
+    public void verifyShop(JoinPoint joinpoint) throws Throwable {
         System.out.println("AOP 실행됨");
 
-        Object args = proceedingJoinPoint.getArgs()[0];
+        Object args = joinpoint.getArgs()[0];
         PrincipalUser user = (PrincipalUser) args;
+
         System.out.println(user.getUsername());
         System.out.println(user.getId());
 
-        Shop args2 = (Shop) proceedingJoinPoint.getArgs()[1];
-        // customerRepository.findByUserId(user.getId())
-        // .orElseThrow(() -> new RuntimeApiException("유저 정보를 찾을 수 없습니다",
-        // HttpStatus.NOT_FOUND));
-        Shop shopPS = shopRepository.findByUserId(user.getId())
-                .orElseThrow(() -> new RuntimeApiException("잘못된 가게 요청입니다", HttpStatus.NOT_FOUND));
-        args2 = shopPS;
-
+        shopRepository.findByUserId(user.getId())
+                .orElseThrow(() -> new RuntimeApiException("존재하지 않는 가게 요청입니다", HttpStatus.NOT_FOUND));
     }
 
     // cut() 메서드가 실행 되는 지점 이전에 before() 메서드 실행

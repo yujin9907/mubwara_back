@@ -1,5 +1,8 @@
 package site.metacoding.finals.web;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +23,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.slf4j.Slf4j;
 import site.metacoding.finals.domain.user.User;
+import site.metacoding.finals.dto.menu.MenuReqDto.MenuSaveReqDto;
 import site.metacoding.finals.dummy.DummyEntity;
 
 @Sql("classpath:sql/dml.sql")
@@ -56,14 +60,46 @@ public class MenuApiControllerTest extends DummyEntity {
 
     }
 
+    @WithUserDetails(value = "cos", setupBefore = TestExecutionEvent.TEST_EXECUTION)
     @Test
     public void 메뉴생성하기테스트() throws Exception {
+        // g : 토큰 가게 회원
+        List<String> images = new ArrayList<>();
+        images.add("dsklfjds");
 
+        MenuSaveReqDto dto = new MenuSaveReqDto();
+        dto.setName("테스트");
+        dto.setPrice(10);
+        dto.setRecommanded(1);
+        dto.setImageFile(images);
+
+        String body = om.writeValueAsString(dto);
+
+        // w
+        ResultActions resultActions = mvc.perform(MockMvcRequestBuilders.post("/shop/menu")
+                .contentType("application/json; charset=utf-8")
+                .content(body)
+                .accept("application/json; charset=utf-8"));
+        String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+        log.debug(responseBody);
+
+        // t
+        resultActions.andExpect(MockMvcResultMatchers.status().isCreated());
     }
 
+    @WithUserDetails(value = "cos", setupBefore = TestExecutionEvent.TEST_EXECUTION)
     @Test
     public void 메뉴삭제하기테스트() throws Exception {
+        // g : 토큰 가게 회원
 
+        // w
+        ResultActions resultActions = mvc.perform(MockMvcRequestBuilders.delete("/shop/menu/" + 1L)
+                .accept("application/json; charset=utf-8"));
+        String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+        log.debug(responseBody);
+
+        // t
+        resultActions.andExpect(MockMvcResultMatchers.status().isAccepted());
     }
 
 }
