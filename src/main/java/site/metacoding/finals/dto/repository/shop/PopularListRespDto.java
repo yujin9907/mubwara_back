@@ -23,15 +23,4 @@ public interface PopularListRespDto {
 
     String getInformation();
 
-    // default Shop toShopEntity(){
-    // return Shop.builder()
-    // .id(getShopId())
-    // .shopName(getShopName())
-    // .address(getAddress())
-    // .category(getCategory())
-    // .openTime(getOpenTime())
-    // .closeTime(getCloseTime())
-    // .phoneNumber(getPhoneNumber())
-    // .imageFile(null)
-    // }
 }

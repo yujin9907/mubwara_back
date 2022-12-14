@@ -17,6 +17,7 @@ public class ShopInnerDto {
         private ImageFileDto imageFile;
 
         public ShopImageDto(Shop shop) {
+            id = shop.getId();
             shopName = shop.getShopName();
             category = shop.getCategory();
             address = shop.getAddress();

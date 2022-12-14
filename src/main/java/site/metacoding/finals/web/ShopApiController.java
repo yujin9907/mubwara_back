@@ -25,6 +25,7 @@ import site.metacoding.finals.dto.reservation.ReservationRespDto.AnalysisWeekRes
 import site.metacoding.finals.dto.shop.ShopReqDto.OptionListReqDto;
 import site.metacoding.finals.dto.shop.ShopReqDto.ShopSaveReqDto;
 import site.metacoding.finals.dto.shop.ShopReqDto.ShopUpdateReqDto;
+import site.metacoding.finals.dto.shop.ShopRespDto.OptionListRespDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.PriceListRespDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.ShopDetailRespDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.ShopInfoSaveRespDto;
@@ -115,7 +116,7 @@ public class ShopApiController {
 
     @PostMapping("/list/option")
     public ResponseEntity<?> shopOptionList(@RequestBody List<OptionListReqDto> reqDto) {
-        Map<String, Object> respDtos = shopService.optionList(reqDto);
+        List<OptionListRespDto> respDtos = shopService.optionList(reqDto);
         return new ResponseEntity<>(new ResponseDto<>(HttpStatus.OK, "편의시설 가게 리스트 조회", respDtos),
                 HttpStatus.OK);
     }
