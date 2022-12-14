@@ -51,6 +51,7 @@ import site.metacoding.finals.dto.shop.ShopRespDto.ShopListRespDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.ShopPopularListRespDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.ShopSearchListRespDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.ShopUpdateRespDto;
+import site.metacoding.finals.dto.user.UserReqDto.UpdateShopUser;
 import site.metacoding.finals.handler.ImageFileHandler;
 
 @Slf4j
@@ -68,13 +69,20 @@ public class ShopService {
     private final ReservationRepository reservationRepository;
     private final ReviewRepository reviewrRepository;
     private final ShopQueryRepository shopQueryRepository;
+    private final UserRepository userRepository;
 
     @Transactional
     public ShopInfoSaveRespDto save(ShopInfoSaveReqDto shopInfoSaveReqDto, PrincipalUser principalUser) {
         // 검증
+        User user = userRepository.findById(principalUser.getId())
+                .orElseThrow(() -> new RuntimeApiException("잘못된 유저입니다", HttpStatus.NOT_FOUND));
 
         // shop information save
-        Shop shopPS = shopRepository.save(shopInfoSaveReqDto.toEntity(principalUser.getUser()));
+        Shop shopPS = shopRepository.save(shopInfoSaveReqDto.toEntity(user));
+
+        // GrantedAuthority update shop
+        UpdateShopUser shopUser = new UpdateShopUser(principalUser);
+        userRepository.save(shopUser.toEntity());
 
         // images save
         List<ImageHandlerDto> images = imageFileHandler.storeFile(shopInfoSaveReqDto.getImage());

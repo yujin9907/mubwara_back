@@ -3,6 +3,7 @@ package site.metacoding.finals.dto.user;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import site.metacoding.finals.config.auth.PrincipalUser;
 import site.metacoding.finals.config.enums.Role;
 import site.metacoding.finals.domain.user.User;
 
@@ -38,6 +39,34 @@ public class UserReqDto {
 
             }
         }
+    }
+
+    @Setter
+    @Getter
+    public static class UpdateShopUser {
+        private Long id;
+        private String username;
+        private String password;
+        private Role role;
+        private boolean isDeleted;
+
+        public UpdateShopUser(PrincipalUser user) {
+            this.id = user.getId();
+            this.username = user.getUsername();
+            this.password = user.getPassword();
+            this.role = Role.SHOP;
+            this.isDeleted = false;
+        }
+
+        public User toEntity() {
+            return User.builder()
+                    .username(username)
+                    .password(password)
+                    .role(role)
+                    .isDeleted(isDeleted)
+                    .build();
+        }
+
     }
 
     @Setter

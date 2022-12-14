@@ -17,6 +17,12 @@ import site.metacoding.finals.domain.user.User;
 public class PrincipalUser implements UserDetails {
 
     private final User user;
+    private final Long id;
+
+    public PrincipalUser(User user) {
+        this.user = user;
+        this.id = user.getId();
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
