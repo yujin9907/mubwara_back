@@ -6,16 +6,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import org.qlrm.mapper.JpaResultMapper;
-import org.springframework.expression.spel.support.ReflectivePropertyAccessor.OptimalPropertyAccessor;
-import org.springframework.expression.spel.support.ReflectivePropertyAccessor.OptimalPropertyAccessor;
 import org.springframework.stereotype.Repository;
 
 import lombok.RequiredArgsConstructor;
-import site.metacoding.finals.dto.repository.shop.PopularListRespDto;
-import site.metacoding.finals.dto.shop.ShopReqDto.OptionListReqDto;
-import site.metacoding.finals.dto.shop.ShopRespDto.OptionListRespDto;
-import site.metacoding.finals.dto.shop.ShopRespDto.PriceListRespDto;
-import site.metacoding.finals.dto.repository.shop.PopularListRespDto;
 import site.metacoding.finals.dto.shop.ShopReqDto.OptionListReqDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.OptionListRespDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.PriceListRespDto;
@@ -30,10 +23,12 @@ public class ShopQueryRepository {
     public List<PriceListRespDto> findByPriceList(String value) {
 
         String query = "select s.id shopId, s.shop_name shopName, s.address, s.category, i.store_filename storeFileName, ";
-        query += "s.open_time openTime, s.close_time closeTime, s.phone_number phoneNumber, ifnull(m.avg, 0) ";
+        query += "s.open_time openTime, s.close_time closeTime, s.phone_number phoneNumber, ifnull(m.avg, 0) count, ";
+        query += "s.information,  ifnull( avg(r.score), 0)  scoreAvg ";
         query += "from shop s ";
         query += "left join(select round(avg(price), 1) avg, shop_id  from menu group by shop_id) m on s.id = m.shop_id ";
         query += "left join image_file i on s.id = i.shop_id ";
+        query += "left join review r on s.id = r.shop_id group by s.id ";
         query += "order by avg ";
 
         if (value.equals("higher")) {
@@ -54,9 +49,11 @@ public class ShopQueryRepository {
     public List<OptionListRespDto> findOptionListByOptionId(List<OptionListReqDto> opitonIds) {
 
         String query = "select s.id shopId, s.shop_name shopName, s.address, s.category, i.store_filename storeFileName, ";
-        query += "s.open_time openTime, s.close_time closeTime, s.phone_number phoneNumber, count(os.id) count ";
+        query += "s.open_time openTime, s.close_time closeTime, s.phone_number phoneNumber, ";
+        query += "s.information, avg(r.score) scoreAvg, count(os.id) count ";
         query += "from shop s ";
         query += "left join image_file i on s.id = i.shop_id ";
+        query += "left join review r on s.id = r.shop_id ";
         query += "left join (select * from option_shop o where o.option_id= ";
 
         for (int i = 0; i < opitonIds.size(); i++) {

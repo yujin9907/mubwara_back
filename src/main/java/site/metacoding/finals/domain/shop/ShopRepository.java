@@ -55,11 +55,16 @@ public interface ShopRepository extends JpaRepository<Shop, Long> {
                         "on shop.id=r3.shop_id", nativeQuery = true)
         List<ReservationRepositoryRespDto> findResevationByCustomerIdTEST(@Param("customerId") Long customerId);
 
-        @Query(value = "select s.id shopId, s.shop_name shopName, s.address, s.category, subs.count, i.store_filename storeFileName, s.open_time openTime, s.close_time closeTime, s.phone_number phoneNumber from shop s "
-                        + "left join (select count(*) count, shop_id from subscribe group by shop_id) subs "
-                        + "on s.id = subs.shop_id "
-                        + "left join image_file i on s.id = i.shop_id "
-                        + "order by count desc ", nativeQuery = true)
+        @Query(value = "select s.id shopId, s.shop_name shopName, s.open_time openTime, s.close_time closeTime, s.phone_number phoneNumber, "
+                        +
+                        "s.address address, s.category category, subs.count count, i.store_filename storeFileName, " +
+                        "s.information, ifnull(avg(r.score), 0) scoreAvg from shop s " +
+                        "left join (select count(*) count, shop_id from subscribe group by shop_id) subs " +
+                        "on s.id = subs.shop_id " +
+                        "left join review r on s.id = r.shop_id " +
+                        "left join image_file i on s.id = i.shop_id " +
+                        "group by s.id " +
+                        "order by count desc", nativeQuery = true)
         List<PopularListRespDto> findByPopularList();
 
         @Query("select s from Shop s where s.shopName like %:keyword%")

@@ -227,20 +227,24 @@ public class ShopRespDto {
         private String shopName;
         private String address;
         private String category;
+        private String information;
         private String openTime;
         private String closeTime;
         private String phoneNumber;
         private ImageFileDto imageFileDto;
+        private Double scoreAvg;
 
         public ShopPopularListRespDto(PopularListRespDto shop) {
             this.id = shop.getShopId();
             this.shopName = shop.getShopName();
             this.address = shop.getAddress();
             this.category = shop.getCategory();
+            this.information = shop.getInformation();
             this.openTime = shop.getOpenTime();
             this.closeTime = shop.getCloseTime();
             this.phoneNumber = shop.getPhoneNumber();
             this.imageFileDto = new ImageFileDto(shop.getStoreFileName());
+            this.scoreAvg = shop.getScoreAvg();
         }
 
     }
@@ -252,23 +256,28 @@ public class ShopRespDto {
         private String shopName;
         private String address;
         private String category;
+        private String information;
         private String openTime;
         private String closeTime;
         private String phoneNumber;
         private ImageFileDto imageFileDto;
+        private Double scoreAvg;
+        private Double count;
 
         public OptionListRespDto(BigInteger shopId, String shopName, String address, String category,
                 String storeFileName,
                 String openTime,
-                String closeTime, String phoneNumber, BigInteger count) {
+                String closeTime, String phoneNumber, String information, BigInteger scoreAvg, BigInteger count) {
             this.id = shopId.longValue();
             this.shopName = shopName;
             this.address = address;
             this.category = category;
+            this.information = information;
             this.openTime = openTime;
             this.closeTime = closeTime;
             this.phoneNumber = phoneNumber;
             this.imageFileDto = new ImageFileDto(storeFileName);
+            this.scoreAvg = scoreAvg.doubleValue();
         }
 
     }
@@ -280,23 +289,36 @@ public class ShopRespDto {
         private String shopName;
         private String address;
         private String category;
+        private String information;
         private String openTime;
         private String closeTime;
         private String phoneNumber;
         private ImageFileDto imageFileDto;
+        private Double scoreAvg = 0.0;
+        private Double count;
 
         public PriceListRespDto(BigInteger shopId, String shopName, String address, String category,
                 String storeFileName,
                 String openTime,
-                String closeTime, String phoneNumber, BigDecimal avg) {
+                String closeTime, String phoneNumber, BigDecimal count, String information, BigDecimal scoreAvg) {
             this.id = shopId.longValue();
             this.shopName = shopName;
             this.address = address;
             this.category = category;
+            this.information = information;
             this.openTime = openTime;
             this.closeTime = closeTime;
             this.phoneNumber = phoneNumber;
             this.imageFileDto = new ImageFileDto(storeFileName);
+            setAvg(scoreAvg);
+            this.count = count.doubleValue();
+        }
+
+        public void setAvg(BigDecimal scoreAvg) {
+            if (scoreAvg != null) {
+                this.scoreAvg = scoreAvg.doubleValue();
+            }
+            this.scoreAvg = 0.0;
         }
 
     }
@@ -308,10 +330,13 @@ public class ShopRespDto {
         private String shopName;
         private String address;
         private String category;
+        private String information;
         private String openTime;
         private String closeTime;
         private String phoneNumber;
         private ImageFileDto imageFileDto;
+        private Double scoreAvg;
+        private Double count;
 
         public ShopSearchListRespDto(Shop shop) {
             this.id = shop.getId();

@@ -150,26 +150,30 @@ public class ShopService {
     public List<ShopListRespDto> categoryList(String categoryName) {
         List<Shop> shopList = shopRepository.findByCategory(categoryName);
 
-        return shopList.stream()
+        List<ShopListRespDto> respDtos = shopList.stream()
                 .map((dto) -> new ShopListRespDto(dto)).collect(Collectors.toList());
+
+        respDtos.forEach(dto -> {
+            if (reviewrRepository.findByShopId(dto.getId()).size() != 0) {
+                dto.setScoreAvg(reviewrRepository.findByAvgScore(dto.getId()).getScore());
+            } else {
+                dto.setScoreAvg(0.0);
+            }
+        });
+        return respDtos;
 
     }
 
     public List<ShopPopularListRespDto> popularList() {
         List<PopularListRespDto> dtos = shopRepository.findByPopularList();
 
-        // System.out.println("디버그 : " + dtos.size());
-
         return dtos.stream().map((d) -> new ShopPopularListRespDto(d)).collect(Collectors.toList());
 
     }
 
-    public Map<String, Object> optionList(List<OptionListReqDto> reqDto) {
-        List<OptionListRespDto> dtoPS = shopQueryRepository.findOptionListByOptionId(reqDto);
-        Map<String, Object> dto = new HashMap<>();
-        dto.put("option", reqDto);
-        dto.put("shop", dtoPS);
-        return dto;
+    public List<OptionListRespDto> optionList(List<OptionListReqDto> reqDto) {
+        return shopQueryRepository.findOptionListByOptionId(reqDto);
+
     }
 
     public List<PriceListRespDto> priceList(String value) {

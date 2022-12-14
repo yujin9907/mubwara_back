@@ -1,5 +1,7 @@
 package site.metacoding.finals.dto.repository.shop;
 
+import site.metacoding.finals.domain.shop.Shop;
+
 public interface PopularListRespDto {
     Long getShopId();
 
@@ -17,5 +19,19 @@ public interface PopularListRespDto {
 
     String getPhoneNumber();
 
-    Integer getCount();
+    Double getScoreAvg();
+
+    String getInformation();
+
+    // default Shop toShopEntity(){
+    // return Shop.builder()
+    // .id(getShopId())
+    // .shopName(getShopName())
+    // .address(getAddress())
+    // .category(getCategory())
+    // .openTime(getOpenTime())
+    // .closeTime(getCloseTime())
+    // .phoneNumber(getPhoneNumber())
+    // .imageFile(null)
+    // }
 }
