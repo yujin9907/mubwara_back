@@ -104,3 +104,16 @@ insert into image_file(store_filename, menu_id, created_at) values('498e8a11-104
 insert into image_file(store_filename, menu_id, created_at) values('498e8a11-1048-429c-ad13-b1b51fd714b7.png', 4, now());
 insert into image_file(store_filename, menu_id, created_at) values('498e8a11-1048-429c-ad13-b1b51fd714b7.png', 5, now());
 
+--옵션 더미데이터
+insert into option(name, image_file_id, created_at) values ('옵션', 1, now());
+insert into option(name, image_file_id, created_at) values ('옵션2', 1, now());
+insert into option(name, image_file_id, created_at) values ('옵션3', 1, now());
+insert into option(name, image_file_id, created_at) values ('옵션4', 1, now());
+insert into option(name, image_file_id, created_at) values ('옵션5', 1, now());
+insert into option(name, image_file_id, created_at) values ('옵션6', 1, now());
+insert into option(name, image_file_id, created_at) values ('옵션7', 1, now());
+insert into option(name, image_file_id, created_at) values ('옵션8', 1, now());
+
+insert into option_shop(created_at, option_id, shop_id) values (now(), 1, 1);
+insert into option_shop(created_at, option_id, shop_id) values (now(), 2, 1);
+insert into option_shop(created_at, option_id, shop_id) values (now(), 1, 2);
