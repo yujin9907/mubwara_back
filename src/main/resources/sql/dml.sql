@@ -9,6 +9,9 @@ truncate table shop;
 truncate table shop_table;
 truncate table subscribe;
 truncate table users;
+truncate table commercial;
+truncate table option;
+truncate table option_shop;
 SET REFERENTIAL_INTEGRITY TRUE;
 
 insert into users(username, password, role, is_deleted, created_at) values ('ssar', '$2a$10$sPyqasyfpVYeHDVrtRcXKelXutSQobLuWzf32BXmQvnLTMbddkIwy', 'USER', false,  now());

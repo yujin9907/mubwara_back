@@ -1,10 +1,6 @@
 package site.metacoding.finals.handler;
 
-import java.security.Principal;
-
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
@@ -15,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import site.metacoding.finals.config.auth.PrincipalUser;
 import site.metacoding.finals.config.exception.RuntimeApiException;
 import site.metacoding.finals.domain.customer.CustomerRepository;
-import site.metacoding.finals.domain.shop.Shop;
 import site.metacoding.finals.domain.shop.ShopRepository;
 
 @RequiredArgsConstructor
@@ -28,12 +23,10 @@ public class VerifyAdvice {
 
     @Pointcut("@annotation(site.metacoding.finals.config.annotation.VerifyCustomer)")
     public void cutCustomer() {
-
     }
 
     @Pointcut("@annotation(site.metacoding.finals.config.annotation.VerifyShop)")
     public void cutShop() {
-
     }
 
     @Before(value = "cutCustomer()")

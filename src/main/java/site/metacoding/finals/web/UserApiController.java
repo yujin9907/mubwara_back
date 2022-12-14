@@ -91,8 +91,7 @@ public class UserApiController {
         try {
             ObjectMapper om = new ObjectMapper();
             ResponseDto<?> responseDto = new ResponseDto<>(HttpStatus.CREATED, "엑세스 토큰발급완료", null);
-            String responseBody;
-            responseBody = om.writeValueAsString(responseDto);
+            String responseBody = om.writeValueAsString(responseDto);
 
             response.setContentType("application/json; charset=utf-8");
             response.setHeader("access-token", access);

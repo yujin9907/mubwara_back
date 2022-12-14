@@ -109,10 +109,8 @@ public class ShopService {
 
     public List<AnalysisWeekRespDto> analysisWeek(PrincipalUser principalUser, AnalysisDateReqDto analysisDateReqDto) {
 
-        // 매출 데이터
         List<AnalysisDto> weekDtos = reservationRepository.findBySumWeek(principalUser.getShop().getId());
 
-        // dto로 변경
         return weekDtos.stream().map((w) -> new AnalysisWeekRespDto(w)).collect(Collectors.toList());
 
     }

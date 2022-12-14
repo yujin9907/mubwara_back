@@ -1,5 +1,6 @@
 package site.metacoding.finals.dto.shop;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -230,8 +231,6 @@ public class ShopRespDto {
         private String closeTime;
         private String phoneNumber;
         private ImageFileDto imageFileDto;
-        private Integer subscribeCount;
-        private Double scoreAvg;
 
         public ShopPopularListRespDto(PopularListRespDto shop) {
             this.id = shop.getShopId();
@@ -241,7 +240,6 @@ public class ShopRespDto {
             this.openTime = shop.getOpenTime();
             this.closeTime = shop.getCloseTime();
             this.phoneNumber = shop.getPhoneNumber();
-            this.subscribeCount = shop.getCount();
             this.imageFileDto = new ImageFileDto(shop.getStoreFileName());
         }
 
@@ -258,8 +256,6 @@ public class ShopRespDto {
         private String closeTime;
         private String phoneNumber;
         private ImageFileDto imageFileDto;
-        private Integer count;
-        private List<Long> optionList;
 
         public OptionListRespDto(BigInteger shopId, String shopName, String address, String category,
                 String storeFileName,
@@ -273,7 +269,6 @@ public class ShopRespDto {
             this.closeTime = closeTime;
             this.phoneNumber = phoneNumber;
             this.imageFileDto = new ImageFileDto(storeFileName);
-            this.count = count.intValue();
         }
 
     }
@@ -289,13 +284,11 @@ public class ShopRespDto {
         private String closeTime;
         private String phoneNumber;
         private ImageFileDto imageFileDto;
-        private Integer priceAvg = 0;
-        private List<Long> optionList;
 
         public PriceListRespDto(BigInteger shopId, String shopName, String address, String category,
                 String storeFileName,
                 String openTime,
-                String closeTime, String phoneNumber, Double avg) {
+                String closeTime, String phoneNumber, BigDecimal avg) {
             this.id = shopId.longValue();
             this.shopName = shopName;
             this.address = address;
@@ -304,7 +297,6 @@ public class ShopRespDto {
             this.closeTime = closeTime;
             this.phoneNumber = phoneNumber;
             this.imageFileDto = new ImageFileDto(storeFileName);
-            this.priceAvg = avg.intValue();
         }
 
     }

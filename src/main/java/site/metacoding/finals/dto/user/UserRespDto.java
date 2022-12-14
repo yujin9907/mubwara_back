@@ -33,13 +33,13 @@ public class UserRespDto {
         private String returnPath;
         private String token;
         private String refreshToken;
-        private User user;
+        // private User user;
 
-        public OauthLoginRespDto(String returnPath, String token, String refresh, User user) {
+        public OauthLoginRespDto(String returnPath, String token, String refresh) {
             this.returnPath = returnPath;
             this.token = token;
             this.refreshToken = refresh;
-            this.user = user;
+            // this.user = user;
         }
 
     }

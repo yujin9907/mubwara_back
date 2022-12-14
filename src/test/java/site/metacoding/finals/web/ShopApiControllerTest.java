@@ -294,7 +294,7 @@ public class ShopApiControllerTest extends DummyEntity {
     @Test
     public void 가격순목록보기테스트() throws Exception {
         //
-        String str = "heiger";
+        String str = "higher";
 
         //
         ResultActions resultActions = mvc.perform(

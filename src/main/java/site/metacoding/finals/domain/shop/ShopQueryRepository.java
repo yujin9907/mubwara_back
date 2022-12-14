@@ -36,7 +36,7 @@ public class ShopQueryRepository {
         query += "left join image_file i on s.id = i.shop_id ";
         query += "order by avg ";
 
-        if (value.equals("heiger")) {
+        if (value.equals("higher")) {
             query += "asc";
         }
         if (value.equals("lower")) {

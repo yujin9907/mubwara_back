@@ -23,7 +23,6 @@ import site.metacoding.finals.config.jwt.JwtProcess;
 import site.metacoding.finals.config.jwt.JwtSecret;
 import site.metacoding.finals.domain.user.User;
 import site.metacoding.finals.domain.user.UserRepository;
-import site.metacoding.finals.dto.user.UserRespDto;
 import site.metacoding.finals.dto.user.UserReqDto.KakaoDto;
 import site.metacoding.finals.dto.user.UserRespDto.OauthLoginRespDto;
 
@@ -56,7 +55,7 @@ public class OauthHandler {
         String resultToken = createToken(userPS);
         String resultRefreshToken = JwtProcess.createRefresh(1000 * 60 * 60 * 24);
 
-        return new OauthLoginRespDto(result, resultToken, resultRefreshToken, userPS);
+        return new OauthLoginRespDto(result, resultToken, resultRefreshToken);
     }
 
     public String getKakaoUser(String token) {
