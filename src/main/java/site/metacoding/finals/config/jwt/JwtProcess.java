@@ -5,6 +5,8 @@ import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.auth0.jwt.JWT;
@@ -14,7 +16,9 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 
 import site.metacoding.finals.config.auth.PrincipalUser;
 import site.metacoding.finals.config.enums.Role;
+import site.metacoding.finals.config.exception.RuntimeApiException;
 import site.metacoding.finals.domain.user.User;
+import site.metacoding.finals.domain.user.UserRepository;
 
 public class JwtProcess {
 
@@ -48,14 +52,10 @@ public class JwtProcess {
         }
     }
 
-    public static UserDetails verify(String token) throws TokenExpiredException {
+    public static Long verify(String token) throws TokenExpiredException {
         DecodedJWT decodedJWT = JWT.require(Algorithm.HMAC256(JwtSecret.SECRET)).build().verify(token);
         Long id = decodedJWT.getClaim("id").asLong();
-        String username = decodedJWT.getClaim("username").asString();
-        String role = decodedJWT.getClaim("role").asString();
-        User user = User.builder().id(id).username(username).role(Role.valueOf(role)).build();
-        PrincipalUser principalUser = new PrincipalUser(user);
-        return principalUser;
+        return id;
 
     }
 }

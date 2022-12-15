@@ -9,10 +9,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.ToString;
 import site.metacoding.finals.domain.customer.Customer;
 import site.metacoding.finals.domain.shop.Shop;
 import site.metacoding.finals.domain.user.User;
+import site.metacoding.finals.domain.user.UserRepository;
 
 @Getter
 @RequiredArgsConstructor
@@ -24,6 +24,8 @@ public class PrincipalUser implements UserDetails {
     private final Shop shop;
 
     public PrincipalUser(User user) {
+        System.out.println("필터 유저 디버그 : " + user.getShop());
+
         this.user = user;
         this.id = user.getId();
         this.customer = user.getCustomer();

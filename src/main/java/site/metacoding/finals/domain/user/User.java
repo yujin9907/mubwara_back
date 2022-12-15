@@ -5,6 +5,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,6 +23,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import net.bytebuddy.agent.builder.AgentBuilder.PoolStrategy.Eager;
 import site.metacoding.finals.config.enums.Role;
 import site.metacoding.finals.domain.AutoTime;
 import site.metacoding.finals.domain.customer.Customer;
@@ -51,9 +53,9 @@ public class User extends AutoTime {
     @Column(name = "is_deleted")
     private Boolean isDeleted; // 디폴트 설정값
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE)
+    @OneToOne(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private Customer customer;
-    @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE)
+    @OneToOne(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private Shop shop;
 
     public void updateToShop() {

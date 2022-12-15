@@ -43,14 +43,13 @@ public class OauthHandler {
         String username = serviceName + kakaoUser.getId();
         User userPS = userRepository.findByUsername(username);
 
-        System.out.println("회원 체크 테스트 : " + userPS);
-
         if (userPS == null) {
             userPS = createDBData(username);
             result = "회원 가입 진행 필요";
         } else {
             result = "카카오 유저 로그인 성공";
         }
+        
         // 토큰 발급
         String resultToken = createToken(userPS);
         String resultRefreshToken = JwtProcess.createRefresh(1000 * 60 * 60 * 24);

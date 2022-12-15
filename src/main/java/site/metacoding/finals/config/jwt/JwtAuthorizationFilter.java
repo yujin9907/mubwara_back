@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -14,11 +15,16 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import site.metacoding.finals.config.auth.PrincipalUser;
+import site.metacoding.finals.domain.user.User;
+import site.metacoding.finals.domain.user.UserRepository;
 
 public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
-    public JwtAuthorizationFilter(AuthenticationManager authenticationManager) {
+    private UserRepository userRepository;
+
+    public JwtAuthorizationFilter(AuthenticationManager authenticationManager, UserRepository userRepository) {
         super(authenticationManager);
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -29,8 +35,13 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
         if (JwtProcess.isHeaderVerify(request, response)) {
             String token = request.getHeader("Authorization").replace("Bearer ", "");
+            // 유저 정보 넣어주기
+
             try {
-                PrincipalUser principalUser = (PrincipalUser) JwtProcess.verify(token);
+                Long userId = JwtProcess.verify(token);
+
+                User user = userRepository.findById(userId).get();
+                PrincipalUser principalUser = new PrincipalUser(user);
 
                 Authentication authentication = new UsernamePasswordAuthenticationToken(principalUser,
                         null, principalUser.getAuthorities());
