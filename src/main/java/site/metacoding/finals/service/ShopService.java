@@ -34,6 +34,7 @@ import site.metacoding.finals.dto.shop.ShopRespDto.PriceListRespDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.ShopDetailRespDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.ShopInfoSaveRespDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.ShopListRespDto;
+import site.metacoding.finals.dto.shop.ShopRespDto.ShopLocationListRespDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.ShopPopularListRespDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.ShopSearchListRespDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.ShopUpdateRespDto;
@@ -195,6 +196,15 @@ public class ShopService {
         System.out.println("디버그 : " + shopPS.size());
 
         return shopPS.stream().map((s) -> new ShopSearchListRespDto(s)).collect(Collectors.toList());
+    }
+
+    public List<ShopLocationListRespDto> locationList(String city, String region) {
+
+        System.out.println(city);
+
+        List<Shop> shopPS = shopRepository.findByLocationList(city, region);
+
+        return shopPS.stream().map((s) -> new ShopLocationListRespDto(s)).collect(Collectors.toList());
     }
 
 }

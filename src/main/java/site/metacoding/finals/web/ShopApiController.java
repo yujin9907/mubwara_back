@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
@@ -31,6 +32,7 @@ import site.metacoding.finals.dto.shop.ShopRespDto.PriceListRespDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.ShopDetailRespDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.ShopInfoSaveRespDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.ShopListRespDto;
+import site.metacoding.finals.dto.shop.ShopRespDto.ShopLocationListRespDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.ShopPopularListRespDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.ShopSearchListRespDto;
 import site.metacoding.finals.dto.shop.ShopRespDto.ShopUpdateRespDto;
@@ -99,8 +101,11 @@ public class ShopApiController {
 
     @GetMapping("/detail/{id}")
     public ResponseEntity<?> shopDetail(@PathVariable Long id) {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        PrincipalUser principalUser = (PrincipalUser) principal;
+        PrincipalUser principalUser = null;
+        if (SecurityContextHolder.getContext() != null) {
+            Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            principalUser = (PrincipalUser) principal;
+        }
 
         ShopDetailRespDto dto = shopService.detatil(id, principalUser);
         return new ResponseEntity<>(new ResponseDto<>(HttpStatus.OK, "가게 상세보기 조회", dto), HttpStatus.OK);
@@ -134,6 +139,15 @@ public class ShopApiController {
     @GetMapping("/list/search/{keyword}")
     public ResponseEntity<?> shopSearchList(@PathVariable("keyword") String keyword) {
         List<ShopSearchListRespDto> respDtos = shopService.searchList(keyword);
+        return new ResponseEntity<>(new ResponseDto<>(HttpStatus.OK, "검색 리스트 조회", respDtos), HttpStatus.OK);
+    }
+
+    @GetMapping("/list/location") // /list/location?city=&region=
+    public ResponseEntity<?> shopLocationList(@RequestParam(name = "city") String city,
+            @RequestParam("region") String region) {
+        System.out.println("1");
+        System.out.println("디버그 쿼리스트링 : " + city);
+        List<ShopLocationListRespDto> respDtos = shopService.locationList(city, region);
         return new ResponseEntity<>(new ResponseDto<>(HttpStatus.OK, "검색 리스트 조회", respDtos), HttpStatus.OK);
     }
 

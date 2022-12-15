@@ -67,4 +67,7 @@ public interface ShopRepository extends JpaRepository<Shop, Long> {
         @Query("select s from Shop s where s.shopName like %:keyword%")
         Optional<List<Shop>> findBySearchList(@Param("keyword") String keyword);
 
+        @Query("select s from Shop s where s.address like %:city% and s.address like %:region%")
+        List<Shop> findByLocationList(@Param("city") String city, @Param("region") String region);
+
 }

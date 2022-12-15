@@ -25,6 +25,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import site.metacoding.finals.domain.user.User;
 import site.metacoding.finals.dto.customer.CustomerReqDto.CustomerJoinReqDto;
+import site.metacoding.finals.dto.customer.CustomerReqDto.CustomerSaveReqDto;
 import site.metacoding.finals.dto.customer.CustomerReqDto.CustomerUpdateReqDto;
 import site.metacoding.finals.dummy.DummyEntity;
 
@@ -60,6 +61,31 @@ public class CustomerApiControllerTest extends DummyEntity {
     @BeforeEach
     public void setUp() {
         User ssar = newUser("ssar");
+    }
+
+    @WithUserDetails("ssar")
+    @Test
+    public void 커스터머추가정보테스트() throws Exception {
+        // g
+        CustomerSaveReqDto dto = new CustomerSaveReqDto();
+        dto.setAddress("주소테스트");
+        dto.setName("테스트네임");
+        dto.setPhoneNumber("01055556666");
+
+        String body = om.writeValueAsString(dto);
+
+        // when
+        ResultActions resultActions = mvc.perform(post("/user/save/customer")
+                .content(body)
+                .contentType("application/json; charset=utf-8")
+                .accept("application/json; charset=utf-8"));
+
+        String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+        log.debug(responseBody);
+
+        // then
+        resultActions.andExpect(MockMvcResultMatchers.status().isCreated());
+
     }
 
     @Test

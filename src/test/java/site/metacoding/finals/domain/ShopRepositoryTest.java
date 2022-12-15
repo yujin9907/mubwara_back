@@ -233,4 +233,9 @@ public class ShopRepositoryTest extends DummyEntity {
         shopRepository.findBySearchList("가");
     }
 
+    @Test
+    public void findByLocationList() {
+        shopRepository.findByLocationList("부산", "부산진구");
+    }
+
 }

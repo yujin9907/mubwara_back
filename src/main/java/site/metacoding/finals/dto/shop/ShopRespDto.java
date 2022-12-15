@@ -166,7 +166,7 @@ public class ShopRespDto {
         private ImageFileDto imageFile;
         private List<ReviewDto> review;
         private Double scoreAvg = 0.0;
-        private SubscribeDto subscribe;
+        private Long subscribeId = 0L;
 
         public ShopDetailRespDto(Shop shop, Subscribe subscribe) {
             this.id = shop.getId();
@@ -181,7 +181,14 @@ public class ShopRespDto {
             this.review = toReviewList(shop.getReview());
             this.menu = toMenuList(shop.getMenu());
             this.scoreAvg = 0.0;
-            this.subscribe = new SubscribeDto(subscribe);
+            checkSubscribe(subscribe);
+        }
+
+        public void checkSubscribe(Subscribe subscribe) {
+            if (subscribe != null) {
+                this.subscribeId = subscribe.getId();
+            }
+
         }
 
         public List<MenuDto> toMenuList(List<Menu> menus) {
@@ -221,16 +228,6 @@ public class ShopRespDto {
 
         }
 
-        @Getter
-        public class SubscribeDto {
-            private Long id;
-
-            public SubscribeDto(Subscribe subscribe) {
-                this.id = subscribe.getId();
-            }
-
-        }
-
     }
 
     @Setter
@@ -245,7 +242,7 @@ public class ShopRespDto {
         private String closeTime;
         private String phoneNumber;
         private ImageFileDto imageFileDto;
-        private Double scoreAvg;
+        private Double scoreAvg = 0.0;
 
         public ShopPopularListRespDto(PopularListRespDto shop) {
             this.id = shop.getShopId();
@@ -275,7 +272,6 @@ public class ShopRespDto {
         private String phoneNumber;
         private ImageFileDto imageFileDto;
         private Double scoreAvg;
-        private Double count;
 
         public OptionListRespDto(BigInteger shopId, String shopName, String address, String category,
                 String storeFileName,
@@ -291,6 +287,13 @@ public class ShopRespDto {
             this.phoneNumber = phoneNumber;
             this.imageFileDto = new ImageFileDto(storeFileName);
             this.scoreAvg = scoreAvg.doubleValue();
+        }
+
+        public void setAvg(BigDecimal scoreAvg) {
+            if (scoreAvg != null) {
+                this.scoreAvg = scoreAvg.doubleValue();
+            }
+            this.scoreAvg = 0.0;
         }
 
     }
@@ -348,10 +351,36 @@ public class ShopRespDto {
         private String closeTime;
         private String phoneNumber;
         private ImageFileDto imageFileDto;
-        private Double scoreAvg;
-        private Double count;
+        private Double scoreAvg = 0.0;
 
         public ShopSearchListRespDto(Shop shop) {
+            this.id = shop.getId();
+            this.shopName = shop.getShopName();
+            this.address = shop.getAddress();
+            this.category = shop.getCategory();
+            this.information = shop.getInformation();
+            this.openTime = shop.getOpenTime();
+            this.closeTime = shop.getCloseTime();
+            this.phoneNumber = shop.getPhoneNumber();
+            this.imageFileDto = new ImageFileDto(shop.getImageFile());
+        }
+    }
+
+    @Setter
+    @Getter
+    public static class ShopLocationListRespDto {
+        private Long id;
+        private String shopName;
+        private String address;
+        private String category;
+        private String information;
+        private String openTime;
+        private String closeTime;
+        private String phoneNumber;
+        private ImageFileDto imageFileDto;
+        private Double scoreAvg = 0.0;
+
+        public ShopLocationListRespDto(Shop shop) {
             this.id = shop.getId();
             this.shopName = shop.getShopName();
             this.address = shop.getAddress();
