@@ -76,15 +76,17 @@ public class ReservationService {
         int end = Integer.parseInt(shopPS.getCloseTime());
 
         List<Integer> timeList = new ArrayList<>();
+
         for (int i = start; i < end; i += shopPS.getPerHour()) {
+            timeList.add(i);
             for (Reservation r : reservationList) {
                 int disableTime = Integer.parseInt(r.getReservationTime());
-                if (i == disableTime) {
-                    continue;
+                if (disableTime == i) {
+                    timeList.remove(timeList.size() - 1);
                 }
-                timeList.add(i);
             }
         }
+
         List<Integer> distinctTime = timeList.stream().distinct().collect(Collectors.toList());
 
         return distinctTime;
