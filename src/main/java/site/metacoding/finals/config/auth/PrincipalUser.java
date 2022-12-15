@@ -24,8 +24,6 @@ public class PrincipalUser implements UserDetails {
     private final Shop shop;
 
     public PrincipalUser(User user) {
-        System.out.println("필터 유저 디버그 : " + user.getShop());
-
         this.user = user;
         this.id = user.getId();
         this.customer = user.getCustomer();

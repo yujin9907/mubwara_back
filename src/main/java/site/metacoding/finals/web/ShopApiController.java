@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -98,7 +99,10 @@ public class ShopApiController {
 
     @GetMapping("/detail/{id}")
     public ResponseEntity<?> shopDetail(@PathVariable Long id) {
-        ShopDetailRespDto dto = shopService.detatil(id);
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        PrincipalUser principalUser = (PrincipalUser) principal;
+
+        ShopDetailRespDto dto = shopService.detatil(id, principalUser);
         return new ResponseEntity<>(new ResponseDto<>(HttpStatus.OK, "가게 상세보기 조회", dto), HttpStatus.OK);
     }
 

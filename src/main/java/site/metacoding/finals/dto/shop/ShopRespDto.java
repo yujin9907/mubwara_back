@@ -11,6 +11,7 @@ import site.metacoding.finals.domain.imagefile.ImageFile;
 import site.metacoding.finals.domain.menu.Menu;
 import site.metacoding.finals.domain.review.Review;
 import site.metacoding.finals.domain.shop.Shop;
+import site.metacoding.finals.domain.subscribe.Subscribe;
 import site.metacoding.finals.domain.user.User;
 import site.metacoding.finals.dto.image_file.ImageFileInnerDto.ImageFileDto;
 import site.metacoding.finals.dto.image_file.ImageFileReqDto.ImageHandlerDto;
@@ -165,8 +166,9 @@ public class ShopRespDto {
         private ImageFileDto imageFile;
         private List<ReviewDto> review;
         private Double scoreAvg;
+        private SubscribeDto subscribe;
 
-        public ShopDetailRespDto(Shop shop) {
+        public ShopDetailRespDto(Shop shop, Subscribe subscribe) {
             this.id = shop.getId();
             this.shopName = shop.getShopName();
             this.address = shop.getAddress();
@@ -179,6 +181,7 @@ public class ShopRespDto {
             this.review = toReviewList(shop.getReview());
             this.menu = toMenuList(shop.getMenu());
             this.scoreAvg = 0.0;
+            this.subscribe = new SubscribeDto(subscribe);
         }
 
         public List<MenuDto> toMenuList(List<Menu> menus) {
@@ -213,7 +216,17 @@ public class ShopRespDto {
                 this.name = menu.getName();
                 this.price = menu.getPrice();
                 this.recommanded = menu.getRecommanded();
-                this.imageFile = new ImageFileDto(menu.getImageFile());
+                this.imageFile = new ImageFileDto(menu.getImageFile().getStoreFilename());
+            }
+
+        }
+
+        @Getter
+        public class SubscribeDto {
+            private Long id;
+
+            public SubscribeDto(Subscribe subscribe) {
+                this.id = subscribe.getId();
             }
 
         }
@@ -343,6 +356,7 @@ public class ShopRespDto {
             this.shopName = shop.getShopName();
             this.address = shop.getAddress();
             this.category = shop.getCategory();
+            this.information = shop.getInformation();
             this.openTime = shop.getOpenTime();
             this.closeTime = shop.getCloseTime();
             this.phoneNumber = shop.getPhoneNumber();

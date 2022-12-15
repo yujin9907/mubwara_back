@@ -17,6 +17,8 @@ import site.metacoding.finals.domain.review.ReviewRepository;
 import site.metacoding.finals.domain.shop.Shop;
 import site.metacoding.finals.domain.shop.ShopQueryRepository;
 import site.metacoding.finals.domain.shop.ShopRepository;
+import site.metacoding.finals.domain.subscribe.Subscribe;
+import site.metacoding.finals.domain.subscribe.SubscribeRepository;
 import site.metacoding.finals.domain.user.User;
 import site.metacoding.finals.domain.user.UserRepository;
 import site.metacoding.finals.dto.image_file.ImageFileReqDto.ImageHandlerDto;
@@ -50,6 +52,7 @@ public class ShopService {
     private final ReviewRepository reviewrRepository;
     private final ShopQueryRepository shopQueryRepository;
     private final UserRepository userRepository;
+    private final SubscribeRepository subscribeRepository;
 
     @Transactional
     public ShopInfoSaveRespDto save(ShopSaveReqDto shopSaveReqDto, PrincipalUser principalUser) {
@@ -125,15 +128,21 @@ public class ShopService {
         return respDtos;
     }
 
-    public ShopDetailRespDto detatil(Long shopId) {
+    public ShopDetailRespDto detatil(Long shopId, PrincipalUser principalUser) {
         // 가게 정보
         Shop shopPS = shopRepository.findById(shopId)
                 .orElseThrow(() -> new RuntimeException("잘못된 가게 요청"));
         // 날짜 + 인원 => 예약 가능 시간 조회
 
-        // 리뷰 관련
-        ShopDetailRespDto respDto = new ShopDetailRespDto(shopPS);
+        // 구독 여부
+        Subscribe subscribe = null;
+        if (principalUser != null) {
+            subscribe = subscribeRepository.findByCustomerIdAndShopId(principalUser.getUser().getId(),
+                    shopId);
+        }
 
+        // 리뷰 관련
+        ShopDetailRespDto respDto = new ShopDetailRespDto(shopPS, subscribe);
         if (reviewrRepository.findByShopId(shopId).size() != 0) {
             respDto.setScoreAvg(reviewrRepository.findByAvgScore(shopId).getScore());
         }
