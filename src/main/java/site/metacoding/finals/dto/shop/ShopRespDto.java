@@ -286,10 +286,25 @@ public class ShopRespDto {
             this.closeTime = closeTime;
             this.phoneNumber = phoneNumber;
             this.imageFileDto = new ImageFileDto(storeFileName);
-            this.scoreAvg = scoreAvg.doubleValue();
+            setAvg(scoreAvg);
         }
 
-        public void setAvg(BigDecimal scoreAvg) {
+        public OptionListRespDto(BigInteger shopId, String shopName, String address, String category,
+                String storeFileName,
+                String openTime,
+                String closeTime, String phoneNumber, String information, Double scoreAvg, BigInteger count) {
+            this.id = shopId.longValue();
+            this.shopName = shopName;
+            this.address = address;
+            this.category = category;
+            this.information = information;
+            this.openTime = openTime;
+            this.closeTime = closeTime;
+            this.phoneNumber = phoneNumber;
+            this.imageFileDto = new ImageFileDto(storeFileName);
+        }
+
+        public void setAvg(BigInteger scoreAvg) {
             if (scoreAvg != null) {
                 this.scoreAvg = scoreAvg.doubleValue();
             }
@@ -327,6 +342,22 @@ public class ShopRespDto {
             this.phoneNumber = phoneNumber;
             this.imageFileDto = new ImageFileDto(storeFileName);
             setAvg(scoreAvg);
+            this.count = count.doubleValue();
+        }
+
+        public PriceListRespDto(BigInteger shopId, String shopName, String address, String category,
+                String storeFileName,
+                String openTime,
+                String closeTime, String phoneNumber, Double count, String information, Double scoreAvg) {
+            this.id = shopId.longValue();
+            this.shopName = shopName;
+            this.address = address;
+            this.category = category;
+            this.information = information;
+            this.openTime = openTime;
+            this.closeTime = closeTime;
+            this.phoneNumber = phoneNumber;
+            this.imageFileDto = new ImageFileDto(storeFileName);
             this.count = count.doubleValue();
         }
 
