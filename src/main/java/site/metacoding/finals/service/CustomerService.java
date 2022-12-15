@@ -28,7 +28,9 @@ import site.metacoding.finals.domain.subscribe.SubscribeRepository;
 import site.metacoding.finals.domain.user.User;
 import site.metacoding.finals.domain.user.UserRepository;
 import site.metacoding.finals.dto.customer.CustomerReqDto.CustomerJoinReqDto;
+import site.metacoding.finals.dto.customer.CustomerReqDto.CustomerSaveReqDto;
 import site.metacoding.finals.dto.customer.CustomerReqDto.CustomerUpdateReqDto;
+import site.metacoding.finals.dto.customer.CustomerRespDto.CustoemrSaveRespDto;
 import site.metacoding.finals.dto.customer.CustomerRespDto.CustomerJoinRespDto;
 import site.metacoding.finals.dto.customer.CustomerRespDto.CustomerMyPageReviewRespDto;
 import site.metacoding.finals.dto.customer.CustomerRespDto.CustomerMyPageSubscribeRespDto;
@@ -50,6 +52,13 @@ public class CustomerService {
     private final ReservationRepository reservationRepository;
     private final SubscribeRepository subscribeRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @Transactional
+    public CustoemrSaveRespDto save(CustomerSaveReqDto customerSaveReqDto, PrincipalUser principalUser) {
+        Customer customer = customerRepository.save(customerSaveReqDto.toEntity(principalUser.getUser()));
+
+        return new CustoemrSaveRespDto(customer);
+    }
 
     @Transactional
     public CustomerJoinRespDto join(CustomerJoinReqDto customerJoinReqDto) {

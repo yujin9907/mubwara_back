@@ -20,6 +20,21 @@ public class CustomerRespDto {
 
     @Setter
     @Getter
+    public static class CustoemrSaveRespDto {
+        private String name;
+        private String phoneNumber;
+        private String address;
+
+        public CustoemrSaveRespDto(Customer customer) {
+            this.name = customer.getName();
+            this.phoneNumber = customer.getPhoneNumber();
+            this.address = customer.getAddress();
+        }
+
+    }
+
+    @Setter
+    @Getter
     public static class CustomerJoinRespDto {
         private Long id;
         private String name;

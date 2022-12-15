@@ -18,7 +18,9 @@ import site.metacoding.finals.config.annotation.VerifyCustomer;
 import site.metacoding.finals.config.auth.PrincipalUser;
 import site.metacoding.finals.dto.ResponseDto;
 import site.metacoding.finals.dto.customer.CustomerReqDto.CustomerJoinReqDto;
+import site.metacoding.finals.dto.customer.CustomerReqDto.CustomerSaveReqDto;
 import site.metacoding.finals.dto.customer.CustomerReqDto.CustomerUpdateReqDto;
+import site.metacoding.finals.dto.customer.CustomerRespDto.CustoemrSaveRespDto;
 import site.metacoding.finals.dto.customer.CustomerRespDto.CustomerJoinRespDto;
 import site.metacoding.finals.dto.customer.CustomerRespDto.CustomerMyPageReviewRespDto;
 import site.metacoding.finals.dto.customer.CustomerRespDto.CustomerMyPageSubscribeRespDto;
@@ -32,6 +34,15 @@ import site.metacoding.finals.service.CustomerService;
 public class CustomerApiController {
 
     private final CustomerService customerService;
+
+    @VerifyCustomer
+    @PostMapping("/user/save/customer") // 카카오 유저 전용
+    public ResponseEntity<?> saveCustomerApi(@AuthenticationPrincipal PrincipalUser principalUser,
+            @RequestBody CustomerSaveReqDto customerSaveReqDto) {
+        CustoemrSaveRespDto respDto = customerService.save(customerSaveReqDto, principalUser);
+        return new ResponseEntity<>(new ResponseDto<>(HttpStatus.CREATED, "커스터머 추가 정보 저장 완료", respDto),
+                HttpStatus.CREATED);
+    }
 
     @PostMapping("/customer/join")
     public ResponseEntity<?> joinCustomerApi(@RequestBody CustomerJoinReqDto customerJoinReqDto) {

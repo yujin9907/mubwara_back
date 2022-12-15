@@ -11,6 +11,23 @@ import site.metacoding.finals.domain.user.User;
 
 public class CustomerReqDto {
 
+    @Setter
+    @Getter
+    public static class CustomerSaveReqDto {
+        private String name;
+        private String phoneNumber;
+        private String address;
+
+        public Customer toEntity(User user) {
+            return Customer.builder()
+                    .name(name)
+                    .phoneNumber(phoneNumber)
+                    .address(address)
+                    .user(user)
+                    .build();
+        }
+    }
+
     @Builder
     @AllArgsConstructor
     @NoArgsConstructor

@@ -165,7 +165,7 @@ public class ShopRespDto {
         private List<MenuDto> menu;
         private ImageFileDto imageFile;
         private List<ReviewDto> review;
-        private Double scoreAvg;
+        private Double scoreAvg = 0.0;
         private SubscribeDto subscribe;
 
         public ShopDetailRespDto(Shop shop, Subscribe subscribe) {
