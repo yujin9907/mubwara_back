@@ -3,6 +3,7 @@ package site.metacoding.finals.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ import site.metacoding.finals.domain.option_shop.OptionShopRepository;
 import site.metacoding.finals.domain.shop.Shop;
 import site.metacoding.finals.domain.shop.ShopRepository;
 import site.metacoding.finals.dto.option.OptionReqDto.OptionSaveReqDto;
+import site.metacoding.finals.dto.option.OptionReqDto.OptionShopSaveDto;
 import site.metacoding.finals.dto.option.OptionRespDto.OptionSaveRepsDto;
 
 @Service
@@ -28,18 +30,16 @@ public class OptionShopService {
     private final OptionRepository optionRepository;
 
     @Transactional
-    public List<OptionSaveRepsDto> saveOption(List<OptionSaveReqDto> reqDtos, PrincipalUser principalUser) {
-        // 옵션 찾기
-        List<OptionShop> optionShops = reqDtos.stream()
-                .map((r) -> r.toEntity(optionRepository.findById(r.getOptionList()).get(), principalUser.getShop()))
-                .collect(Collectors.toList());
-
-        // optin shop에 저장
-        List<OptionSaveRepsDto> result = new ArrayList<>();
-        optionShops.forEach(optionShop -> {
-            result.add(new OptionSaveRepsDto(optionShopRepository.save(optionShop)));
+    public List<OptionSaveRepsDto> saveOption(OptionSaveReqDto reqDtos, PrincipalUser principalUser) {
+        // 옵션 찾기 및 optionshop에 저장
+        List<OptionShop> result = new ArrayList<>();
+        reqDtos.getOptionList().forEach((opiton) -> {
+            Option option = optionRepository.findById(opiton).get();
+            OptionShop optionShop = optionShopRepository
+                    .save(new OptionShopSaveDto(principalUser.getShop(), option).toEntity());
+            result.add(optionShop);
         });
 
-        return result;
+        return result.stream().map((r) -> new OptionSaveRepsDto(r)).collect(Collectors.toList());
     }
 }

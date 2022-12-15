@@ -26,7 +26,7 @@ public class OptionShopApiController {
     @VerifyShop
     @PostMapping("/shop/option")
     public ResponseEntity<?> CustomerMypageReviewApi(@AuthenticationPrincipal PrincipalUser principalUser,
-            @RequestBody List<OptionSaveReqDto> reqDto) {
+            @RequestBody OptionSaveReqDto reqDto) {
         List<OptionSaveRepsDto> repsDtos = optionShopService.saveOption(reqDto, principalUser);
         return new ResponseEntity<>(new ResponseDto<>(HttpStatus.CREATED, "편의시설 등록", repsDtos), HttpStatus.CREATED);
     }

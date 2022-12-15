@@ -14,14 +14,26 @@ public class OptionReqDto {
     @Setter
     @Getter
     public static class OptionSaveReqDto {
-        Long optionList;
+        List<Long> optionList;
+    }
 
-        public OptionShop toEntity(Option option, Shop shop) {
+    @Setter
+    @Getter
+    public static class OptionShopSaveDto {
+        private Shop shop;
+        private Option option;
+
+        public OptionShopSaveDto(Shop shop, Option option) {
+            this.shop = shop;
+            this.option = option;
+        }
+
+        public OptionShop toEntity() {
             return OptionShop.builder()
                     .shop(shop)
                     .option(option)
                     .build();
         }
-
     }
+
 }

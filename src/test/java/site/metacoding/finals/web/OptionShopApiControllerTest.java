@@ -47,12 +47,12 @@ public class OptionShopApiControllerTest extends DummyEntity {
         @WithUserDetails(value = "cos", setupBefore = TestExecutionEvent.TEST_EXECUTION)
         public void 옵션등록하기테스트() throws Exception {
                 // g
+                List<Long> opitonList = new ArrayList<>();
+                opitonList.add(1L);
                 OptionSaveReqDto dto = new OptionSaveReqDto();
-                List<OptionSaveReqDto> dtos = new ArrayList<>();
-                dto.setOptionList(1L);
-                dtos.add(dto);
+                dto.setOptionList(opitonList);
 
-                String body = om.writeValueAsString(dtos);
+                String body = om.writeValueAsString(dto);
 
                 // when
                 ResultActions resultActions = mvc.perform(post("/shop/option")
