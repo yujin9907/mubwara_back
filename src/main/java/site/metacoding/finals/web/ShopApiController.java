@@ -3,6 +3,11 @@ package site.metacoding.finals.web;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.boot.web.servlet.server.Session;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -100,9 +105,12 @@ public class ShopApiController {
     }
 
     @GetMapping("/detail/{id}")
-    public ResponseEntity<?> shopDetail(@PathVariable Long id) {
+    public ResponseEntity<?> shopDetail(@PathVariable Long id, HttpServletRequest request) {
+        String header = request.getHeader("Authentication");
+
         PrincipalUser principalUser = null;
-        if (SecurityContextHolder.getContext() != null) {
+        if (header != null) {
+            System.out.println("거기 가면 안된다고");
             Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             principalUser = (PrincipalUser) principal;
         }
