@@ -1,6 +1,7 @@
 package site.metacoding.finals.web;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +57,31 @@ public class OptionShopApiControllerTest extends DummyEntity {
 
                 // when
                 ResultActions resultActions = mvc.perform(post("/shop/option")
+                                .content(body)
+                                .contentType("application/json; charset=utf-8")
+                                .accept("application/json; charset=utf-8"));
+
+                String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+                log.debug(responseBody);
+
+                // then
+                resultActions.andExpect(MockMvcResultMatchers.status().isCreated());
+
+        }
+
+        @Test
+        @WithUserDetails(value = "cos", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+        public void 옵션삭제하기테스트() throws Exception {
+                // g
+                List<Long> opitonList = new ArrayList<>();
+                opitonList.add(1L);
+                OptionSaveReqDto dto = new OptionSaveReqDto();
+                dto.setOptionList(opitonList);
+
+                String body = om.writeValueAsString(dto);
+
+                // when
+                ResultActions resultActions = mvc.perform(put("/shop/option")
                                 .content(body)
                                 .contentType("application/json; charset=utf-8")
                                 .accept("application/json; charset=utf-8"));

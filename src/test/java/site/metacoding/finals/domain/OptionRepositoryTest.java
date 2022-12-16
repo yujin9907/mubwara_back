@@ -109,4 +109,9 @@ public class OptionRepositoryTest extends DummyEntity {
         optionRepository.findByShopId(1L);
     }
 
+    @Test
+    public void deleteByShopIdTest() {
+        optionShopRepository.deleteByShopId(1L);
+    }
+
 }

@@ -59,4 +59,9 @@ public class ShopTableRepositoryTest extends DummyEntity {
 
     }
 
+    @Test
+    public void findByDataAndTimeAndPeopleTest() {
+        shopTableRepository.findByDataAndTimeAndPeople(1L, "20221126", "16", 4);
+    }
+
 }

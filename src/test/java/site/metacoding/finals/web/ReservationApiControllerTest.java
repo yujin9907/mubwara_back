@@ -106,10 +106,10 @@ public class ReservationApiControllerTest extends DummyEntity {
     public void 예약저장하기테스트() throws Exception {
         // g
         ReservationSaveReqDto dto = new ReservationSaveReqDto();
-        dto.setCustomerId(1L);
+        dto.setMaxPeople(4);
         dto.setReservationDate("20221126");
-        dto.setReservationTime("21");
-        dto.setShopTableId(1L);
+        dto.setReservationTime("16");
+        dto.setShopId(1L);
         String body = om.writeValueAsString(dto);
 
         // when

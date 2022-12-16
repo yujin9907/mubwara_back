@@ -17,7 +17,6 @@ public class OptionReqDto {
         List<Long> optionList;
     }
 
-    @Setter
     @Getter
     public static class OptionShopSaveDto {
         private Shop shop;

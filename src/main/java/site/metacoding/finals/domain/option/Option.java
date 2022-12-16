@@ -21,7 +21,7 @@ import site.metacoding.finals.domain.imagefile.ImageFile;
 import site.metacoding.finals.domain.shop.Shop;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
 @Table(name = "option")

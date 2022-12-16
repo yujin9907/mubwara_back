@@ -42,4 +42,14 @@ public class OptionShopService {
 
         return result.stream().map((r) -> new OptionSaveRepsDto(r)).collect(Collectors.toList());
     }
+
+    @Transactional
+    public List<OptionSaveRepsDto> updateOption(OptionSaveReqDto reqDtos, PrincipalUser principalUser) {
+        // 옵션 전체 삭제
+        System.out.println("디버그 : " + principalUser.getShop().getId());
+        optionShopRepository.deleteByShopId(principalUser.getShop().getId());
+
+        // 옵션 세이브
+        return saveOption(reqDtos, principalUser);
+    }
 }

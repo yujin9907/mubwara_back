@@ -18,10 +18,19 @@ public interface ShopTableRepository extends JpaRepository<ShopTable, Long> {
 
     @Query(value = "select * from shop_table where shop_id= ?1 and max_people= ?2 AND is_active = 1"
             + " order by id asc limit 1", nativeQuery = true)
-    public ShopTable findByMaxPeopleToMinId(Long id, int maxPeople);
+    ShopTable findByMaxPeopleToMinId(Long shopId, int maxPeople);
 
-    @Query(value = "select distinct(max_people) from shop_table where shop_id= ?1", nativeQuery = true)
+    @Query(value = "select distinct(max_people) from shop_table where shop_id= ?1 order by max_people", nativeQuery = true)
     Optional<List<Integer>> findDistinctByShopId(Long id);
+
+    @Query(value = "select * from shop_table " +
+            "where id != (select st.id from  shop_table st " +
+            "inner join reservation r on st.id = r.shop_table_id " +
+            "where shop_id = :shopId and r.reservation_date = :date and r.reservation_time = :time and st.max_people = :people) "
+            +
+            "and max_people = :time", nativeQuery = true)
+    ShopTable findByDataAndTimeAndPeople(@Param("shopId") Long shopId, @Param("date") String date,
+            @Param("time") String time, @Param("people") int people);
 
     // -----------------------------------------------------------------------------------------
 

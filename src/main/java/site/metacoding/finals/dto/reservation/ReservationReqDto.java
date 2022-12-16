@@ -34,10 +34,11 @@ public class ReservationReqDto {
     @Setter
     @Getter
     public static class ReservationSaveReqDto {
-        private Long shopTableId;
+        private int maxPeople;
         private String reservationTime;
         private String reservationDate;
-        private Long customerId;
+        private Long shopId;
+        private Long customerId; // 서비스에서 처리
 
         public Reservation toEntity(Customer customer, ShopTable shopTable) {
             return Reservation.builder()

@@ -35,11 +35,9 @@ import site.metacoding.finals.dto.reservation.ReservationRespDto.ReservationShop
 @RequiredArgsConstructor
 public class ReservationService {
 
-    private final CustomerRepository customerRepository;
     private final ReservationRepository reservationRepository;
     private final ShopRepository shopRespository;
     private final ShopTableRepository shopTableRepository;
-    private final UserRepository userRepository;
 
     // shop reservation
     public List<ReservationShopViewAllRespDto> viewShopReservation(PrincipalUser principalUser) {
@@ -94,8 +92,8 @@ public class ReservationService {
 
     public ReservationSaveRespDto save(ReservationSaveReqDto dto, PrincipalUser principalUser) {
 
-        ShopTable shopTablePS = shopTableRepository.findById(dto.getShopTableId())
-                .orElseThrow(() -> new RuntimeApiException("잘못된 가게입니다", HttpStatus.BAD_REQUEST));
+        ShopTable shopTablePS = shopTableRepository.findByDataAndTimeAndPeople(dto.getShopId(),
+                dto.getReservationDate(), dto.getReservationTime(), dto.getMaxPeople());
 
         Reservation reservation = reservationRepository.save(dto.toEntity(principalUser.getCustomer(), shopTablePS));
 

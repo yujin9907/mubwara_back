@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,9 +26,17 @@ public class OptionShopApiController {
 
     @VerifyShop
     @PostMapping("/shop/option")
-    public ResponseEntity<?> CustomerMypageReviewApi(@AuthenticationPrincipal PrincipalUser principalUser,
+    public ResponseEntity<?> SaveOption(@AuthenticationPrincipal PrincipalUser principalUser,
             @RequestBody OptionSaveReqDto reqDto) {
         List<OptionSaveRepsDto> repsDtos = optionShopService.saveOption(reqDto, principalUser);
         return new ResponseEntity<>(new ResponseDto<>(HttpStatus.CREATED, "편의시설 등록", repsDtos), HttpStatus.CREATED);
+    }
+
+    @VerifyShop
+    @PutMapping("/shop/option")
+    public ResponseEntity<?> updateOption(@AuthenticationPrincipal PrincipalUser principalUser,
+            @RequestBody OptionSaveReqDto reqDto) {
+        List<OptionSaveRepsDto> repsDtos = optionShopService.updateOption(reqDto, principalUser);
+        return new ResponseEntity<>(new ResponseDto<>(HttpStatus.CREATED, "편의시설 수정", repsDtos), HttpStatus.CREATED);
     }
 }
