@@ -162,6 +162,7 @@ public class ShopRespDto {
         private String openTime;
         private String closeTime;
         private String phoneNumber;
+        private int perPrice;
         private List<MenuDto> menu;
         private ImageFileDto imageFile;
         private List<ReviewDto> review;
@@ -177,6 +178,7 @@ public class ShopRespDto {
             this.openTime = shop.getOpenTime();
             this.closeTime = shop.getCloseTime();
             this.phoneNumber = shop.getPhoneNumber();
+            this.perPrice = shop.getPerPrice();
             this.imageFile = new ImageFileDto(shop.getImageFile());
             this.review = toReviewList(shop.getReview());
             this.menu = toMenuList(shop.getMenu());
