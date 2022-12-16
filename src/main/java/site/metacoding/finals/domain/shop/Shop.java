@@ -70,8 +70,8 @@ public class Shop extends AutoTime {
     private List<Menu> menu;
     @OneToMany(mappedBy = "shop", fetch = FetchType.LAZY)
     private List<Review> review;
-    @OneToOne(mappedBy = "shop")
-    private Commercial commercial;
+    // @OneToOne(mappedBy = "shop")
+    // private Commercial commercial;
     // @Column(nullable = true)
     // private boolean isOpened;
 
