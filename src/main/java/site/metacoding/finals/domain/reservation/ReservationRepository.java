@@ -23,9 +23,10 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
                         + " where reservation_date= ?2", nativeQuery = true)
         List<Reservation> findByDataMaxPeople(int maxPeople, String reservaionTime);
 
-        @Query(value = "select r.t times, (r.a*r.b) results " +
+        @Query(value = "select r.t times, r.d dates, (r.a*r.b) results " +
                         "from " +
-                        "(select r.reservation_time t, sum(st.max_people) a, s.per_price b from reservation r " +
+                        "(select r.reservation_time t, r.reservation_date d, sum(st.max_people) a, s.per_price b from reservation r "
+                        +
                         "left join shop_table st on r.shop_table_id = st.id " +
                         "left join shop s on s.id = st.shop_id " +
                         "where s.id=:shopId and r.reservation_date=:date " +
