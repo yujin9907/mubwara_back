@@ -95,8 +95,6 @@ public class ReservationService {
         ShopTable shopTablePS = shopTableRepository.findByDataAndTimeAndPeople(dto.getShopId(),
                 dto.getReservationDate(), dto.getReservationTime(), dto.getMaxPeople());
 
-        System.out.println("디버그 샵테이블 : " + shopTablePS.getId());
-
         Reservation reservation = reservationRepository.save(dto.toEntity(principalUser.getCustomer(), shopTablePS));
 
         return new ReservationSaveRespDto(reservation);

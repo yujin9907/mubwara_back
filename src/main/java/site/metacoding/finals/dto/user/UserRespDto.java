@@ -3,6 +3,7 @@ package site.metacoding.finals.dto.user;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import site.metacoding.finals.config.enums.Role;
@@ -42,6 +43,14 @@ public class UserRespDto {
             // this.user = user;
         }
 
+    }
+
+    @Setter
+    @Getter
+    @AllArgsConstructor
+    public static class LoginRespDto {
+        private String Role;
+        private String username;
     }
 
 }

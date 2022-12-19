@@ -18,6 +18,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import site.metacoding.finals.config.auth.PrincipalUser;
 import site.metacoding.finals.dto.ResponseDto;
+import site.metacoding.finals.dto.user.UserRespDto.LoginRespDto;
 
 @Slf4j
 @Component
@@ -33,7 +34,9 @@ public class LoginHandler implements AuthenticationSuccessHandler, Authenticatio
 
         PrincipalUser principal = (PrincipalUser) authentication.getPrincipal();
         ResponseDto<?> responseDto = new ResponseDto<>(HttpStatus.OK, "로그인 성공",
-                principal.getUser().getRole().toString()); // 리스폰스 디티오 만들기
+                new LoginRespDto(principal.getUser().getRole().toString(), principal.getUser().getUsername())); // 리스폰스
+                                                                                                                // 디티오
+                                                                                                                // 만들기
         String responseBody = om.writeValueAsString(responseDto);
 
         response.setContentType("application/json; charset=utf-8");
