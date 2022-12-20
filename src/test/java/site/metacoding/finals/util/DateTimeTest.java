@@ -14,7 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 import site.metacoding.finals.dto.reservation.ReservationReqDto.AnalysisDateReqDto;
 import site.metacoding.finals.dto.reservation.ReservationRespDto.AnalysisWeekRespDto;
 
-@Slf4j
 public class DateTimeTest {
 
     @Test
@@ -24,14 +23,10 @@ public class DateTimeTest {
         dto.setDate(todayStr);
 
         LocalDate date = dto.toLocalDate();
-        log.debug("디버그 파싱 : " + date);
 
         String todayWeek = date.getDayOfWeek().toString();
-        log.debug("디버그 요일 : " + todayWeek);
 
         // LocalDate testdate = date.plusDays(1);
-        log.debug("디버그 일 :" + date.plusDays(1).toString());
-        log.debug("더한 요일 : " + date.getDayOfWeek().toString());
         // log.debug("테스트 : " + testdate);
 
         // ------------------------------------------------
@@ -40,10 +35,6 @@ public class DateTimeTest {
         while (i < 5) {
             i++;
             num++;
-
-            log.debug("잘 더해지는가" + num);
-
-            log.debug(date.plusDays(num).getDayOfWeek().toString());
 
             if (date.plusDays(num).getDayOfWeek().toString().equals("SUNDAY")) {
                 break;
@@ -56,8 +47,6 @@ public class DateTimeTest {
     public void datetimeTest() throws ParseException {
         String todays = DateTimeFormatter.ofPattern("yyMMdd").format(LocalDate.now());
         int today = Integer.parseInt(todays);
-
-        log.debug("디버그 : " + today);
 
     }
 

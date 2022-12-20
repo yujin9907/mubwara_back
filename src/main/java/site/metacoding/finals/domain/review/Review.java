@@ -49,6 +49,6 @@ public class Review extends AutoTime {
     private Shop shop;
 
     @OneToMany(mappedBy = "review", fetch = FetchType.LAZY)
-    private List<ImageFile> imageFiles = new ArrayList<>();
+    private List<ImageFile> imageFiles;
 
 }

@@ -38,7 +38,6 @@ import site.metacoding.finals.dto.test.testDto;
 import site.metacoding.finals.dummy.DummyEntity;
 
 @Import(ReservationQueryRepository.class)
-@Slf4j
 @DataJpaTest
 @ActiveProfiles("test")
 public class ReviewRepositoryTest extends DummyEntity {
@@ -112,7 +111,6 @@ public class ReviewRepositoryTest extends DummyEntity {
     public void qlrm테스트() {
         List<testDto> t = reservationQueryRepository.findByTest();
 
-        log.debug("디버그 : " + t.get(0).getId());
     }
 
     @Test

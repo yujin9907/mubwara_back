@@ -210,13 +210,13 @@ public class ShopRespDto {
             private Long id;
             private int score;
             private String content;
-            private List<ImageFileDto> image;
+            private List<ImageFileDto> imagefile;
 
             public ReviewDto(Review review) {
                 this.id = review.getId();
                 this.score = review.getScore();
                 this.content = review.getContent();
-                this.image = review.getImageFiles().stream().map((i) -> new ImageFileDto(i))
+                this.imagefile = review.getImageFiles().stream().map((i) -> new ImageFileDto(i))
                         .collect(Collectors.toList());
             }
         }

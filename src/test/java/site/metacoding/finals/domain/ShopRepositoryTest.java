@@ -42,7 +42,6 @@ import site.metacoding.finals.dto.shop.ShopReqDto.OptionListReqDto;
 import site.metacoding.finals.dummy.DummyEntity;
 
 @Import(ShopQueryRepository.class)
-@Slf4j
 @DataJpaTest
 @ActiveProfiles("test")
 public class ShopRepositoryTest extends DummyEntity {
@@ -173,7 +172,6 @@ public class ShopRepositoryTest extends DummyEntity {
 
     @Test
     public void findSubscribeByCustomerIdTest() {
-        log.debug("디버그 이미지 : " + imageFileRepository.findById(1L).get().getShop().getId());
 
         // given
         Long customerId = 1L;
@@ -183,7 +181,6 @@ public class ShopRepositoryTest extends DummyEntity {
         List<Shop> shop = shopRepository.findSubscribeByCustomerId(customerId);
 
         // then
-        log.debug("디버그 숍 안 이미지 : " + shop.get(0).getImageFile().getStoreFilename());
         assertEquals(customerId, shop.get(0).getId());
 
     }
@@ -191,8 +188,6 @@ public class ShopRepositoryTest extends DummyEntity {
     @Test
     public void findByCategoryTest() {
         em.clear();
-
-        log.debug("디버그 이미지 : " + imageFileRepository.findById(1L).get().getShop().getId());
 
         String name = "한식";
 

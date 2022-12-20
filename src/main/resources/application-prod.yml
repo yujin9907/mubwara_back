@@ -6,10 +6,10 @@ server:
       force: true
 spring:
   datasource:
-    url: jdbc:mariadb://${rds.hostname}:${rds.port}/${rds.db.name} 
+    url: jdbc:mariadb://mubwara.cx7tqebskxnq.ap-northeast-2.rds.amazonaws.com:3306/finaldb
     driver-class-name: org.mariadb.jdbc.Driver
-    username: ${rds.username}
-    password: ${rds.password}
+    username: admin
+    password: 12345678!
   jpa:
     open-in-view: false
     hibernate:
@@ -19,4 +19,6 @@ logging:
   level:
     '[com.mtcoding.demo]': Info 
 
-fileDir:
+
+
+fileDir: "./image"

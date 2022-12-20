@@ -17,12 +17,10 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import lombok.extern.slf4j.Slf4j;
 import site.metacoding.finals.domain.user.User;
 import site.metacoding.finals.dummy.DummyEntity;
 
 @Sql({ "classpath:sql/dml.sql" })
-@Slf4j
 @ActiveProfiles("test")
 @AutoConfigureMockMvc
 @SpringBootTest(webEnvironment = WebEnvironment.MOCK)
@@ -50,7 +48,6 @@ public class SubscribeApiControllerTest extends DummyEntity {
                         .accept("application/json; charset=utf-8"));
 
         String responseBody = resultActions.andReturn().getResponse().getContentAsString();
-        log.debug(responseBody);
 
         //
         resultActions.andExpect(MockMvcResultMatchers.status().isCreated());

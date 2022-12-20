@@ -26,7 +26,6 @@ import site.metacoding.finals.domain.user.UserRepository;
 import site.metacoding.finals.dto.user.UserReqDto.LoginDto;
 import site.metacoding.finals.dummy.DummyEntity;
 
-@Slf4j
 @ActiveProfiles("test")
 @AutoConfigureMockMvc
 @SpringBootTest(webEnvironment = WebEnvironment.MOCK)

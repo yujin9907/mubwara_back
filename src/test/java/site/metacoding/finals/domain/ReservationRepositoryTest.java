@@ -37,7 +37,6 @@ import site.metacoding.finals.dto.repository.shop.AnalysisDto;
 import site.metacoding.finals.dto.test.testDto;
 import site.metacoding.finals.dummy.DummyEntity;
 
-@Slf4j
 @DataJpaTest
 @ActiveProfiles("test")
 public class ReservationRepositoryTest extends DummyEntity {
@@ -102,8 +101,6 @@ public class ReservationRepositoryTest extends DummyEntity {
 
         List<Reservation> reservation = reservationRepository.findByCustomerId(CustomerId);
 
-        log.debug("디버그 : " + reservation.get(0).getCustomer());
-
         // then
         assertEquals(reservation.get(0).getId(), 1);
     }
@@ -114,8 +111,6 @@ public class ReservationRepositoryTest extends DummyEntity {
         String date = "20221129";
 
         List<Reservation> reservation = reservationRepository.findByDataMaxPeople(maxPeople, date);
-
-        log.debug("디버그 : " + reservation.size());
 
         // then
         assertEquals(reservation.get(0).getId(), 1);
@@ -128,8 +123,6 @@ public class ReservationRepositoryTest extends DummyEntity {
 
         List<Reservation> reservations = reservationRepository.findCustomerByShopId(shopId);
 
-        log.debug("디버그 : " + reservations.get(0).getReservationDate());
-
     }
 
     @Test
@@ -141,7 +134,6 @@ public class ReservationRepositoryTest extends DummyEntity {
         //
         List<AnalysisDto> result = reservationRepository.findBySumDate(shopId, date);
 
-        log.debug("디버그 : " + result.get(0).getResults());
         // dto(인터페이스) 문제 아님 확인
         // 예약어 아님 확인
         // 연산
@@ -156,7 +148,6 @@ public class ReservationRepositoryTest extends DummyEntity {
         //
         List<AnalysisDto> result = reservationRepository.findBySumWeek(shopId);
 
-        log.debug("디버그 : " + result.get(0).getResults());
         // dto(인터페이스) 문제 아님 확인
         // 예약어 아님 확인
         // 연산

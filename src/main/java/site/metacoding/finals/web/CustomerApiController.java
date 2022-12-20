@@ -72,7 +72,7 @@ public class CustomerApiController {
     @GetMapping("/auth/mypage/reservation")
     public ResponseEntity<?> CustomerMypageReservationApi(
             @AuthenticationPrincipal PrincipalUser principalUser) {
-        List<ReservationShopRespDto> dto = customerService.myPageReservation(principalUser.getUser().getId());
+        List<ReservationShopRespDto> dto = customerService.myPageReservation(principalUser.getCustomer().getId());
         return new ResponseEntity<>(new ResponseDto<>(HttpStatus.OK, "마이페이지 예약 목록", dto), HttpStatus.OK);
     }
 

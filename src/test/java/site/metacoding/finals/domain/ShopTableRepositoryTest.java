@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import lombok.extern.slf4j.Slf4j;
 import site.metacoding.finals.domain.customer.Customer;
@@ -18,7 +19,7 @@ import site.metacoding.finals.domain.user.User;
 import site.metacoding.finals.domain.user.UserRepository;
 import site.metacoding.finals.dummy.DummyEntity;
 
-@Slf4j
+@ActiveProfiles("dev")
 @DataJpaTest
 public class ShopTableRepositoryTest extends DummyEntity {
 
@@ -55,7 +56,6 @@ public class ShopTableRepositoryTest extends DummyEntity {
         //
         List<Integer> shopPS = shopTableRepository.findDistinctByShopId(id)
                 .orElseThrow(() -> new RuntimeException("테이블 없음 테스트"));
-        log.debug("디버그 중복제거 : " + shopPS.size());
 
     }
 

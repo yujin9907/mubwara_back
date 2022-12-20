@@ -64,7 +64,7 @@ public class Shop extends AutoTime {
     private User user;
 
     @OneToOne(mappedBy = "shop", fetch = FetchType.LAZY)
-    private ImageFile imageFile = new ImageFile(null, null, null, null, null, null);
+    private ImageFile imageFile;
     // null 방지 어케?
     @OneToMany(mappedBy = "shop", fetch = FetchType.LAZY)
     private List<Menu> menu;

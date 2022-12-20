@@ -32,7 +32,6 @@ import site.metacoding.finals.domain.user.User;
 import site.metacoding.finals.domain.user.UserRepository;
 import site.metacoding.finals.dummy.DummyEntity;
 
-@Slf4j
 @DataJpaTest
 @ActiveProfiles("test")
 public class OptionRepositoryTest extends DummyEntity {

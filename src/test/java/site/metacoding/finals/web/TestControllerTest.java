@@ -16,11 +16,9 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import site.metacoding.finals.domain.user.User;
 import site.metacoding.finals.dummy.DummyEntity;
 
-@Slf4j
 @ActiveProfiles("test")
 @AutoConfigureMockMvc
 @RequiredArgsConstructor
@@ -50,7 +48,6 @@ public class TestControllerTest extends DummyEntity {
                 .accept("application/json; charset=utf-8"));
 
         String responseBody = resultActions.andReturn().getResponse().getContentAsString();
-        log.debug(responseBody);
 
         resultActions.andExpect(MockMvcResultMatchers.status().isOk());
     }
