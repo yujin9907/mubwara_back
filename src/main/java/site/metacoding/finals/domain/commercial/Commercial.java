@@ -34,7 +34,7 @@ public class Commercial extends AutoTime {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String Specification;
+    private String specification;
 
     @Column(name = "is_deleted", insertable = false)
     private Boolean isDeleted;
