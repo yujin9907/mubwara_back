@@ -2,6 +2,7 @@ package site.metacoding.finals.dto.shop;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -9,6 +10,7 @@ import lombok.Getter;
 import lombok.Setter;
 import site.metacoding.finals.domain.imagefile.ImageFile;
 import site.metacoding.finals.domain.menu.Menu;
+import site.metacoding.finals.domain.option.Option;
 import site.metacoding.finals.domain.review.Review;
 import site.metacoding.finals.domain.shop.Shop;
 import site.metacoding.finals.domain.subscribe.Subscribe;
@@ -168,6 +170,7 @@ public class ShopRespDto {
         private List<ReviewDto> review;
         private Double scoreAvg = 0.0;
         private Long subscribeId = 0L;
+        private List<Option> options = new ArrayList<>();
 
         public ShopDetailRespDto(Shop shop, Subscribe subscribe) {
             this.id = shop.getId();
@@ -278,7 +281,7 @@ public class ShopRespDto {
         public OptionListRespDto(BigInteger shopId, String shopName, String address, String category,
                 String storeFileName,
                 String openTime,
-                String closeTime, String phoneNumber, String information, BigInteger scoreAvg, BigInteger count) {
+                String closeTime, String phoneNumber, String information, BigDecimal scoreAvg, BigInteger count) {
             this.id = shopId.longValue();
             this.shopName = shopName;
             this.address = address;
@@ -306,7 +309,7 @@ public class ShopRespDto {
             this.imageFileDto = new ImageFileDto(storeFileName);
         }
 
-        public void setAvg(BigInteger scoreAvg) {
+        public void setAvg(BigDecimal scoreAvg) {
             if (scoreAvg != null) {
                 this.scoreAvg = scoreAvg.doubleValue();
             }

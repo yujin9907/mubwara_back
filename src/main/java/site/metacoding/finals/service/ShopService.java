@@ -12,6 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 import site.metacoding.finals.config.auth.PrincipalUser;
 import site.metacoding.finals.config.exception.RuntimeApiException;
 import site.metacoding.finals.domain.imagefile.ImageFileRepository;
+import site.metacoding.finals.domain.option.Option;
+import site.metacoding.finals.domain.option.OptionRepository;
 import site.metacoding.finals.domain.reservation.ReservationRepository;
 import site.metacoding.finals.domain.review.ReviewRepository;
 import site.metacoding.finals.domain.shop.Shop;
@@ -54,6 +56,7 @@ public class ShopService {
     private final ShopQueryRepository shopQueryRepository;
     private final UserRepository userRepository;
     private final SubscribeRepository subscribeRepository;
+    private final OptionRepository optionRepository;
 
     @Transactional
     public ShopInfoSaveRespDto save(ShopSaveReqDto shopSaveReqDto, PrincipalUser principalUser) {
@@ -146,6 +149,13 @@ public class ShopService {
         ShopDetailRespDto respDto = new ShopDetailRespDto(shopPS, subscribe);
         if (reviewrRepository.findByShopId(shopId).size() != 0) {
             respDto.setScoreAvg(reviewrRepository.findByAvgScore(shopId).getScore());
+        }
+
+        // 옵션 관련
+        List<Option> options = optionRepository.findByShopId(shopId);
+
+        if (options.size() == 0) {
+            respDto.setOptions(options);
         }
 
         return respDto;

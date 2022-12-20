@@ -62,7 +62,6 @@ public class CustomerApiController {
         return new ResponseEntity<>(new ResponseDto<>(HttpStatus.ACCEPTED, "회원정보수정 완료", dto), HttpStatus.ACCEPTED);
     }
 
-    // 삭제 권한 체크 필요
     @VerifyCustomer
     @DeleteMapping("/user/customer")
     public ResponseEntity<?> deleteCustomerApi(@AuthenticationPrincipal PrincipalUser principalUser) {

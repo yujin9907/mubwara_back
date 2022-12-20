@@ -53,9 +53,10 @@ public class ShopApiController {
     // shop입장에서 이용하는 가게 기능
 
     // shop 한 개 만 만들도록 제한 / respDto LAZY 로딩 안되도록 좀 더 정확히 만들어줘야 함
+    @VerifyCustomer
     @PostMapping(value = "/user/shop/save")
-    public ResponseEntity<?> saveShop(@RequestBody ShopSaveReqDto shopSaveReqDto,
-            @AuthenticationPrincipal PrincipalUser principalUser) {
+    public ResponseEntity<?> saveShop(@AuthenticationPrincipal PrincipalUser principalUser,
+            @RequestBody ShopSaveReqDto shopSaveReqDto) {
         ShopInfoSaveRespDto respDto = shopService.save(shopSaveReqDto, principalUser);
         return new ResponseEntity<>(new ResponseDto<>(HttpStatus.CREATED, "가게 정보등록 완료", respDto),
                 HttpStatus.CREATED);

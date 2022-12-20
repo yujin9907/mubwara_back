@@ -17,6 +17,8 @@ import site.metacoding.finals.config.auth.PrincipalUser;
 import site.metacoding.finals.config.exception.RuntimeApiException;
 import site.metacoding.finals.domain.customer.Customer;
 import site.metacoding.finals.domain.customer.CustomerRepository;
+import site.metacoding.finals.domain.option.Option;
+import site.metacoding.finals.domain.option.OptionRepository;
 import site.metacoding.finals.domain.reservation.Reservation;
 import site.metacoding.finals.domain.reservation.ReservationRepository;
 import site.metacoding.finals.domain.review.Review;
@@ -110,6 +112,7 @@ public class CustomerService {
         if (reservations.size() == 0) {
             throw new RuntimeApiException("예약 목록이 없음", HttpStatus.NOT_FOUND);
         }
+        System.out.println("디버그 이미지 : " + reservations.size());
         return reservations.stream().map((r) -> new ReservationShopRespDto(r)).collect(Collectors.toList());
     }
 
