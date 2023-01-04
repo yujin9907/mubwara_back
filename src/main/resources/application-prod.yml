@@ -17,6 +17,6 @@ spring:
 
 logging:
   level:
-    '[com.mtcoding.demo]': Info 
+    '[site.mtcoding.demo]': Info 
 
-fileDir:
+filedir: "/image/"

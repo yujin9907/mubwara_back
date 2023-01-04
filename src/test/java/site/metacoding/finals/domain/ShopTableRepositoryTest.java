@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import lombok.extern.slf4j.Slf4j;
 import site.metacoding.finals.domain.customer.Customer;
@@ -19,6 +20,7 @@ import site.metacoding.finals.domain.user.UserRepository;
 import site.metacoding.finals.dummy.DummyEntity;
 
 @Slf4j
+@ActiveProfiles("dev")
 @DataJpaTest
 public class ShopTableRepositoryTest extends DummyEntity {
 
