@@ -19,12 +19,6 @@ public class CodingTest {
     }
 
     @Test
-    public void solution111(Integer[] arr) {
-        List<Integer> sourceList = Arrays.asList(0, 1, 2, 3, 4, 5);
-        Set<Integer> targetSet = new HashSet<>(Arrays.asList(arr));
-    }
-
-    @Test
     public void solution11() {
         boolean answer = true;
 

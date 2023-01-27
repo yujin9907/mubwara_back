@@ -15,14 +15,14 @@ import org.mockito.quality.Strictness;
 
 import site.metacoding.finals.domain.user.User;
 import site.metacoding.finals.domain.user.UserRepository;
+import site.metacoding.finals.dto.user.UserReqDto.JoinReqDto;
+import site.metacoding.finals.dto.user.UserRespDto.JoinRespDto;
 import site.metacoding.finals.dummy.DummyEntity;
 
 // junit 에서 mockito 사용하기 위한 설정
 @MockitoSettings(strictness = Strictness.WARN) // mock 객체 생성의 강한 제약을 해제하는 설정
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTest extends DummyEntity {
-
-    //
 
     // 단위 테스트는 통합테스트보다 가볍게 진행할 수 있도록 springboottest 보다 mockito를 통해서 가볍게 테스트
 
@@ -45,7 +45,7 @@ public class UserServiceTest extends DummyEntity {
     @DisplayName("mockito 서비스 레이어 테스트")
     @Test
     public void 유저중복체크테스트() {
-        // g
+        // given
         // User user = new User(null, null, null, null, null, null, null);
 
         // doReturn(newUser("test")).when(userRepository).save(any(User.class));
@@ -64,8 +64,26 @@ public class UserServiceTest extends DummyEntity {
     }
 
     @Test
-    void 조인서비스테스트() {
+    public void 조인서비스테스트() {
+        // given
+        JoinReqDto joinReqDto = JoinReqDto.builder()
+                .username("test")
+                .password("123")
+                .build();
 
+        doReturn(newUser("test")).when(userRepository).save(newUser("test"));
+        // 모킹된 객체 정상 작동하는지 확인
+        // User userPS = userRepository.save(newUser("test"));
+
+        // when
+        JoinRespDto resp = userService.join(joinReqDto);
+
+        // then
+        assertEquals("test", resp.getUsername());
+
+        // 문제
+        // save 할 때 id를 auto increment 시키는 점
+        // bcryptpassword 객체가 없음 = null 에러
     }
 
 }
